@@ -39,11 +39,9 @@ public class BoardDto {
     private int headCount;
 
     /** 등록일시 */
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh-mm")
     private LocalDateTime createdAt;
 
     /** 수정일시 */
-    @DateTimeFormat(pattern = "yyyy-MM-dd hh-mm")
     private LocalDateTime updateAt;
 
 
