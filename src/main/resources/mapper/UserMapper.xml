@@ -1,0 +1,18 @@
+<mapper namespace="com.example.demo.src.user.dao.UserMapper">
+    <!--save()-->
+    <insert id="save" parameterType="com.example.demo.src.user.domain.User">
+        INSERT INTO user(userName, userNickname, userEmail) VALUES (#{userName}, #{userNickname}, #{userEmail})
+    </insert>
+    <!--findBYId()-->
+    <select id="findById" parameterType="long" resultType="com.example.demo.src.user.domain.User">
+        SELECT * FROM user WHERE userId = #{userId}
+    </select>
+    <!--findByUserNickname()-->
+    <select id="findByNickname" parameterType="String" resultType="com.example.demo.src.user.domain.User">
+        SELECT * FROM user WHERE userNickname = #{userNickname}
+    </select>
+    <!--deleteByNickname()-->
+    <delete id="deleteByNickname" parameterType="String">
+        DELETE FROM user WHERE userNickname = #{userNickname}
+    </delete>
+</mapper>
