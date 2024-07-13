@@ -1,6 +1,6 @@
 package com.example.demo.src.user.dto;
 
-import com.example.demo.src.user.model.Authority;
+import com.example.demo.src.user.model.Role;
 import lombok.Builder;
 import lombok.Data;
 
@@ -13,7 +13,7 @@ public class UserResponseDto {
         private String userName;
         private String userNickname;
         private String userEmail;
-        private Authority userAuthority;
+        private Role role;
         private String refreshToken;
     }
 

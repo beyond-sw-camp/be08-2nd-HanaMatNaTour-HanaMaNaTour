@@ -3,6 +3,7 @@ package com.example.demo.src.user.service;
 import com.example.demo.src.user.dao.UserMapper;
 import com.example.demo.src.user.domain.User;
 import com.example.demo.src.user.dto.UserResponseDto;
+import com.example.demo.src.user.model.Role;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -25,9 +26,23 @@ public class UserSignUpAndFindService {
     // 회원 저장 -> 더 고민하기
     public void signUp(User user) {
         if (userMapper.isExistByNickname(user.getUserNickname())) {
+            // 이미 회원인 경우 -> 메인페이지로 리다이렉트
+        }
+        // 신규회원인경우 -> 닉네임 설정 페이지로 리다이렉트
+        userMapper.save(user);
+    }
+
+    public void setUserNickname(User user, String nickname) { // user는 토큰 공부 더 하고 수정예정
+        if (isExistByNickname(nickname)) {
+            throw new IllegalStateException("이미 존재하는 닉네임입니다");
+        } else {
+            user.setUserNickname(nickname);
 
         }
-        userMapper.save(user);
+    }
+
+    public void setUserRole(User user, Role role) {
+        user.setRole(role);
     }
 
     // ID로 회원 찾기
