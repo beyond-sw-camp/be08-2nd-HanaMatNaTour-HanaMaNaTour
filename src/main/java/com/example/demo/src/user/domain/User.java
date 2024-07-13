@@ -1,6 +1,6 @@
 package com.example.demo.src.user.domain;
 
-import com.example.demo.src.user.model.Authority;
+import com.example.demo.src.user.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,15 +15,15 @@ public class User {
     private String userName;
     private String userNickname;
     private String userEmail;
-    private Authority userAuthority;
+    private Role role;
     private String refreshToken;
 
     public void setUserNickname(String userNickname) {
         this.userNickname = userNickname;
     }
 
-    public void setAuthority(Authority userAuthority) {
-        this.userAuthority = userAuthority;
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public void setUserEmail(String userEmail) {

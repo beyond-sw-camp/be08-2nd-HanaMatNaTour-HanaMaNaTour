@@ -13,4 +13,5 @@ public interface UserMapper {
     Optional<User> deleteByNickname(String userNickName);
     boolean isExistByNickname(String userNickname);
     boolean isExistByEmail(String userEmail);
+
 }
