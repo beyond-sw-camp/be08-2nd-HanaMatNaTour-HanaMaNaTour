@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1>로그인 처리중</h1>
+    <p>이랏샤이마세~</p>
+
+<script>
+    // redirection uri에서 코드 파싱
+    function getCodeFromUrl() {
+        const urlParam = new URLSearchParams(window.location.search);
+        return urlParam.get('code');
+    }
+
+    // 인가코드 전송
+    window.onload = function () {
+        const code = getCodeFromUrl();
+        console.log(code);
+        if (code) {
+            if (code) {
+                fetch('http://localhost:8080/api/auth/google', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ code: code })
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            }
+        }
+    }
+
+</script>
+</body>
+</html>
