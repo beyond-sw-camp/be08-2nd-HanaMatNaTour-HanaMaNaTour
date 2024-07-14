@@ -15,5 +15,24 @@
         where id = #{id}
     </update>
 
+    <select id="findById" resultType="ItemDto">
+        select id,item_name,price,quantity
+        from item
+        where id=#{id}
+    </select>
+
+    <select id="findAll" resultType="ItemDto">
+        select id,item_name,price,quantity
+        from item
+        <where>
+            <if test="itemName!=null and itemName!=''">
+                and item_name like concat('%', #{itemName},'%')
+            </if>
+            <if test="maxPrice!=null">
+                and price &lt;= #{maxPrice}
+            </if>
+        </where>
+    </select>
+
 
 </mapper>
