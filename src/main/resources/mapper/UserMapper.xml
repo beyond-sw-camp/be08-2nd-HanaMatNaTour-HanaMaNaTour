@@ -1,0 +1,52 @@
+<mapper namespace="com.example.demo.src.user.dao.UserMapper">
+    <!-- create table -->
+    <sql id="createTable">
+        CREATE TABLE IF NOT EXISTS user (
+            userId LONG AUTO_INCREMENT PRIMARY KEY,
+            userName VARCHAR(20) NOT NULL,
+            userNickname VARCHAR(15) UNIQUE,
+            userEmail VARCHAR(30) UNIQUE NOT NULL,
+            authority ENUM()
+        );
+    </sql>
+
+
+
+    <!--save()-->
+    <insert id="signUp" parameterType="com.example.demo.src.user.domain.User">
+        INSERT INTO user(userName, userNickname, userEmail) VALUES (#{userName}, #{userNickname}, #{userEmail})
+    </insert>
+    <!--
+        save() 할 떄
+            - sns로부터 받는 정보 철
+            - 그 정보에 닉네임 + 권한 얹기
+            - 그걸 저장하기
+        -> 이거 어떻게 매핑할지 생각해보기 (각각 dto만든다음 최종 dto에 합쳐 넣을까 ??)
+    -->
+
+    <!--findBYId()-->
+    <select id="findById" parameterType="long" resultType="com.example.demo.src.user.domain.User">
+        SELECT * FROM user WHERE userId = #{userId}
+    </select>
+    <!--findByUserNickname()-->
+    <select id="findByNickname" parameterType="String" resultType="com.example.demo.src.user.domain.User">
+        SELECT * FROM user WHERE userNickname = #{userNickname}
+    </select>
+    <!--deleteByNickname()-->
+    <delete id="deleteByNickname" parameterType="String">
+        DELETE FROM user WHERE userNickname = #{userNickname}
+    </delete>
+    <!--isExistByNickname()-->
+    <select id="isExistByNickname" parameterType="String" resultType="boolean">
+        SELECT COUNT(*)
+        FROM User
+        WHERE userNickname = #{userNickname}
+    </select>
+    <!--isExistByEmail-->
+    <select id="isExistByEmail" parameterType="String" resultType="boolean">
+        SELECT COUNT(*)
+        FROM User
+        WHERE userEmail = #{userEmail}
+    </select>
+
+</mapper>
