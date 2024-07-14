@@ -6,46 +6,33 @@
 
     <!-- 아래내용 수정중 -->
     <insert id="createPost" parameterType="com.example.demo.dto.PostDto">
-        insert into POST(title, content, writer)
+        insert into Hanamoa(title, content, writer)
         values (#{title}, #{content}, #{writer})
-        <!-- #{title} == 'title' -->
-        <!-- ${title} == title -->
     </insert>
 
     <select
-            id="readPost"
+            id="selectBoardDetail"
             parameterType="int"
-            resultType="dev.yeon.mybatis.dto.PostDto">
+            resultType="com.example.demo.dto.PostDto">
         select * from post where id = ${id}
     </select>
 
-    <select id="readPostAll"
-            resultType="dev.yeon.mybatis.dto.PostDto">
-        select * from post
+    <select id="selectBoardList"
+            resultType="com.example.demo.dto.PostDto">
+        select * from Hanamoa
     </select>
 
-    <select id="readPostQuery"
-            parameterType="dev.yeon.mybatis.dto.PostDto"
-            resultType="dev.yeon.mybatis.dto.PostDto">
-        select * from post
-        where title = #{title}
-        <if test="writer != null">
-            and writer = #{writer}
-        </if>
-    </select>
-
-    <update id="updatePost" parameterType="dev.yeon.mybatis.dto.PostDto">
-        update post
+    <update id="updatePost" parameterType="com.example.demo.dto.PostDto">
+        update Hanamoa
         set
             title = #{title},
             content = #{content},
-            writer= #{writer},
-            board = ${board}
+            writer= #{writer}
         where id = ${id}
     </update>
 
     <delete id="deletePost" parameterType="int">
-        delete from post where id = ${id}
+        delete from Hanamoa where id = ${id}
     </delete>
 
 </mapper>

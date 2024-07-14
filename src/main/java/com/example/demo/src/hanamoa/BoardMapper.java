@@ -1,6 +1,6 @@
 package com.example.demo.src.hanamoa;
 
-import com.example.demo.src.hanamoa.model.BoardDto;
+import com.example.demo.src.hanamoa.dto.PostDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -9,18 +9,18 @@ import java.util.List;
 public interface BoardMapper {
     
     /** 게시글 생성 */
-    public int insertBoard(BoardDto params);
+    public int createPost(PostDto params);
 
     /** 게시글 상세 조회 */
-    public BoardDto selectBoardDetail(Long id);
+    public PostDto selectBoardDetail(Long id);
 
     /** 게시글 수정 */
-    public int updateBoard(BoardDto params);
+    public int updatePost(PostDto params);
 
     /** 게시글 삭제 */
-    public int deleteBoard(Long id);
+    public int deletePost(Long id);
 
     /** 게시글 목록 조회 */
-    public List<BoardDto> selectBoardList();
+    public List<PostDto> selectBoardList();
 
 }

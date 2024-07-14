@@ -1,16 +1,15 @@
-package com.example.demo.src.hanamoa.model;
-
+package com.example.demo.src.hanamoa.dto;
 
 import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class Board {
-
+@Getter
+@Setter
+@ToString
+public class PostDto {
 
     /** 번호 (PK) */
     private Long id;
@@ -41,5 +40,7 @@ public class Board {
 
     /** 수정일시 */
     private LocalDateTime updateAt;
+
+
 
 }

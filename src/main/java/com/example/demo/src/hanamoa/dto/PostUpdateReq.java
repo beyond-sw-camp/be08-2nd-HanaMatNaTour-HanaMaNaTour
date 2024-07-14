@@ -1,18 +1,16 @@
-package com.example.demo.src.hanamoa.model;
+package com.example.demo.src.hanamoa.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
+
+import lombok.*;
 
 import java.time.LocalDateTime;
 
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
-public class BoardDto {
+@Builder
+public class PostUpdateReq {
+
 
     /** 번호 (PK) */
     private Long id;
@@ -43,7 +41,5 @@ public class BoardDto {
 
     /** 수정일시 */
     private LocalDateTime updateAt;
-
-
 
 }
