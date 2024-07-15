@@ -29,12 +29,6 @@ public class PostDto {
     /** 식당 이름 */
     private String restaurantName;
 
-    /** 참가신청인원 */
-    private int recruitingMember;
-
-    /** 인원 수 */
-    private int headCount;
-
     /** 등록일시 */
     private LocalDateTime createdAt;
 
