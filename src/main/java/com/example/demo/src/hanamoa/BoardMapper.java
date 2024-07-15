@@ -1,6 +1,6 @@
 package com.example.demo.src.hanamoa;
 
-import com.example.demo.src.hanamoa.dto.PostDto;
+import com.example.demo.src.hanamoa.dto.PostSaveReq;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -9,18 +9,18 @@ import java.util.List;
 public interface BoardMapper {
     
     /** 게시글 생성 */
-    public int createPost(PostDto params);
+    public int createPost(PostSaveReq params);
 
     /** 게시글 상세 조회 */
-    public PostDto selectBoardDetail(Long id);
+    public PostSaveReq selectBoardDetail(Long id);
 
     /** 게시글 수정 */
-    public int updatePost(PostDto params);
+    public int updatePost(PostSaveReq params);
 
     /** 게시글 삭제 */
     public int deletePost(Long id);
 
     /** 게시글 목록 조회 */
-    public List<PostDto> selectBoardList();
+    public List<PostSaveReq> selectBoardList();
 
 }

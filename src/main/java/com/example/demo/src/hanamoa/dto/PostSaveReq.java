@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-public class PostDto {
+public class PostSaveReq {
 
     /** 번호 (PK) */
     private Long id;
