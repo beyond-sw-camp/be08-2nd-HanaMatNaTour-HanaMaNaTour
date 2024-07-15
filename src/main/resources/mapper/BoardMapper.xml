@@ -5,7 +5,7 @@
 <mapper namespace="com.example.demo.mapper.BoardMapper">
 
     <!-- 아래내용 수정중 -->
-    <insert id="createPost" parameterType="com.example.demo.dto.PostDto">
+    <insert id="createPost" parameterType="com.example.demo.src.hanamoa.dto.PostDto">
         insert into Hanamoa(title, content, writer)
         values (#{title}, #{content}, #{writer})
     </insert>
@@ -13,16 +13,16 @@
     <select
             id="selectBoardDetail"
             parameterType="int"
-            resultType="com.example.demo.dto.PostDto">
+            resultType="com.example.demo.src.hanamoa.dto.PostDto">
         select * from post where id = ${id}
     </select>
 
     <select id="selectBoardList"
-            resultType="com.example.demo.dto.PostDto">
+            resultType="com.example.demo.src.hanamoa.dto.PostDto">
         select * from Hanamoa
     </select>
 
-    <update id="updatePost" parameterType="com.example.demo.dto.PostDto">
+    <update id="updatePost" parameterType="com.example.demo.src.hanamoa.dto.PostDto">
         update Hanamoa
         set
             title = #{title},
