@@ -1,4 +1,4 @@
-package com.example.demo.src.hanamoa;
+package com.example.demo.src.hanamoa.repository;
 
 import com.example.demo.src.hanamoa.dto.PostSaveReq;
 import org.apache.ibatis.annotations.Mapper;
@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 @Mapper
-public interface BoardMapper {
+public interface PostMapper {
     
     /** 게시글 생성 */
     public int createPost(PostSaveReq params);

@@ -1,4 +1,4 @@
-package com.example.demo.src.hanamoa;
+package com.example.demo.src.hanamoa.dto;
 
 import lombok.*;
 
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-public class Post {
+public class PostDto {
 
     /** 번호 (PK) */
     private Long id;
