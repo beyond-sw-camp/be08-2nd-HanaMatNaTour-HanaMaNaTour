@@ -4,6 +4,7 @@ package com.example.demo.src.item;
 import com.example.demo.src.item.dto.ItemSaveReq;
 import com.example.demo.src.item.dto.ItemUpdateReq;
 import com.example.demo.src.item.repository.ItemMapper;
+import com.example.demo.src.item.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +12,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ItemService {
 
-    private final ItemMapper itemMapper;
+    private final ItemRepository itemRepository;
 
     public void saveItem(ItemSaveReq item){
-        itemMapper.save(item);
+        itemRepository.save(item);
     }
 
     public void updateItem(ItemUpdateReq item) {
-        itemMapper.update(item);
+        itemRepository.update(item);
     }
 }
