@@ -1,17 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- mybatis mapper 설정 파일임을 선언한다. -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+
 <mapper namespace="com.example.demo.src.user.dao.UserMapper">
-    <!-- create table -->
-    <sql id="createTable">
-        CREATE TABLE IF NOT EXISTS user (
-            userId LONG AUTO_INCREMENT PRIMARY KEY,
-            userName VARCHAR(20) NOT NULL,
-            userNickname VARCHAR(15) UNIQUE,
-            userEmail VARCHAR(30) UNIQUE NOT NULL,
-            authority ENUM()
-        );
-    </sql>
-
-
-
     <!--save()-->
     <insert id="signUp" parameterType="com.example.demo.src.user.domain.User">
         INSERT INTO user(userName, userNickname, userEmail) VALUES (#{userName}, #{userNickname}, #{userEmail})
@@ -25,7 +17,7 @@
     -->
 
     <!--findBYId()-->
-    <select id="findById" parameterType="long" resultType="com.example.demo.src.user.domain.User">
+    <select id="findById" parameterType="long " resultType="com.example.demo.src.user.domain.User">
         SELECT * FROM user WHERE userId = #{userId}
     </select>
     <!--findByUserNickname()-->
