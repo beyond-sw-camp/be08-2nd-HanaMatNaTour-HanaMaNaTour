@@ -17,25 +17,25 @@
     -->
 
     <!--findBYId()-->
-    <select id="findById" parameterType="long " resultType="com.example.demo.src.user.domain.User">
+    <select id="findById" parameterType="java.lang.Long" resultType="com.example.demo.src.user.domain.User">
         SELECT * FROM user WHERE userId = #{userId}
     </select>
     <!--findByUserNickname()-->
-    <select id="findByNickname" parameterType="String" resultType="com.example.demo.src.user.domain.User">
+    <select id="findByNickname" parameterType="java.lang.String" resultType="com.example.demo.src.user.domain.User">
         SELECT * FROM user WHERE userNickname = #{userNickname}
     </select>
     <!--deleteByNickname()-->
-    <delete id="deleteByNickname" parameterType="String">
+    <delete id="deleteByNickname" parameterType="java.lang.String">
         DELETE FROM user WHERE userNickname = #{userNickname}
     </delete>
     <!--isExistByNickname()-->
-    <select id="isExistByNickname" parameterType="String" resultType="boolean">
+    <select id="isExistByNickname" parameterType="java.lang.String" resultType="boolean">
         SELECT COUNT(*)
         FROM User
         WHERE userNickname = #{userNickname}
     </select>
     <!--isExistByEmail-->
-    <select id="isExistByEmail" parameterType="String" resultType="boolean">
+    <select id="isExistByEmail" parameterType="java.lang.String" resultType="boolean">
         SELECT COUNT(*)
         FROM User
         WHERE userEmail = #{userEmail}

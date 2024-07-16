@@ -5,6 +5,7 @@ import com.example.demo.src.user.domain.User;
 import com.example.demo.src.user.dto.UserRequestDto;
 import com.example.demo.src.user.dto.UserResponseDto;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import static com.example.demo.src.user.dto.UserResponseDto.*;
@@ -23,6 +24,8 @@ import static com.example.demo.src.user.dto.UserResponseDto.*;
 @Service
 @AllArgsConstructor
 public class UserProfileService {
+
+    @Autowired
     private final UserMapper userMapper;
     private final UserSignUpAndFindService userSignUpAndFindService;
 

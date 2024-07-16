@@ -13,4 +13,11 @@ public class UserRequestDto {
         private Role role;
     }
 
+    @Data
+    @Builder
+    public static class UpdateProfileRequestDto {
+        private String userNickname;
+        private String newNickname;
+    }
+
 }

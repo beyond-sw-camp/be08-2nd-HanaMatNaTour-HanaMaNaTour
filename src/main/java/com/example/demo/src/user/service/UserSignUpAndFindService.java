@@ -5,6 +5,7 @@ import com.example.demo.src.user.domain.User;
 import com.example.demo.src.user.dto.UserResponseDto;
 import com.example.demo.src.user.model.Role;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,6 +22,8 @@ import static com.example.demo.src.user.dto.UserResponseDto.*;
 @Service
 @AllArgsConstructor
 public class UserSignUpAndFindService {
+
+    @Autowired
     private final UserMapper userMapper;
 
     // 회원 저장 -> 더 고민하기
