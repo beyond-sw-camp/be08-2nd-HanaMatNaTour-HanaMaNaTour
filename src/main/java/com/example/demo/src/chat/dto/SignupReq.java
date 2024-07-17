@@ -1,20 +1,15 @@
-package com.example.demo.src.user.dto;
+package com.example.demo.src.chat.dto;
 
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
+@Data
 public class SignupReq {
 
-
-    private String username;
     private String email;
+    private String name;
     private String password;
-
 }
