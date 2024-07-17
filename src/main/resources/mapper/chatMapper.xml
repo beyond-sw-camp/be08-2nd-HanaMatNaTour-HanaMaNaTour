@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.src.item.repository.ChatRoomMapper">
+    <select id="findAllRoom">
+        insert into chat_room(id,sender,message)
+        values(#{itemName} , #{price}, #{quantity})
+    </select>
+
+</mapper>
