@@ -12,7 +12,13 @@ import lombok.Setter;
 public class User {
 
     private Long userId;
+
+    @Setter
+    private String userProvideId;
+
+    @Setter
     private String userName;
+
     private String userNickname;
     private String userEmail;
     private Role role;

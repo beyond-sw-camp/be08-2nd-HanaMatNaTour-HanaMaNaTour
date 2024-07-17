@@ -54,11 +54,19 @@ public class UserSignUpAndFindService {
                 .orElseThrow(() -> new NullPointerException("해당 유저가 존재하지 않습니다."));
     }
 
+    // provideId로 회원찾기
+    public User findByUserProvideId(String userProvideId) {
+        return userMapper.findByProvideId(userProvideId)
+                .orElseThrow(() -> new NullPointerException("해당 유저가 존재하지 않습니다"));
+    }
+
+
     // Nickname으로 회원찾기
     public User findByUserNickname(String userNickname) {
         return userMapper.findByNickname(userNickname)
                 .orElseThrow(() -> new NullPointerException("해당 유저가 존재하지 않습니다."));
     }
+
     
     // Nickname으로 회원 삭제
     public void deleteByNickname(String userNickname) {

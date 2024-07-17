@@ -32,7 +32,7 @@ public class UserController {
         return userProfileService.getMyProfile(userNickname);
     }
 
-    @PostMapping("/profile")
+    @PatchMapping("/profile")
     public userProfileResponseDto updateMyProfile(@RequestBody UpdateProfileRequestDto updateProfileRequestDto) {
         User user = userSignUpAndFindService.findByUserNickname(updateProfileRequestDto.getUserNickname());
         return userProfileService.editMyProfile(user.getUserId(), updateProfileRequestDto.getNewNickname());

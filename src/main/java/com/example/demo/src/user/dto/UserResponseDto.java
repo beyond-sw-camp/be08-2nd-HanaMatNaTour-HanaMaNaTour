@@ -10,6 +10,7 @@ public class UserResponseDto {
     @Data
     @Builder
     public static class UserInfoResponseDto {
+        private String userProvideId;
         private String userName;
         private String userNickname;
         private String userEmail;

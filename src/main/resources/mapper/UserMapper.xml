@@ -5,7 +5,7 @@
 
 <mapper namespace="com.example.demo.src.user.dao.UserMapper">
     <!--save()-->
-    <insert id="signUp" parameterType="com.example.demo.src.user.domain.User">
+    <insert id="save" parameterType="com.example.demo.src.user.domain.User">
         INSERT INTO user(userName, userNickname, userEmail) VALUES (#{userName}, #{userNickname}, #{userEmail})
     </insert>
     <!--
@@ -15,6 +15,13 @@
             - 그걸 저장하기
         -> 이거 어떻게 매핑할지 생각해보기 (각각 dto만든다음 최종 dto에 합쳐 넣을까 ??)
     -->
+
+    <!-- findByProvideId() -->
+    <select id="findByProvideId" parameterType="java.lang.String" resultType="com.example.demo.src.user.domain.User">
+        SELECT userProvideId, userName, userNickname, userEmail, authority
+        FROM user
+        WHERE userProvideId = #{userProvideId}
+    </select>
 
     <!--findBYId()-->
     <select id="findById" parameterType="java.lang.Long" resultType="com.example.demo.src.user.domain.User">
