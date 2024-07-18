@@ -7,6 +7,7 @@ build/
 
 ## 추가 ##
 /src/main/resources/application.yml
+/src/main/resources/review.yml
 ### STS ###
 .apt_generated
 .classpath

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.example.demo.src.review.model.mapper.reviewMapper">
+    <resultMap id="reviewResultMap" type="Review">
+
+        <id property="reviewId" column="review_id" />
+
+        <result property="userId" column="user_id"/>
+        <result property="restaurantId" column="restaurant_id"/>
+        <result property="reviewScore" column="review_score"/>
+        <result property="reviewContents" column="review_contents"/>
+        <result property="reviewImg" column="review_img"/>
+        <result property="reviewDate" column="review_date"/>
+    </resultMap>
+
+    <!-- 전체 리뷰 조회 -->
+    <select id="selectAllReviews" resultMap="reviewResultMap">
+        SELECT
+            review_id,
+            user_id,
+            restaurant_id,
+            review_score,
+            review_contents,
+            review_img,
+            review_date
+        FROM
+            reviews
+    </select>
+
+    <!-- 특정 레스토랑의 리뷰 조회 -->
+    <select id="selectReviewsByRestaurantId" parameterType="int" resultMap="reviewResultMap">
+        SELECT
+            review_id,
+            user_id,
+            restaurant_id,
+            review_score,
+            review_contents,
+            review_img,
+            review_date
+        FROM
+            reviews
+        WHERE
+            restaurant_id = #{restaurantId}
+    </select>
+
+    <!-- 단일 리뷰 조회 -->
+    <select id="selectReviewById" parameterType="int" resultMap="reviewResultMap">
+        SELECT
+            review_id,
+            user_id,
+            restaurant_id,
+            review_score,
+            review_contents,
+            review_img,
+            review_date
+        FROM
+            reviews
+        WHERE
+            review_id = #{reviewId}
+    </select>
+
+    <!-- 리뷰 작성 -->
+    <insert id="insertReview" parameterType="Review" useGeneratedKeys="true" keyProperty="reviewId">
+        INSERT INTO reviews (
+            user_id,
+            restaurant_id,
+            review_score,
+            review_contents,
+            review_img,
+            review_date
+        ) VALUES (
+                     #{userId},
+                     #{restaurantId},
+                     #{reviewScore},
+                     #{reviewContents},
+                     #{reviewImg},
+                     #{reviewDate}
+                 )
+    </insert>
+
+    <!-- 리뷰 수정 -->
+    <update id="updateReview" parameterType="Review">
+        UPDATE reviews
+        SET
+            user_id = #{userId},
+            restaurant_id = #{restaurantId},
+            review_score = #{reviewScore},
+            review_contents = #{reviewContents},
+            review_img = #{reviewImg},
+            review_date = #{reviewDate}
+        WHERE
+            review_id = #{reviewId}
+    </update>
+
+    <!-- 리뷰 삭제 -->
+    <delete id="deleteReview" parameterType="int">
+        DELETE FROM reviews
+        WHERE
+            review_id = #{reviewId}
+    </delete>
+
+</mapper>
+
+
