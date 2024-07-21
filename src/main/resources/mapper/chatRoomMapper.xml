@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.src.chat.repository.ChatRoomMapper">
+
+    <resultMap id="messageResultMap" type="ChatMessage">
+        <id property="id" column="id"/>
+        <result property="roomId" column="room_id"/>
+        <result property="sender" column="sender"/>
+        <result property="message" column="message"/>
+        <result property="createdAt" column="created_at"/>
+
+    </resultMap>
+    <select id="findByRoomId" resultMap="messageResultMap">
+        select *
+        from chat_message
+        where room_id = #{roomId}
+        order by created_at;
+    </select>
+
+    <insert id="insertChatRoom" useGeneratedKeys="true" keyProperty="id" >
+        insert into chat_room(user1_id,user2_id)
+        values (#{user1_id},#{user2_id})
+    </insert>
+    <insert id="insertMessage" >
+        insert into chat_message(room_id,sender,message)
+        values (#{roomId},#{sender},#{message})
+    </insert>
+
+
+    <select id="selectRoomExist">
+        select *
+        from chat_room
+        where user1_id = #{user1} and user2_id=#{user2}
+    </select>
+
+
+
+
+
+</mapper>
