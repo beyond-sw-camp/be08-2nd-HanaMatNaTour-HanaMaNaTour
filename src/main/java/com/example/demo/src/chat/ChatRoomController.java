@@ -11,21 +11,11 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/chat")
+@RequestMapping("/chats")
 public class ChatRoomController {
 
-    private final ChatRoomMapper chatRoomMapper;
-    private final ChatService chatService;
     private final ChatRoomService chatRoomService;
 
-
-    // 모든 채팅방 목록 반환
-    @GetMapping("/rooms")
-    public List<ChatRoom> getRoomList(){
-
-        List<ChatRoom> list = chatRoomMapper.findAllRoom();
-        return list;
-    }
 
     // 채팅방 생성 -> 채팅을 시도할때
     @PostMapping("/room")
@@ -41,6 +31,11 @@ public class ChatRoomController {
         // todo : refactoring -> 해당 채팅방에 속한 유저인지 확인후 조회하도록
         List<ChatMessage> result = chatRoomService.getRoomMessage(roomId);
         return new BaseResponse<>(result);
+    }
+
+    // 특정 유저가 속한 모든 채팅방 목록 반환
+    @GetMapping("/rooms")
+    public void getRoomList(){
     }
 
 }

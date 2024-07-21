@@ -13,8 +13,8 @@ import java.util.UUID;
 public class ChatRoom {
 
     private int id; // 채팅방 pk
-    private int user1_id;
-    private int user2_id;
-    private LocalDate created_at;
+    private int userId1;
+    private int userId2;
+    private LocalDate createdAt;
 
 }
