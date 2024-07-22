@@ -4,10 +4,10 @@ import java.util.Map;
 
 public class GoogleResponse implements OAuth2Response{
 
-    private final Map<String, Object> attribute; // 속성명, 값
+    private final Map<String, Object> attribute;
 
     public GoogleResponse(Map<String, Object> attribute) {
-        this.attribute = attribute; // response 안에 있는 데이터 받아 오기
+        this.attribute = attribute;
     }
 
     @Override

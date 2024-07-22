@@ -10,12 +10,20 @@ public class UserResponseDto {
     @Data
     @Builder
     public static class UserInfoResponseDto {
-        private String userProvideId;
         private String userName;
         private String userNickname;
+        private String userProvideId;
         private String userEmail;
         private Role role;
-        private String refreshToken;
+    }
+
+    @Data
+    @Builder
+    public static class UserSocialLoginResponseDto {
+        private String userName;
+        private String userProvideId;
+        private String userEmail;
+        private Role role;
     }
 
 

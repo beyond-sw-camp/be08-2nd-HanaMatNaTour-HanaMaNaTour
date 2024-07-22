@@ -2,28 +2,40 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .container {
+            padding: 20px;
+        }
+        .login-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #c08dcc;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+        }
+        .login-btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-<div>
-    <button class="google" onclick="googleLoginHandler()">
-        <div>구글로그인</div>
-    </button>
+<div class="container">
+    <h1>하나 맛나 투어에 오신것을 환영합니다</h1>
+    <p>두근두근 맛집추천</p>
+    <a href="users/login">
+        <button class="login-btn">Login</button>
+    </a>
 </div>
-
-<script>
-    const clientId = '69357361820-cc4gqelnq7o01m56sckb1k9gbj7pbqf1.apps.googleusercontent.com';
-    const redirectUri = 'http://localhost:8080/login/oauth2/code/google';
-    const responseType = 'code';
-    const scope = 'email profile';
-
-    // 로그인하러 이동
-    function googleLoginHandler() {
-        const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
-        window.location.href = googleLoginUrl;  /* Google 로그인 페이지로 리디렉션*/
-    }
-
-
-</script>
 </body>
 </html>

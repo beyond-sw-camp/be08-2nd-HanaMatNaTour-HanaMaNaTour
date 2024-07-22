@@ -2,7 +2,9 @@ package com.example.demo.src.global.oauth.dto;
 
 public interface OAuth2Response {
 
-    String getProvider(); // 공급자 이름 (google, kakao etc)
+    // 제공자
+    String getProvider();
+    // 제공자가 발급해주는 id
     String getProviderId();
     String getEmail();
     String getName();

@@ -16,4 +16,13 @@ public class UserConverter {
 
         return user;
     }
+
+    public User UserSocialDtoToUser(UserSocialLoginResponseDto userSocialLoginResponseDto) {
+        User user = new User();
+        user.setUserProvideId(userSocialLoginResponseDto.getUserProvideId());
+        user.setUserName(userSocialLoginResponseDto.getUserName());
+        user.setUserEmail(userSocialLoginResponseDto.getUserEmail());
+        user.setRole(userSocialLoginResponseDto.getRole());
+        return user;
+    }
 }

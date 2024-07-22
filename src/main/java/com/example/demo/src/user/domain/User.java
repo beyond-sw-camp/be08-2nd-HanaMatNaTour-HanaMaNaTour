@@ -22,7 +22,7 @@ public class User {
     private String userNickname;
     private String userEmail;
     private Role role;
-    private String refreshToken;
+
 
     public void setUserNickname(String userNickname) {
         this.userNickname = userNickname;

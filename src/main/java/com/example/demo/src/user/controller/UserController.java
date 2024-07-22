@@ -21,10 +21,7 @@ public class UserController {
     private final UserProfileService userProfileService;
     private final UserSignUpAndFindService userSignUpAndFindService;
 
-//    @GetMapping("/login")
-//    public User login(@RequestBody User user) { // 이건 그냥 소셜로그인 code받을라고 ..
-//
-//    }
+
 
     // 프로필 관련
     @GetMapping("/profile")

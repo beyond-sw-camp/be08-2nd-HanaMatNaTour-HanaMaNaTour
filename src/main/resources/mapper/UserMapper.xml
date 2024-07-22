@@ -4,9 +4,11 @@
 
 
 <mapper namespace="com.example.demo.src.user.dao.UserMapper">
+
     <!--save()-->
     <insert id="save" parameterType="com.example.demo.src.user.domain.User">
-        INSERT INTO user(userName, userNickname, userEmail) VALUES (#{userName}, #{userNickname}, #{userEmail})
+        INSERT INTO user(userName, userProvideId, userNickname, userEmail, role)
+        VALUES (#{userName},#{userProvideId} , #{userNickname}, #{userEmail}, #{role})
     </insert>
     <!--
         save() 할 떄
@@ -18,18 +20,22 @@
 
     <!-- findByProvideId() -->
     <select id="findByProvideId" parameterType="java.lang.String" resultType="com.example.demo.src.user.domain.User">
-        SELECT userProvideId, userName, userNickname, userEmail, authority
+        SELECT userProvideId, userName, userNickname, userEmail, role
         FROM user
         WHERE userProvideId = #{userProvideId}
     </select>
 
     <!--findBYId()-->
     <select id="findById" parameterType="java.lang.Long" resultType="com.example.demo.src.user.domain.User">
-        SELECT * FROM user WHERE userId = #{userId}
+        SELECT userId, userProvideId, userName, userNickname, userEmail, role
+        FROM user
+        WHERE userId = #{userId}
     </select>
     <!--findByUserNickname()-->
     <select id="findByNickname" parameterType="java.lang.String" resultType="com.example.demo.src.user.domain.User">
-        SELECT * FROM user WHERE userNickname = #{userNickname}
+        SELECT userProvideId, userName, userNickname, userEmail, role
+        FROM user
+        WHERE userNickname = #{userNickname}
     </select>
     <!--deleteByNickname()-->
     <delete id="deleteByNickname" parameterType="java.lang.String">
@@ -47,5 +53,8 @@
         FROM User
         WHERE userEmail = #{userEmail}
     </select>
+
+
+
 
 </mapper>

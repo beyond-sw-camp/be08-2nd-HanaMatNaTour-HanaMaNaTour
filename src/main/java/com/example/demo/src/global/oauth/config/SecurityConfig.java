@@ -1,47 +1,61 @@
 package com.example.demo.src.global.oauth.config;
 
-import com.example.demo.src.global.oauth.oauth2.CustomClientRegistrationRepo;
-import com.example.demo.src.global.oauth.service.Oauth2UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import com.example.demo.src.global.jwt.JWTFilter;
+import com.example.demo.src.global.jwt.JWTUtil;
+
+import com.example.demo.src.global.oauth.handler.CustomSuccessHandler;
+import com.example.demo.src.global.oauth.service.CustomOAuth2UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
-import org.springframework.security.config.Customizer;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
-
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final Oauth2UserService oauth2UserService;
-    private final CustomClientRegistrationRepo customClientRegistrationRepo;
-
-    public SecurityConfig(Oauth2UserService oauth2UserService, CustomClientRegistrationRepo customClientRegistrationRepo) {
-        this.oauth2UserService = oauth2UserService;
-        this.customClientRegistrationRepo = customClientRegistrationRepo;
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final CustomSuccessHandler customSuccessHandler;
+    private final JWTUtil jwtUtil;
+    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, CustomSuccessHandler customSuccessHandler, JWTUtil jwtUtil) {
+        this.customOAuth2UserService = customOAuth2UserService;
+        this.customSuccessHandler = customSuccessHandler;
+        this.jwtUtil = jwtUtil;
     }
 
     @Bean
-    @Order(SecurityProperties.BASIC_AUTH_ORDER)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        HttpSessionRequestCache requestCache = new HttpSessionRequestCache();
+        requestCache.setMatchingRequestParameterName(null);
+
         http
                 .csrf(csrf -> csrf.disable())
                 .formLogin(form -> form.disable())
+                .requestCache(request -> request.requestCache(requestCache))
                 .httpBasic(basic -> basic.disable())
-                .oauth2Login(oauth2 -> oauth2
-                        .loginPage("/users/login")
-                        .clientRegistrationRepository(customClientRegistrationRepo.clientRegistrationRepository())
-                        .userInfoEndpoint(userInfoEndpoint -> userInfoEndpoint.userService(oauth2UserService))
-                )
+
+                .oauth2Login((oauth2) -> oauth2
+                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
+                                .userService(customOAuth2UserService))
+                        .successHandler(customSuccessHandler))
+
+
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/oauth2/**", "/login/**").permitAll()
+                        .requestMatchers("/", "/oauth2/**","/index.html", "/login/**", "/users/login/**").permitAll()
+                        .requestMatchers("/reissue").permitAll()
                         .anyRequest().authenticated()
-                );
+                )
+                .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
+                .addFilterBefore(new JWTFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
