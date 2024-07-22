@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Room</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.1.2/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<div id="username-page">
+    <input type="text" id="name" placeholder="Enter your name">
+    <button onclick="connect()">Connect</button>
+</div>
+<div id="chat-page" style="display:none;">
+    <div id="chat">
+        <ul id="messageArea"></ul>
+    </div>
+    <input type="text" id="message" placeholder="Type a message...">
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+<script type="text/javascript">
+    var stompClient = null;
+    var username = null;
+
+    function connect() {
+        username = document.querySelector('#name').value.trim();
+
+        if(username) {
+            var socket = new SockJS('/ws');
+            stompClient = Stomp.over(socket);
+
+            stompClient.connect({}, onConnected, onError);
+        }
+    }
+
+    function onConnected() {
+        document.getElementById('username-page').style.display = 'none';
+        document.getElementById('chat-page').style.display = 'block';
+
+        stompClient.subscribe('/topic/public', onMessageReceived);
+
+        stompClient.send("/app/chat.addUser",
+            {},
+            JSON.stringify({sender: username, type: 'JOIN'})
+        );
+    }
+
+    function onError(error) {
+        alert('Could not connect to WebSocket server. Please refresh this page to try again!')
+    }
+
+    function sendMessage() {
+        var messageContent = document.querySelector('#message').value.trim();
+
+        if(messageContent && stompClient) {
+            var chatMessage = {
+                sender: username,
+                content: messageContent,
+                type: 'CHAT'
+            };
+
+            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify(chatMessage));
+            document.querySelector('#message').value = '';
+        }
+    }
+
+    function onMessageReceived(payload) {
+        var message = JSON.parse(payload.body);
+        var messageElement = document.createElement('li');
+
+        if(message.type === 'JOIN') {
+            messageElement.classList.add('event-message');
+            message.content = message.sender + ' joined!';
+        } else if (message.type === 'LEAVE') {
+            messageElement.classList.add('event-message');
+            message.content = message.sender + ' left!';
+        } else {
+            messageElement.classList.add('chat-message');
+
+            var
