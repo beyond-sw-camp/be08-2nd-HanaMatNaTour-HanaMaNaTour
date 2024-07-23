@@ -1,8 +1,8 @@
 package com.example.demo.src.global.oauth.controller;
 
 import com.example.demo.src.global.jwt.JWTUtil;
-import com.example.demo.src.refresh.dao.RefreshTokenMapper;
 import com.example.demo.src.refresh.domain.RefreshToken;
+import com.example.demo.src.user.domain.User;
 import com.example.demo.src.user.model.Role;
 import com.example.demo.src.user.service.UserSignUpAndFindService;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -20,15 +20,15 @@ import java.util.Date;
 public class RefreshTokenController {
 
     private final JWTUtil jwtUtil;
-    private final RefreshTokenMapper refreshTokenMapper;
 
+    private final UserSignUpAndFindService userSignUpAndFindService;
 
-    public RefreshTokenController(JWTUtil jwtUtil, RefreshTokenMapper refreshTokenMapper) {
+    public RefreshTokenController(JWTUtil jwtUtil, UserSignUpAndFindService userSignUpAndFindService) {
         this.jwtUtil = jwtUtil;
-        this.refreshTokenMapper = refreshTokenMapper;
+        this.userSignUpAndFindService = userSignUpAndFindService;
     }
 
-    @PostMapping("/reissue")
+    @PostMapping("/reissue") // 리프레시토큰 재발급
     public ResponseEntity<?> reIssue(HttpServletRequest request, HttpServletResponse response) {
 
         String refresh = null;
@@ -63,7 +63,7 @@ public class RefreshTokenController {
         }
 
         // db에 있는지 확인
-        if (!refreshTokenMapper.isExistByRefresh(refresh)) {
+        if (!userSignUpAndFindService.isExistByRefresh(refresh)) {
 
             return new ResponseEntity<>("invalid refresh token - not exist", HttpStatus.BAD_REQUEST);
         }
@@ -77,7 +77,7 @@ public class RefreshTokenController {
         String newRefresh = jwtUtil.createJwt("refresh", userProvideId, role, 86400000L);
 
         // 기존 토큰 삭제 후 새로운 refresh토큰 저장
-        refreshTokenMapper.deleteByRefresh(refresh);
+        userSignUpAndFindService.deleteByRefresh(refresh);
         addRefreshAddDB(userProvideId, newRefresh, 86400000L);
 
 
@@ -97,7 +97,23 @@ public class RefreshTokenController {
         refreshToken.setRefreshToken(newRefresh);
         refreshToken.setExpiration(date.toString());
 
-        refreshTokenMapper.save(refreshToken);
+        if (!userSignUpAndFindService.isExistByProvideId(userProvideId)) {
+            // 존재 X -> 새로운 사람
+            User user = new User();
+            user.setUserProvideId(userProvideId);
+            user.setRefreshToken(newRefresh);
+            user.setExpiration(date.toString());
+
+            userSignUpAndFindService.save(user);
+        } else {
+            // 존재 O -> 기존유저
+            User user = userSignUpAndFindService.findByProvideId(userProvideId);
+            user.setRefreshToken(newRefresh);
+            user.setExpiration(date.toString());
+
+            userSignUpAndFindService.deleteByProvideId(userProvideId);
+            userSignUpAndFindService.save(user);
+        }
     }
 
     private Cookie createCookie(String key, String value) {
@@ -105,7 +121,7 @@ public class RefreshTokenController {
         Cookie cookie = new Cookie(key, value);
         cookie.setMaxAge(24 * 60 * 60);
 //        cookie.setSecure(true);
-//        cookie.setPath("/");
+        cookie.setPath("/");
         cookie.setHttpOnly(true);
 
         return cookie;

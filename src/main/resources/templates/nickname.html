@@ -2,25 +2,23 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Nickname</title>
+    <title>Nickname Update</title>
 </head>
 <body>
 <h2>닉네임, 권한 설정</h2>
 <form action="/users/nickname" method="post">
+    <input type="hidden" name="_method" value="patch">
     <input type="hidden" name="userProvideId" value="${userProvideId}">
-    <div>
-        <label for="nickname">닉네임</label>
-        <input type="text" id="nickname" name="nickname" required>
-    </div>
-    <div>
-        <label for="role">권한</label>
-        <select id="role" name="role" required>
-            <option value="USER">User</option>
-            <option value="ADMIN">Admin</option>
-            <!-- 필요에 따라 다른 옵션을 추가할 수 있습니다. -->
-        </select>
-    </div>
-    <button type="submit">제출</button>
+    <label for="nickname">닉네임 :</label>
+    <input type="text" id="nickname" name="nickname" required>
+    <br>
+    <label for="role">Role :</label>
+    <select id="role" name="role" required>
+        <option value="ROLE_USER">User</option>
+        <option value="ROLE_ADMIN">Manager</option>
+    </select>
+    <br>
+    <button type="submit">Update</button>
 </form>
 </body>
 </html>

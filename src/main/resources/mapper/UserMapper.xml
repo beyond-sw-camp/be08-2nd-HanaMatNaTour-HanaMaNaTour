@@ -7,8 +7,8 @@
 
     <!--save()-->
     <insert id="save" parameterType="com.example.demo.src.user.domain.User">
-        INSERT INTO user(userName, userProvideId, userNickname, userEmail, role)
-        VALUES (#{userName},#{userProvideId} , #{userNickname}, #{userEmail}, #{role})
+        INSERT INTO user(userName, userProvideId, userNickname, userEmail, role, refreshToken, expiration)
+        VALUES (#{userName},#{userProvideId} , #{userNickname}, #{userEmail}, #{role}, #{refreshToken}, #{expiration})
     </insert>
     <!--
         save() 할 떄
@@ -54,7 +54,41 @@
         WHERE userEmail = #{userEmail}
     </select>
 
+    <!-- isExistByRefresh -->
+    <select id="isExistByRefresh" parameterType="string" resultType="boolean">
+        SELECT COUNT(*)
+        FROM User
+        WHERE refreshToken = #{refreshToken}
+    </select>
 
+    <select id="isExistByProvideId" parameterType="string" resultType="boolean">
+        SELECT COUNT(*)
+        FROM User
+        WHERE userProvideId = #{userProvideId}
+    </select>
 
+    <!-- deleteByRefresh() -->
+    <delete id="deleteByRefresh" parameterType="java.lang.String">
+        DELETE FROM User WHERE refreshToken = #{refreshToken}
+    </delete>
+
+    <!-- deleteByProvideId() -->
+    <delete id="deleteByProvideId" parameterType="string">
+        DELETE FROM User WHERE userProvideId = #{userProvideId}
+    </delete>
+
+    <!-- updateNickname() -->
+    <update id="updateNickname">
+        UPDATE User
+        SET userNickname = #{userNickname}
+        WHERE userProvideId = #{userProvideId}
+    </update>
+
+    <!-- updateRole -->
+    <update id="updateRole">
+        UPDATE User
+        SET role = #{role}
+        WHERE userProvideId = #{userProvideId}
+    </update>
 
 </mapper>

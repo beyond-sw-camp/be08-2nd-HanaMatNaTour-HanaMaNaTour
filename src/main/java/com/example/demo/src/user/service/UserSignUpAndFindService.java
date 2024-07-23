@@ -21,7 +21,6 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class UserSignUpAndFindService {
 
-    @Autowired
     private final UserMapper userMapper;
 
     /*
@@ -86,5 +85,29 @@ public class UserSignUpAndFindService {
         return userMapper.findByProvideId(userProvideId).orElse(null);
     }
 
+    public boolean isExistByRefresh(String refreshToken) {
+        return userMapper.isExistByRefresh(refreshToken);
+    }
 
+    public boolean isExistByProvideId(String userProvideId) {
+        return userMapper.isExistByProvideId(userProvideId);
+    }
+
+    public void deleteByRefresh(String refreshToken) {
+        if (!isExistByRefresh(refreshToken)) throw new BaseException(BaseResponseStatus.NOT_FOUND_USER);
+        userMapper.deleteByRefresh(refreshToken);
+    }
+
+    public void deleteByProvideId(String userProvideId) {
+        if (!isExistByProvideId(userProvideId)) throw new BaseException(BaseResponseStatus.NOT_FOUND_USER);
+        userMapper.deleteByProvideId(userProvideId);
+    }
+    public void updateNickname(String nickname, String userProvideId) {
+        if (isExistByNickname(nickname)) throw new BaseException(BaseResponseStatus.ALREADY_USE_NICKNAME);
+        userMapper.updateNickname(nickname, userProvideId);
+    }
+
+    public void updateRole(Role role, String userProvideId) {
+        userMapper.updateRole(role, userProvideId);
+    }
 }

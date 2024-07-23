@@ -2,8 +2,8 @@ package com.example.demo.src.global.oauth.handler;
 
 import com.example.demo.src.global.jwt.JWTUtil;
 import com.example.demo.src.global.oauth.dto.CustomOAuth2User;
-import com.example.demo.src.refresh.dao.RefreshTokenMapper;
 import com.example.demo.src.refresh.domain.RefreshToken;
+import com.example.demo.src.user.domain.User;
 import com.example.demo.src.user.model.Role;
 import com.example.demo.src.user.service.UserSignUpAndFindService;
 import jakarta.servlet.ServletException;
@@ -26,14 +26,12 @@ import java.util.Date;
 public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
     private static final Logger logger = LoggerFactory.getLogger(CustomSuccessHandler.class);
     private final JWTUtil jwtUtil;
-    private final RefreshTokenMapper refreshTokenMapper;
     private final UserSignUpAndFindService userSignUpAndFindService;
 
 
 
-    public CustomSuccessHandler(JWTUtil jwtUtil, RefreshTokenMapper refreshTokenMapper, UserSignUpAndFindService userSignUpAndFindService) {
+    public CustomSuccessHandler(JWTUtil jwtUtil, UserSignUpAndFindService userSignUpAndFindService) {
         this.jwtUtil = jwtUtil;
-        this.refreshTokenMapper = refreshTokenMapper;
         this.userSignUpAndFindService = userSignUpAndFindService;
     }
 
@@ -43,25 +41,8 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         String provideId = customUserDetails.getUserProvideId();
 
-        // 유저 정보
-        /*Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-
-        Iterator<? extends GrantedAuthority> iterator = authorities.iterator();
-        GrantedAuthority authority = iterator.next();
-//        logger.info(authority.getAuthority());
-
-        String authorityStr = authority.getAuthority();
-        Role role = null;
-        for (Role r : Role.values()) {
-            if (r.getKey().equals(authorityStr)) {
-                role = r;
-                break;
-            }
-        }
-*/
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        logger.info("주목 !!!!!!!!!" + authorities);
         Role role = null;
 
         for (GrantedAuthority authority : authorities) {
@@ -93,7 +74,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addCookie(createCookie("refresh", refresh));
         response.setStatus(HttpStatus.OK.value());
 
-        // 닉네임 여부에 따라 리디렉션 설정
+        // 닉네임 여부에 따라 리디렉션 설정 -> 닉네임 없으면 이름 지으러 가야함
         if (userSignUpAndFindService.findByProvideId(provideId).getUserNickname() == null) {
             getRedirectStrategy().sendRedirect(request, response, "/users/nickname?userProvideId=" + provideId);
         } else {
@@ -111,7 +92,23 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         refreshToken.setRefreshToken(refresh);
         refreshToken.setExpiration(date.toString());
 
-        refreshTokenMapper.save(refreshToken);
+        if (!userSignUpAndFindService.isExistByProvideId(userProvideId)) {
+            // 존재 X -> 새로운 사람
+            User user = new User();
+            user.setUserProvideId(userProvideId);
+            user.setRefreshToken(refresh);
+            user.setExpiration(date.toString());
+
+            userSignUpAndFindService.save(user);
+        } else {
+            // 존재 O -> 기존유저
+            User user = userSignUpAndFindService.findByProvideId(userProvideId);
+            user.setRefreshToken(refresh);
+            user.setExpiration(date.toString());
+
+            userSignUpAndFindService.deleteByProvideId(userProvideId);
+            userSignUpAndFindService.save(user);
+        }
 
     }
 

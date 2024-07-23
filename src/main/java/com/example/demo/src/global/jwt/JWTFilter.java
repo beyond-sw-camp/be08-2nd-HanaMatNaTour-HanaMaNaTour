@@ -81,54 +81,5 @@ public class JWTFilter extends OncePerRequestFilter { // jwt를 http요청에서
         SecurityContextHolder.getContext().setAuthentication(authToken);
         filterChain.doFilter(request, response);
 
-       /* String authorization = null;
-        Cookie[] cookies = request.getCookies();
-
-        for (Cookie cookie : cookies) {
-
-            System.out.println(cookie.getName());
-            if (cookie.getName().equals("Authorization")) {
-                authorization = cookie.getValue();
-            }
-        }
-        // header 검증
-        if (authorization == null) {
-            System.out.println("token null");
-            filterChain.doFilter(request, response);
-
-            // 조건에 해당하면 메소드 종료
-            return ;
-        }
-
-        // 토큰
-        String token = authorization;
-         // 만료 확인
-        if (jwtUtil.isExpired(token)) {
-            System.out.println("token expired");
-            filterChain.doFilter(request, response);
-
-            // 조건 해당하면 메소드 종료
-            return ;
-        }
-
-        // 토큰에서 유저 정보 얻기
-        String userProvideId = jwtUtil.getUserProvideId(token);
-        Role role = jwtUtil.getRole(token);
-
-        // dto 생성
-        UserDto userDto = new UserDto();
-        userDto.setUserProvideId(userProvideId);
-        userDto.setRole(role);
-
-        // UserDetail에 정보 담기
-        CustomOAuth2User customOAuth2User = new CustomOAuth2User(userDto);
-
-        // 인증토큰 생성
-        Authentication authToken = new UsernamePasswordAuthenticationToken(customOAuth2User, null, customOAuth2User.getAuthorities());
-
-        // 세션에 사용자 등록
-        SecurityContextHolder.getContext().setAuthentication(authToken);
-        filterChain.doFilter(request, response);
-*/
     }
 }

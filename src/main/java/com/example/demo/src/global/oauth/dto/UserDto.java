@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class UserDto {
+public class UserDto { // 소셜로그인에 쓰는 유저 dto
     private Role role;
     private String userName; // 이름
     private String userProvideId; // 자체id

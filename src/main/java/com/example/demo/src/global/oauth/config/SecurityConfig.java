@@ -48,8 +48,8 @@ public class SecurityConfig {
                         .successHandler(customSuccessHandler))
 
 
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/oauth2/**","/index.html", "/login/**", "/users/login/**").permitAll()
+                .authorizeHttpRequests(auth -> auth // 일단 권한 널널하게 열어두기
+                        .requestMatchers("/", "/oauth2/**","/index.html", "/main/**" ,"/users/**", "/login/**", "/users/login/**").permitAll()
                         .requestMatchers("/reissue").permitAll()
                         .anyRequest().authenticated()
                 )

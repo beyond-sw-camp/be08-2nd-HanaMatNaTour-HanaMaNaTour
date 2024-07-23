@@ -15,26 +15,18 @@ public class User {
 
     @Setter
     private String userProvideId;
-
     @Setter
     private String userName;
-
+    @Setter
     private String userNickname;
+    @Setter
     private String userEmail;
+    @Setter
     private Role role;
 
-
-    public void setUserNickname(String userNickname) {
-        this.userNickname = userNickname;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
+    @Setter
+    private String refreshToken;
+    @Setter
+    private String expiration;
 
 }

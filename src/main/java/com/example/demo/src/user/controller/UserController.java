@@ -23,6 +23,9 @@ public class UserController {
 
 
 
+
+
+
     // 프로필 관련
     @GetMapping("/profile")
     public userProfileResponseDto getMyProfile(@RequestParam String userNickname) {
