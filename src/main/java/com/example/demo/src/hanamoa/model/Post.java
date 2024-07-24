@@ -21,7 +21,7 @@ public class Post {
 
     private int userId; // 작성자 ID
 
-    private int locationId; // 위치 ID
+    private int storeId; // 위치 ID
 
     private LocalDateTime createdAt;
 
@@ -33,13 +33,13 @@ public class Post {
 
     private String userName; // 작성자 이름
 
-    private String locationName; // 위치 이름
+    private String storeName; // 위치 이름
 
     // PostRequest를 위해 추가된 생성자
-    public Post(String title, String content, int userId, int locationId) {
+    public Post(String title, String content, int userId, int storeId) {
         this.title = title;
         this.content = content;
         this.userId = userId;
-        this.locationId = locationId;
+        this.storeId = storeId;
     }
 }

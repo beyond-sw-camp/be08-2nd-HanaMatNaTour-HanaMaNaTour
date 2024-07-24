@@ -76,7 +76,7 @@ public class PostService {
                 post.getTitle(),
                 post.getContent(),
                 post.getUserName(), // 작성자 이름
-                post.getLocationName(), // 위치 이름
+                post.getStoreName(), // 위치 이름
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
                 post.getViewCount() // 조회수
@@ -89,7 +89,7 @@ public class PostService {
                 request.getTitle(),
                 request.getContent(),
                 request.getUserId(), // 작성자 ID
-                request.getLocationId() // 위치 ID
+                request.getStoreId() // 위치 ID
         );
     }
 }

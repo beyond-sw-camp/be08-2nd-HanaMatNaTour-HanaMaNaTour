@@ -7,7 +7,7 @@
     <!-- 모든 게시글을 조회하는 쿼리 -->
     <select id="getAllPosts" resultType="com.example.demo.src.hanamoa.model.Post">
         SELECT
-            id, title, content, user_id, location_id,
+            id, title, content, user_id, store_id,
             created_at, updated_at, view_count
         FROM posts
     </select>
@@ -15,7 +15,7 @@
     <!-- 특정 ID의 게시글을 조회하는 쿼리 -->
     <select id="getPostById" parameterType="int" resultType="com.example.demo.src.hanamoa.model.Post">
         SELECT
-            id, title, content, user_id, location_id,
+            id, title, content, user_id, store_id,
             created_at, updated_at, view_count
         FROM posts
         WHERE id = #{id}
@@ -23,8 +23,8 @@
 
     <!-- 게시글을 추가하는 쿼리 -->
     <insert id="addPost" parameterType="com.example.demo.src.hanamoa.model.Post">
-        INSERT INTO posts (title, content, user_id, location_id, created_at)
-        VALUES (#{title}, #{content}, #{userId}, #{locationId}, NOW())
+        INSERT INTO posts (title, content, user_id, store_id, created_at)
+        VALUES (#{title}, #{content}, #{userId}, #{storeId}, NOW())
     </insert>
 
     <!-- 게시글을 수정하는 쿼리 -->
@@ -34,7 +34,7 @@
             title = #{title},
             content = #{content},
             user_id = #{userId},
-            location_id = #{locationId},
+            store_id = #{storeId},
             updated_at = NOW()
         WHERE id = #{id}
     </update>
@@ -55,7 +55,7 @@
     <!-- 키워드로 게시글을 검색하는 쿼리 -->
     <select id="searchPostsByKeyword" parameterType="String" resultType="com.example.demo.src.hanamoa.model.Post">
         SELECT
-            id, title, content, user_id, location_id,
+            id, title, content, user_id, store_id,
             created_at, updated_at, view_count
         FROM posts
         WHERE

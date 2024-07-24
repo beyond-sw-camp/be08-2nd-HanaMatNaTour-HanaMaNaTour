@@ -5,6 +5,9 @@ import com.example.demo.src.hanamoa.dto.PostResponse;
 import com.example.demo.src.hanamoa.service.PostService;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.common.response.BaseResponseStatus;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,6 +42,7 @@ public class PostController {
     }
 
     // 특정 게시글을 수정하는 API
+    @Operation(summary = "게시글 수정",description = "게시글 상세 정보를 JSON으로 받아 수정")
     @PutMapping("/{id}")
     public BaseResponse<String> updatePost(@PathVariable int id, @RequestBody PostRequest postRequest) {
         postService.updatePost(id, postRequest); // 게시글 수정
