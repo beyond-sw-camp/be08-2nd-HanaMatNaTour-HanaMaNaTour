@@ -11,7 +11,6 @@ public class UserResponseDto {
     @Builder
     public static class UserInfoResponseDto {
         private String userName;
-        private String userNickname;
         private String userProvideId;
         private String userEmail;
         private Role role;
@@ -32,7 +31,6 @@ public class UserResponseDto {
     @Builder
     public static class userProfileResponseDto {
         private String userName;
-        private String userNickname;
         private String userEmail;
         private int numOfReview;
 //        private List<Review> reviewList;

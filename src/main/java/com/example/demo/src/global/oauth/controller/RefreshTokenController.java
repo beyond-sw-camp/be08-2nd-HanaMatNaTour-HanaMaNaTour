@@ -110,9 +110,8 @@ public class RefreshTokenController {
             User user = userSignUpAndFindService.findByProvideId(userProvideId);
             user.setRefreshToken(newRefresh);
             user.setExpiration(date.toString());
+            userSignUpAndFindService.updateRefreshToken(newRefresh, date.toString(), userProvideId);
 
-            userSignUpAndFindService.deleteByProvideId(userProvideId);
-            userSignUpAndFindService.save(user);
         }
     }
 

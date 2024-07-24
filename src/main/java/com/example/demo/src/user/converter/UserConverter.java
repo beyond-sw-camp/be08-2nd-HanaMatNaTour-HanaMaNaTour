@@ -11,7 +11,6 @@ public class UserConverter {
         User user = new User();
         user.setUserProvideId(userInfoResponseDto.getUserProvideId());
         user.setUserName(userInfoResponseDto.getUserName());
-        user.setUserNickname(userInfoResponseDto.getUserNickname());
         user.setUserEmail(userInfoResponseDto.getUserEmail());
 
         return user;

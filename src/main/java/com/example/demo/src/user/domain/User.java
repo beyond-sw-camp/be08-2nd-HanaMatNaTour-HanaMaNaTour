@@ -18,8 +18,6 @@ public class User {
     @Setter
     private String userName;
     @Setter
-    private String userNickname;
-    @Setter
     private String userEmail;
     @Setter
     private Role role;

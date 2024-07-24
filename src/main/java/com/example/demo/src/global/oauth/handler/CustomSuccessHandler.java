@@ -71,15 +71,12 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         // 응답설정 -> 어떤 토큰이냐에 따라 보안상 취약점이 다르기 때문에 액세스토큰은 헤더에, 리프레시토큰은 쿠키에 넣어주기
         response.setHeader("access", access);
+        logger.info("refresh : " + refresh);
         response.addCookie(createCookie("refresh", refresh));
         response.setStatus(HttpStatus.OK.value());
 
-        // 닉네임 여부에 따라 리디렉션 설정 -> 닉네임 없으면 이름 지으러 가야함
-        if (userSignUpAndFindService.findByProvideId(provideId).getUserNickname() == null) {
-            getRedirectStrategy().sendRedirect(request, response, "/users/nickname?userProvideId=" + provideId);
-        } else {
-            getRedirectStrategy().sendRedirect(request, response, "/main");
-        }
+        getRedirectStrategy().sendRedirect(request, response, "/main");
+
 
     }
 
@@ -105,9 +102,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
             User user = userSignUpAndFindService.findByProvideId(userProvideId);
             user.setRefreshToken(refresh);
             user.setExpiration(date.toString());
-
-            userSignUpAndFindService.deleteByProvideId(userProvideId);
-            userSignUpAndFindService.save(user);
+            userSignUpAndFindService.updateRefreshToken(refresh, date.toString(), userProvideId);
         }
 
     }

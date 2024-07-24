@@ -31,38 +31,10 @@ public class UserSignUpAndFindService {
     }
 
 
-    public void setUserNickname(User user, String nickname) { // user는 토큰 공부 더 하고 수정예정
-        if (isExistByNickname(nickname)) {
-            throw new BaseException(BaseResponseStatus.ALREADY_USE_NICKNAME);
-        } else {
-            user.setUserNickname(nickname);
-        }
-    }
-
     public void setUserRole(User user, Role role) {
         user.setRole(role);
     }
 
-    // ID로 회원 찾기
-    public User findById(long userId) {
-        return userMapper.findById(userId)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER));
-    }
-
-
-    // Nickname으로 회원찾기
-    public User findByUserNickname(String userNickname) {
-        return userMapper.findByNickname(userNickname)
-                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER));
-    }
-
-    
-    // Nickname으로 회원 삭제
-    public void deleteByNickname(String userNickname) {
-        if (isExistByNickname(userNickname)) throw new BaseException(BaseResponseStatus.NOT_FOUND_USER);
-        userMapper.deleteByNickname(userNickname);
-
-    }
 
     // 닉네임 이미 있는지 여부 확인
     public boolean isExistByNickname(String nickname) {
@@ -102,12 +74,13 @@ public class UserSignUpAndFindService {
         if (!isExistByProvideId(userProvideId)) throw new BaseException(BaseResponseStatus.NOT_FOUND_USER);
         userMapper.deleteByProvideId(userProvideId);
     }
-    public void updateNickname(String nickname, String userProvideId) {
-        if (isExistByNickname(nickname)) throw new BaseException(BaseResponseStatus.ALREADY_USE_NICKNAME);
-        userMapper.updateNickname(nickname, userProvideId);
-    }
+
 
     public void updateRole(Role role, String userProvideId) {
         userMapper.updateRole(role, userProvideId);
+    }
+
+    public void updateRefreshToken(String refresh, String expiration, String userProvideId) {
+        userMapper.updateRefreshToken(refresh, expiration, userProvideId);
     }
 }

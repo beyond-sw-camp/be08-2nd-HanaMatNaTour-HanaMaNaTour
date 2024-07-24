@@ -2,8 +2,6 @@ package com.example.demo.src.user.service;
 
 import com.example.demo.src.user.dao.UserMapper;
 import com.example.demo.src.user.domain.User;
-import com.example.demo.src.user.dto.UserRequestDto;
-import com.example.demo.src.user.dto.UserResponseDto;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,33 +23,20 @@ import static com.example.demo.src.user.dto.UserResponseDto.*;
 @AllArgsConstructor
 public class UserProfileService {
 
-    @Autowired
     private final UserMapper userMapper;
     private final UserSignUpAndFindService userSignUpAndFindService;
 
 //    private final List<list> list;
 //    private final List<Review> review;
 
-    public userProfileResponseDto getMyProfile(String userNickname) {
-        User user = userSignUpAndFindService.findByUserNickname(userNickname);
+    public userProfileResponseDto getMyProfile(String userProvideId) {
+        User user = userSignUpAndFindService.findByProvideId(userProvideId);
         return userProfileResponseDto.builder()
                 .userName(user.getUserName())
                 .userEmail(user.getUserEmail())
-                .userNickname(userNickname)
 //                .numOfReview(review.size())
 //                .numOfList(list.size())
                 .build();
     }
 
-    public userProfileResponseDto editMyProfile(Long userId, String userNickname) {
-        User user = userSignUpAndFindService.findById(userId);
-        return userProfileResponseDto.builder()
-                .userName(user.getUserName())
-                .userEmail(user.getUserEmail())
-                .userNickname(userNickname)
-//                .numOfReview(review.size())
-//                .numOfList(list.size())
-                .build();
-
-    }
 }

@@ -91,4 +91,10 @@
         WHERE userProvideId = #{userProvideId}
     </update>
 
+    <update id="updateRefreshToken">
+        UPDATE User
+        SET refreshToken =  #{refreshToken}, expiration = #{expiration}
+        WHERE userProvideId = #{userProvideId}
+    </update>
+
 </mapper>

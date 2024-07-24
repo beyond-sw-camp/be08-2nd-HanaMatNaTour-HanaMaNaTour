@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class TestController {
 
+
     private final UserSignUpAndFindService userSignUpAndFindService;
     private final UserProfileService userProfileService;
 
@@ -29,30 +30,37 @@ public class TestController {
         return "login";
     }
 
+    @GetMapping("/main")
+    public String main() {
+        return "main";
+    }
+
+/*
     @GetMapping("users/nickname")
     public String getNicknamePage(@RequestParam("userProvideId") String userProvideId, Model model) {
         model.addAttribute("userProvideId", userProvideId);
         return "nickname";
     }
+*/
 
-    @PatchMapping("/users/nickname/{userProvideId}")
-    @ResponseBody
-    public String setNicknameAndRole(@RequestParam("userProvideId") String userProvideId,
-                                     @RequestParam("nickname") String nickname,
-                                     @RequestParam("role") Role role) {
-        User user = userSignUpAndFindService.findByProvideId(userProvideId);
-        // 닉네임 설정
-        if (!user.getUserProvideId().equals(userProvideId) && userSignUpAndFindService.isExistByProvideId(userProvideId)) {
-            throw new BaseException(BaseResponseStatus.ALREADY_USE_NICKNAME);
-        }
-        userSignUpAndFindService.updateNickname(nickname, userProvideId);
-        log.info("usernickname : " + nickname);
-
-        // 권한 설정
-        if (!user.getRole().equals(role)) {
-            userSignUpAndFindService.updateRole(role, userProvideId);
-        }
-
-        return "redirect:/main";
-    }
+//    @PatchMapping("/users/nickname/{userProvideId}")
+//    @ResponseBody
+//    public String setNicknameAndRole(@PathVariable("userProvideId") String userProvideId,
+//                                     @RequestParam("nickname") String nickname,
+//                                     @RequestParam("role") Role role) {
+//        User user = userSignUpAndFindService.findByProvideId(userProvideId);
+//        // 닉네임 설정
+//        if (!user.getUserProvideId().equals(userProvideId) && userSignUpAndFindService.isExistByProvideId(userProvideId)) {
+//            throw new BaseException(BaseResponseStatus.ALREADY_USE_NICKNAME);
+//        }
+//        userSignUpAndFindService.updateNickname(nickname, userProvideId);
+//        log.info("usernickname : " + nickname);
+//
+//        // 권한 설정
+//        if (!user.getRole().equals(role)) {
+//            userSignUpAndFindService.updateRole(role, userProvideId);
+//        }
+//
+//        return "redirect:/main";
+//    }
 }
