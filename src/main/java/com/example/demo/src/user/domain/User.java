@@ -12,23 +12,19 @@ import lombok.Setter;
 public class User {
 
     private Long userId;
+
+    @Setter
+    private String userProvideId;
+    @Setter
     private String userName;
-    private String userNickname;
+    @Setter
     private String userEmail;
+    @Setter
     private Role role;
+
+    @Setter
     private String refreshToken;
-
-    public void setUserNickname(String userNickname) {
-        this.userNickname = userNickname;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
-
+    @Setter
+    private String expiration;
 
 }
