@@ -27,7 +27,7 @@ public class StoreService {
                 .collect(Collectors.toList());
     }
 
-    public StoreResponse getStoreById(int id) {
+    public StoreResponse getStoreById(Long id) {
         Store store = storeMapper.getStoreById(id);
         if(store == null) {
             // 음식점이 없으면 예외 발생
