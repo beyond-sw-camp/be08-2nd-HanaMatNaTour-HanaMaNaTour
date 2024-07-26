@@ -1,9 +1,14 @@
 package com.example.demo.common.response;
 
+
+import com.example.demo.src.foodlist.model.FoodList;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+
+import java.util.List;
 
 import static com.example.demo.common.response.BaseResponseStatus.SUCCESS;
 
@@ -33,4 +38,5 @@ public class BaseResponse<T> {
         this.message = status.getMessage();
         this.code = status.getCode();
     }
+
 }

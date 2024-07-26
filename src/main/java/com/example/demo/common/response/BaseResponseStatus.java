@@ -17,8 +17,11 @@ public enum BaseResponseStatus {
 
     NOT_FOUND_ERROR(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 페이지입니다."),
     NOT_FOUND_METHOD_ERROR(false, HttpStatus.NOT_FOUND.value(), "잘못된 요청입니다."),
-
-
+    /**
+     * FoodList 오류
+     */
+    FOOD_NOT_UPDATE(false, HttpStatus.NOT_FOUND.value(),"수정할 내용이 없습니다."),
+    FOODLIST_NOT(false, HttpStatus.NOT_FOUND.value(),"음식리스트가 없습니다."),
 
     UNEXPECTED_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "예상치 못한 에러가 발생했습니다."),
     /**
