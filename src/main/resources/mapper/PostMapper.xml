@@ -7,17 +7,38 @@
     <!-- 모든 게시글을 조회하는 쿼리 -->
     <select id="getAllPosts" resultType="com.example.demo.src.hanamoa.model.Post">
         SELECT
-            post_id, title, content, user_provide_id, store_id,
-            created_at, updated_at, view_count
-        FROM post
+            p.post_id,
+            p.title,
+            p.content,
+            u.user_name,
+            s.store_name,
+            p.created_at,
+            p.updated_at,
+            p.view_count
+        FROM
+            post p
+        INNER JOIN
+            user u ON p.user_provide_id = u.user_provide_id
+        INNER JOIN
+            store s ON p.store_id = s.store_id
     </select>
 
     <!-- 특정 ID의 게시글을 조회하는 쿼리 -->
-    <select id="getPostById" parameterType="int" resultType="com.example.demo.src.hanamoa.model.Post">
+    <select id="getPostById" parameterType="Long" resultType="com.example.demo.src.hanamoa.model.Post">
         SELECT
-            post_id, title, content, user_provide_id, store_id,
-            created_at, updated_at, view_count
+            p.post_id,
+            p.title,
+            p.content,
+            u.user_name,
+            s.store_name,
+            p.created_at,
+            p.updated_at,
+            p.view_count
         FROM post
+        INNER JOIN
+             user u ON p.user_provide_id = u.user_provide_id
+        INNER JOIN
+             store s ON p.store_id = s.store_id
         WHERE post_id = #{id}
     </select>
 
@@ -44,18 +65,22 @@
             store_id = #{storeId},
             </if>
             updated_at = NOW()
-        </trim>>
+        </trim>
+        INNER JOIN
+        user u ON p.user_provide_id = u.user_provide_id
+        INNER JOIN
+        store s ON p.store_id = s.store_id
         WHERE post_id = #{id}
     </update>
 
     <!-- 게시글을 삭제하는 쿼리 -->
-    <delete id="deletePost" parameterType="int">
+    <delete id="deletePost" parameterType="Long">
         DELETE FROM post
         WHERE post_id = #{id}
     </delete>
 
     <!-- 게시글의 조회수를 증가시키는 쿼리 -->
-    <update id="incrementViewCount" parameterType="int">
+    <update id="incrementViewCount" parameterType="Long">
         UPDATE post
         SET view_count = view_count + 1
         WHERE post_id = #{id}
