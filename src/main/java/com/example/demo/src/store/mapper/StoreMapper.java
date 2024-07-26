@@ -10,7 +10,7 @@ public interface StoreMapper {
 
     List<Store> getAllStores();
 
-    Store getStoreById(int id);
+    Store getStoreById(Long id);
 
     int addStore(Store store);
 

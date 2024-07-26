@@ -33,7 +33,7 @@ public class StoreController {
 
     // 특정 음식점을 ID로 조회하는 API
     @GetMapping("/{id}")
-    public BaseResponse<StoreResponse> getStoreById(@PathVariable int id) {
+    public BaseResponse<StoreResponse> getStoreById(@PathVariable Long id) {
         StoreResponse store = storeService.getStoreById(id); // ID로 게시글 조회
         return new BaseResponse<>(store); // 성공 응답 반환
     }
