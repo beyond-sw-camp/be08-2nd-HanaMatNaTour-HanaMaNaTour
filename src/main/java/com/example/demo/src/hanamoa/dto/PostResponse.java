@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @ToString
 public class PostResponse {
 
-    private int id;
+    private Long id;
 
     private String title;
 
@@ -23,7 +23,7 @@ public class PostResponse {
 
     private String userName; // 작성자 이름
 
-    private String locationName; // 위치 이름
+    private String storeName; // 위치 이름
 
     private LocalDateTime createdAt;
 

@@ -26,7 +26,7 @@ public class PostService {
     }
 
     // 특정 ID의 게시글을 가져오는 메소드
-    public PostResponse getPostById(int id) {
+    public PostResponse getPostById(Long id) {
         Post post = postMapper.getPostById(id);
         if (post == null) {
             // 게시글이 없으면 예외 발생
@@ -39,11 +39,15 @@ public class PostService {
     // 새로운 게시글을 추가하는 메소드
     public void addPost(PostRequest postRequest) {
         Post post = mapToPost(postRequest); // 요청 DTO를 모델로 변환
-        postMapper.addPost(post); // 게시글 추가
+        int rowsAffected = postMapper.addPost(post); // 게시글 추가
+        if (rowsAffected == 0) {
+            // 오류 시 예외 발생
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_ERROR);
+        }
     }
 
     // 특정 ID의 게시글을 수정하는 메소드
-    public void updatePost(int id, PostRequest postRequest) {
+    public void updatePost(Long id, PostRequest postRequest) {
         Post post = mapToPost(postRequest); // 요청 DTO를 모델로 변환
         post.setId(id); // ID 설정
         int rowsAffected = postMapper.updatePost(post); // 게시글 수정
@@ -54,7 +58,7 @@ public class PostService {
     }
 
     // 특정 ID의 게시글을 삭제하는 메소드
-    public void deletePost(int id) {
+    public void deletePost(Long id) {
         int rowsAffected = postMapper.deletePost(id); // 게시글 삭제
         if (rowsAffected == 0) {
             // 삭제에 실패하면 예외 발생
@@ -76,7 +80,7 @@ public class PostService {
                 post.getTitle(),
                 post.getContent(),
                 post.getUserName(), // 작성자 이름
-                post.getLocationName(), // 위치 이름
+                post.getStoreName(), // 위치 이름
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
                 post.getViewCount() // 조회수
@@ -88,8 +92,8 @@ public class PostService {
         return new Post(
                 request.getTitle(),
                 request.getContent(),
-                request.getUserId(), // 작성자 ID
-                request.getLocationId() // 위치 ID
+                request.getUserProvideId(), // 작성자 ID
+                request.getStoreId() // 위치 ID
         );
     }
 }
