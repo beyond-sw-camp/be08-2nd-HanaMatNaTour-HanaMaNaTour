@@ -1,8 +1,10 @@
 package com.example.demo.src.item;
 
 
+import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.item.dto.ItemSaveReq;
 import com.example.demo.src.item.dto.ItemUpdateReq;
+import com.fasterxml.jackson.databind.ser.Serializers;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,12 +20,9 @@ public class ItemController {
 
     // Item 저장 API
     @PostMapping("")
-    public String saveItem(@RequestBody ItemSaveReq item) {
-        System.out.println("=========");
-        log.info(item.toString());
-        System.out.println("=========");
+    public BaseResponse<String> saveItem(@RequestBody ItemSaveReq item) {
         itemService.saveItem(item);
-        return "저장 완료";
+        return new BaseResponse<>("아이템 저장을 완료했습니다.");
     }
 
     // Item 수정 API
