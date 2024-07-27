@@ -17,6 +17,13 @@ public enum BaseResponseStatus {
 
     NOT_FOUND_ERROR(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 페이지입니다."),
     NOT_FOUND_METHOD_ERROR(false, HttpStatus.NOT_FOUND.value(), "잘못된 요청입니다."),
+    ALREADY_USE_NICKNAME(false, HttpStatus.ALREADY_REPORTED.value(), "이미 존재하는 닉네임입니다."),
+    NOT_FOUND_USER(false, HttpStatus.NOT_FOUND.value(), "해당 유저가 존재하지 않습니다."),
+  
+  
+    REFRESH_TOKEN_NULL(false, HttpStatus.BAD_REQUEST.value(), "리프레시 토큰이 없습니다"),
+    EXPIRED_TOKEN(false, HttpStatus.BAD_REQUEST.value(), "토큰이 만료되었습니다"),
+    NOT_REFRESH_TOKEN(false, HttpStatus.BAD_REQUEST.value(), "리프레시 토큰이 아닙니다"),
 
     INVALID_SIGNUP(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"회원가입에 실패했습니다."),
     INVALID_LOGIN(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"아이디나 비밀번호를 다시 확인해주세요."),
