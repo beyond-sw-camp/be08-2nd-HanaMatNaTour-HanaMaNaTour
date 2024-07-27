@@ -16,7 +16,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
         config.enableSimpleBroker("/sub"); // 클라이언트에서 topic 구독시 요청 url
-        config.setApplicationDestinationPrefixes("/pub");
+        config.setApplicationDestinationPrefixes("/pub"); // 연결된 소켓을 통해 데이터를 보내는 경로
 
     }
 

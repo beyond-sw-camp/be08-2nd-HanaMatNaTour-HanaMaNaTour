@@ -4,11 +4,12 @@ import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.src.chat.dto.LoginReq;
 import com.example.demo.src.chat.dto.LoginRes;
 import com.example.demo.src.chat.dto.SignupReq;
-import com.example.demo.src.chat.dto.User;
+import com.example.demo.src.chat.vo.User;
 import com.example.demo.src.chat.repository.UserMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import static com.example.demo.common.response.BaseResponseStatus.INVALID_LOGIN;
 import static com.example.demo.common.response.BaseResponseStatus.INVALID_SIGNUP;
 
 @RequiredArgsConstructor
@@ -28,9 +29,10 @@ public class UserService {
 
         User user  =  userMapper.selectUser(loginReq);
         if(user==null){
-            throw new BaseException(INVALID_SIGNUP);
+            throw new BaseException(INVALID_LOGIN);
         }
         return new LoginRes(user.getId(),user.getName(),user.getEmail());
 
     }
+
 }

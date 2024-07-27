@@ -1,4 +1,4 @@
-package com.example.demo.src.chat.dto;
+package com.example.demo.src.chat.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

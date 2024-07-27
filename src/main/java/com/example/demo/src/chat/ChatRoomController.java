@@ -2,6 +2,8 @@ package com.example.demo.src.chat;
 
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.chat.dto.ChatMessage;
+import com.example.demo.src.chat.dto.GetRoomListReq;
+import com.example.demo.src.chat.dto.GetRoomListRes;
 import com.example.demo.src.chat.repository.ChatRoomMapper;
 import com.example.demo.src.chat.dto.ChatRoom;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +13,8 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/chats")
+@RequestMapping("/chat")
+@CrossOrigin(origins = "http://localhost:3000")
 public class ChatRoomController {
 
     private final ChatRoomService chatRoomService;
@@ -34,8 +37,13 @@ public class ChatRoomController {
     }
 
     // 특정 유저가 속한 모든 채팅방 목록 반환
-    @GetMapping("/rooms")
-    public void getRoomList(){
+    @PostMapping("/rooms")
+    public BaseResponse<List<GetRoomListRes>> getRoomList(@RequestBody GetRoomListReq getRoomListReq){
+        // todo : jwt 토큰을 통해서 유저 식별값 가져오는 것으로 변경
+        System.out.println("getRoomList 호출");
+        List<GetRoomListRes> result = chatRoomService.getRoomList(getRoomListReq);
+        return new BaseResponse<>(result);
+
     }
 
 }

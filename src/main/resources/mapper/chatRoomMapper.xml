@@ -43,6 +43,19 @@
     </select>
 
 
+  <!--  <select id="selectRoomList" resultType="" >
+        select a.id as 'roomId',
+               a.user1_id as 'host',
+               a.user2_id as 'guest',
+               a.created_at as 'createdAt',
+               b.message as 'recentChatContent'
+
+
+        from chat_room a
+        join chat_message b on a.id = b.id
+        where user1_id = #{userId} or user2_id = #{userId}
+        order by b.message desc
+    </select>-->
 
 
 

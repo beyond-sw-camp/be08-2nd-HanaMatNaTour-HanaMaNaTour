@@ -29,9 +29,6 @@ public class ChatController {
         chatService.createMessage(message);
         System.out.println("메세지 db에 저장함");
 
-
-
-
         messageSendingOperations.convertAndSend("/sub/chat/room/" + message.getRoomId(), message);
     }
 

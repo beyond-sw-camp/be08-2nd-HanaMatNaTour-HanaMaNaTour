@@ -2,7 +2,7 @@ package com.example.demo.src.chat.repository;
 
 import com.example.demo.src.chat.dto.LoginReq;
 import com.example.demo.src.chat.dto.SignupReq;
-import com.example.demo.src.chat.dto.User;
+import com.example.demo.src.chat.vo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

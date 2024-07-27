@@ -2,6 +2,7 @@ package com.example.demo.src.chat.repository;
 
 import com.example.demo.src.chat.dto.ChatMessage;
 import com.example.demo.src.chat.dto.ChatRoom;
+import com.example.demo.src.chat.dto.GetRoomListRes;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,4 +25,5 @@ public interface ChatRoomMapper {
     int insertMessage(ChatMessage message);
 
 
+    List<GetRoomListRes> selectRoomList(@Param("userId") int userId);
 }
