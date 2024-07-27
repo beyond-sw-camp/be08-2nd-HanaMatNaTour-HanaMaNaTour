@@ -5,96 +5,78 @@
 
 <mapper namespace="com.example.demo.src.user.dao.UserMapper">
 
+    <resultMap id="UserResultMap" type="com.example.demo.src.user.domain.User">
+        <id property="userId" column="user_id"/>
+        <result property="userProvideId" column="user_provide_id"/>
+        <result property="userName" column="user_name"/>
+        <result property="userEmail" column="user_email"/>
+        <result property="role" column="role"/>
+        <result property="refreshToken" column="refresh_token"/>
+        <result property="expiration" column="expiration"/>
+    </resultMap>
+
     <!--save()-->
     <insert id="save" parameterType="com.example.demo.src.user.domain.User">
-        INSERT INTO user(userName, userProvideId, userNickname, userEmail, role, refreshToken, expiration)
-        VALUES (#{userName},#{userProvideId} , #{userNickname}, #{userEmail}, #{role}, #{refreshToken}, #{expiration})
+        INSERT INTO user(user_name, user_provide_id, user_email, role, refresh_token, expiration)
+        VALUES (#{userName},#{userProvideId} , #{userEmail}, #{role}, #{refreshToken}, #{expiration})
     </insert>
-    <!--
-        save() 할 떄
-            - sns로부터 받는 정보 철
-            - 그 정보에 닉네임 + 권한 얹기
-            - 그걸 저장하기
-        -> 이거 어떻게 매핑할지 생각해보기 (각각 dto만든다음 최종 dto에 합쳐 넣을까 ??)
-    -->
 
     <!-- findByProvideId() -->
     <select id="findByProvideId" parameterType="java.lang.String" resultType="com.example.demo.src.user.domain.User">
-        SELECT userProvideId, userName, userNickname, userEmail, role
+        SELECT user_provide_id, user_name, user_email, role
         FROM user
-        WHERE userProvideId = #{userProvideId}
+        WHERE user_provide_id = #{userProvideId}
     </select>
 
     <!--findBYId()-->
     <select id="findById" parameterType="java.lang.Long" resultType="com.example.demo.src.user.domain.User">
-        SELECT userId, userProvideId, userName, userNickname, userEmail, role
+        SELECT user_id, user_provide_id, user_name, user_email, role
         FROM user
-        WHERE userId = #{userId}
+        WHERE user_id = #{user_id}
     </select>
-    <!--findByUserNickname()-->
-    <select id="findByNickname" parameterType="java.lang.String" resultType="com.example.demo.src.user.domain.User">
-        SELECT userProvideId, userName, userNickname, userEmail, role
-        FROM user
-        WHERE userNickname = #{userNickname}
-    </select>
-    <!--deleteByNickname()-->
-    <delete id="deleteByNickname" parameterType="java.lang.String">
-        DELETE FROM user WHERE userNickname = #{userNickname}
-    </delete>
-    <!--isExistByNickname()-->
-    <select id="isExistByNickname" parameterType="java.lang.String" resultType="boolean">
-        SELECT COUNT(*)
-        FROM User
-        WHERE userNickname = #{userNickname}
-    </select>
+
     <!--isExistByEmail-->
     <select id="isExistByEmail" parameterType="java.lang.String" resultType="boolean">
         SELECT COUNT(*)
         FROM User
-        WHERE userEmail = #{userEmail}
+        WHERE user_email = #{userEmail}
     </select>
 
     <!-- isExistByRefresh -->
     <select id="isExistByRefresh" parameterType="string" resultType="boolean">
         SELECT COUNT(*)
         FROM User
-        WHERE refreshToken = #{refreshToken}
+        WHERE refresh_token = #{refreshToken}
     </select>
 
     <select id="isExistByProvideId" parameterType="string" resultType="boolean">
         SELECT COUNT(*)
         FROM User
-        WHERE userProvideId = #{userProvideId}
+        WHERE user_provide_id = #{userProvideId}
     </select>
 
     <!-- deleteByRefresh() -->
     <delete id="deleteByRefresh" parameterType="java.lang.String">
-        DELETE FROM User WHERE refreshToken = #{refreshToken}
+        DELETE FROM User WHERE refresh_token = #{refreshToken}
     </delete>
 
     <!-- deleteByProvideId() -->
     <delete id="deleteByProvideId" parameterType="string">
-        DELETE FROM User WHERE userProvideId = #{userProvideId}
+        DELETE FROM User WHERE user_provide_id = #{userProvideId}
     </delete>
 
-    <!-- updateNickname() -->
-    <update id="updateNickname">
-        UPDATE User
-        SET userNickname = #{userNickname}
-        WHERE userProvideId = #{userProvideId}
-    </update>
 
     <!-- updateRole -->
     <update id="updateRole">
         UPDATE User
         SET role = #{role}
-        WHERE userProvideId = #{userProvideId}
+        WHERE user_provide_id = #{userProvideId}
     </update>
 
     <update id="updateRefreshToken">
         UPDATE User
-        SET refreshToken =  #{refreshToken}, expiration = #{expiration}
-        WHERE userProvideId = #{userProvideId}
+        SET refresh_token =  #{refreshToken}, expiration = #{expiration}
+        WHERE user_provide_id = #{userProvideId}
     </update>
 
 </mapper>
