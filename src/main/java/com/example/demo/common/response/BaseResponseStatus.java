@@ -43,3 +43,4 @@ public enum BaseResponseStatus {
         this.message = message; // 내용
     }
 }
+
