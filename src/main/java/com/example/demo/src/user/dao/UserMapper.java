@@ -22,6 +22,6 @@ public interface UserMapper {
     void deleteByProvideId(String userProvideId);
     void updateRole(@Param("role")Role role, @Param("userProvideId")String userProvideId);
     void updateRefreshToken(@Param("refreshToken") String refreshToken, @Param("expiration") String expiration, @Param(("userProvideId")) String userProvideId);
-
+    Optional<User> findByEmailAndPassword(@Param("userEmail")String userEmail,@Param("userPassword") String userPassword);
 
 }

@@ -9,5 +9,5 @@ import lombok.Setter;
 public class UserDto { // 소셜로그인에 쓰는 유저 dto
     private Role role;
     private String userName; // 이름
-    private String userProvideId; // 자체id
+    private String userUUId; // 유저 고유 PK
 }
