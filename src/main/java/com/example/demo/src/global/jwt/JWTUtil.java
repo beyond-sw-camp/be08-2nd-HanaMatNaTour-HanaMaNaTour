@@ -2,6 +2,8 @@ package com.example.demo.src.global.jwt;
 
 import com.example.demo.src.user.model.Role;
 import io.jsonwebtoken.Jwts;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -43,14 +45,26 @@ public class JWTUtil { // jwt 생성, 검증
     }
 
     // 토큰 생성
-    public String createJwt(String category, String userProvideId, Role role, Long expiredMs) {
+    public String createJwt(String category, String userUUId, Role role, Long expiredMs) {
         return Jwts.builder()
                 .claim("category", category) // jwt 종류 (access, refresh)
-                .claim("userProvideId", userProvideId)
+                .claim("userUUId", userUUId)
                 .claim("role", role.name())
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + expiredMs))
                 .signWith(secretKey)
                 .compact();
+    }
+
+    public void addRefreshTokenInCookie(String refreshToken, HttpServletResponse response) {
+        Cookie cookie = new Cookie("refreshToken", refreshToken);
+        cookie.setPath("/");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(60 * 60 * 24 * 30);
+        response.addCookie(cookie);
+    }
+
+    public void addAccessTokenInHeader(String accessToken, HttpServletResponse response) {
+        response.addHeader("Authorization", "Bearer " + accessToken);
     }
 }

@@ -83,4 +83,10 @@
         WHERE user_provide_id = #{userProvideId}
     </update>
 
+
+    <select id="findByByEmailAndPassword" resultType="com.example.demo.src.user.domain.User">
+        select *
+        from user where user_email=#{userEmail} and user_password=#{userPassword}
+    </select>
+
 </mapper>
