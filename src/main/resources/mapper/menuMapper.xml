@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.src.menu.MenuMapper">
+
+    <resultMap id="menuResultMap" type="com.example.vo.Menu">
+        <id property="id" column="id" />
+        <result property="storeId" column="store_id" />
+        <result property="userId" column="user_id" />
+        <result property="name" column="name" />
+        <result property="image" column="image" />
+        <result property="price" column="price" />
+    </resultMap>
+
+    <select id="selectMenusByStoreId" parameterType="string" resultMap="menuResultMap">
+        SELECT * FROM menus WHERE store_id = #{storeId}
+    </select>
+
+    <insert id="insertMenu" parameterType="Menu">
+        INSERT INTO menus (
+            store_id,
+            user_id,
+            name,
+            image,
+            price
+        ) VALUES (
+                     #{storeId},
+                     #{userId},
+                     #{name},
+                     #{image},
+                     #{price}
+                 )
+    </insert>
+
+    <update id="updateMenu" parameterType="Menu">
+        UPDATE menus SET
+                         name = #{name},
+                         image = #{image},
+                         price = #{price}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="deleteMenu" parameterType="String">
+        DELETE FROM menus WHERE id = #{menuId}
+    </delete>
+</mapper>
