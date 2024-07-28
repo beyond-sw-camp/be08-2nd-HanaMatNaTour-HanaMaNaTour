@@ -23,9 +23,15 @@ public class StoreController {
 
     // 모든 음식점 정보를 가져오는 API
     @GetMapping
-    public BaseResponse<List<StoreResponse>> getAllStores() {
-        List<StoreResponse> stores = storeService.getAllStores(); // 모든 음식점 조회
-        return new BaseResponse<>(stores); // 성공 응답 반환
+    public BaseResponse<List<StoreResponse>> getAllStores(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        try {
+            List<StoreResponse> stores = storeService.getAllStores(page, size); // 모든 게시글 조회
+            return new BaseResponse<>(stores); // 성공 응답 반환
+        } catch (BaseException e) {
+            return new BaseResponse<>(BaseResponseStatus.NOT_FOUND_STORE);
+        }
     }
 
     // 특정 음식점을 ID로 조회하는 API
@@ -40,9 +46,16 @@ public class StoreController {
 
     // 카테고리별 음식점 정보를 가져오는 API
     @GetMapping("/category")
-    public BaseResponse<List<StoreResponse>> getStoresByCategory(@RequestParam String category) {
-        List<StoreResponse> stores = storeService.getStoresByCategory(category); // 카테고리별 음식점 조회
-        return new BaseResponse<>(stores); // 성공 응답 반환
+    public BaseResponse<List<StoreResponse>> getStoresByCategory(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam String category) {
+        try {
+            List<StoreResponse> stores = storeService.getStoresByCategory(page, size, category); // 카테고리별 음식점 조회
+            return new BaseResponse<>(stores); // 성공 응답 반환
+        } catch (BaseException e) {
+            return new BaseResponse<>(BaseResponseStatus.NOT_FOUND_STORE);
+        }
     }
 
     // 음식점 등록하는 API

@@ -20,8 +20,10 @@ public class StoreService {
 
 
     // 모든 음식점 가져오는 메소드
-    public List<StoreResponse> getAllStores() {
-        return storeMapper.getAllStores().stream()
+    public List<StoreResponse> getAllStores(int page, int size) {
+        int offset = page * size;
+
+        return storeMapper.getAllStores(offset, size).stream()
                 .map(this::mapToStoreResponse)
                 .collect(Collectors.toList());
     }
@@ -35,6 +37,13 @@ public class StoreService {
         return mapToStoreResponse(store);
     }
 
+    public List<StoreResponse> getStoresByCategory(int page, int size, String category) {
+        int offset = page * size;
+
+        return storeMapper.getStoresByCategory(offset, size, category).stream()
+                .map(this::mapToStoreResponse)
+                .collect(Collectors.toList());
+    }
     public void addStore(StoreRequest storeRequest) {
 
         Store store = mapToStore(storeRequest); // 요청 DTO를 모델로 변환
@@ -68,14 +77,15 @@ public class StoreService {
 
     // 음식점 모델을 DTO로 변환하는 메소드
     private StoreResponse mapToStoreResponse(Store store) {
-        return new StoreResponse(
-                store.getStoreId(),
-                store.getStoreName(),
-                store.getStoreAddress(),
-                store.getCategory(),
-                store.getLikeCount(),
-                store.getCreateAt()
-        );
+        StoreResponse response = new StoreResponse();
+        response.setStoreId(store.getStoreId());
+        response.setStoreName(store.getStoreName());
+        response.setStoreAddress(store.getStoreAddress());
+        response.setCategory(store.getCategory());
+        response.setLikeCount(store.getLikeCount());
+        response.setCreateAt(store.getCreateAt());
+
+        return response;
     }
 
     // 요청 DTO를 음식점 모델로 변환하는 메소드
@@ -87,7 +97,5 @@ public class StoreService {
         );
     }
 
-    public List<StoreResponse> getStoresByCategory(String category) {
-        return storeMapper.getStoresByCategory(category);
-    }
+
 }

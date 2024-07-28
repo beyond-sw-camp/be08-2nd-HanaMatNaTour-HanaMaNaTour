@@ -5,10 +5,11 @@
 <mapper namespace="com.example.demo.src.store.mapper.StoreMapper">
 
     <!-- 모든 음식점을 조회하는 쿼리 -->
-    <select id="getAllStores" resultType="com.example.demo.src.store.model.Store">
+    <select id="getAllStores" parameterType="map" resultType="com.example.demo.src.store.model.Store">
         SELECT
             store_id, store_name, store_address, category, like_count
         FROM store
+        LIMIT #{size} OFFSET #{offset}
     </select>
 
     <select id="getStoreById" parameterType="int" resultType="com.example.demo.src.store.model.Store">
@@ -18,8 +19,10 @@
         WHERE store_id = #{storeId}
     </select>
 
-    <select id="getStoresByCategory" parameterType="String" resultType="com.example.demo.src.store.dto.StoreResponse">
-        SELECT * FROM store WHERE category = #{category}
+    <select id="getStoresByCategory" parameterType="map" resultType="com.example.demo.src.store.model.Store">
+        SELECT * FROM store
+        WHERE category = #{category}
+        LIMIT #{size} OFFSET #{offset}
     </select>
 
     <select id="isStoreExist" parameterType="map" resultType="boolean">
