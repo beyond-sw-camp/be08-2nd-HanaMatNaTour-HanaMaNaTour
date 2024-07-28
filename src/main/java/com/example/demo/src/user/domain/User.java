@@ -1,11 +1,10 @@
 package com.example.demo.src.user.domain;
 
+import com.example.demo.src.user.dto.Provider;
 import com.example.demo.src.user.model.Role;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
+@Builder
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,4 +26,7 @@ public class User {
     @Setter
     private String expiration;
 
+    private String password;
+
+    private Provider provider;
 }
