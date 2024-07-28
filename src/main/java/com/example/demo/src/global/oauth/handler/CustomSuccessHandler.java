@@ -39,7 +39,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         CustomOAuth2User customUserDetails = (CustomOAuth2User) authentication.getPrincipal();
 
-        String provideId = customUserDetails.getUserProvideId();
+        String userUUId = customUserDetails.getUserUUId(); // 유저 식별 pk
 
 
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
@@ -63,10 +63,10 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         }
 
         // 토큰 생성 (access, refresh토큰 생성)
-        String access = jwtUtil.createJwt("access", provideId, role, 600000L); // access -> 10 min
-        String refresh = jwtUtil.createJwt("refresh", provideId, role, 86400000L); // access -> 24h
+        String access = jwtUtil.createJwt("access", userUUId, role, 600000L); // access -> 10 min
+        String refresh = jwtUtil.createJwt("refresh", userUUId, role, 86400000L); // access -> 24h
 
-        addRefreshTokenEntity(provideId, refresh, 86400000L);
+        addRefreshTokenEntity(userUUId, refresh, 86400000L);
 
         // 응답설정 -> 어떤 토큰이냐에 따라 보안상 취약점이 다르기 때문에 액세스토큰은 헤더에, 리프레시토큰은 쿠키에 넣어주기
         response.setHeader("access", access);

@@ -13,12 +13,19 @@
         <result property="role" column="role"/>
         <result property="refreshToken" column="refresh_token"/>
         <result property="expiration" column="expiration"/>
+        <result property="provider" column="provider"/>
+        <result property="userUUId" column="user_uuid"/>
+        <result property="userPassword" column="user_password"/>
     </resultMap>
 
     <!--save()-->
+    <!--    <insert id="save" parameterType="com.example.demo.src.user.domain.User">-->
+    <!--        INSERT INTO user(user_name, user_provide_id, user_email, role, refresh_token, expiration)-->
+    <!--        VALUES (#{userName}, #{userProvideId} , #{userEmail}, #{role}, #{refreshToken}, #{expiration})-->
+    <!--    </insert>-->
     <insert id="save" parameterType="com.example.demo.src.user.domain.User">
-        INSERT INTO user(user_name, user_provide_id, user_email, role, refresh_token, expiration)
-        VALUES (#{userName},#{userProvideId} , #{userEmail}, #{role}, #{refreshToken}, #{expiration})
+        INSERT INTO user(user_name, user_provide_id, user_email,provider,role,user_uuid,user_password)
+        VALUES (#{userName}, #{userProvideId} , #{userEmail},#{provider},#{role},#{userUUId},#{userPassword})
     </insert>
 
     <!-- findByProvideId() -->
@@ -32,7 +39,7 @@
     <select id="findById" parameterType="java.lang.Long" resultType="com.example.demo.src.user.domain.User">
         SELECT user_id, user_provide_id, user_name, user_email, role
         FROM user
-        WHERE user_id = #{user_id}
+        WHERE user_id = #{userId}
     </select>
 
     <!--isExistByEmail-->
@@ -79,5 +86,10 @@
         WHERE user_provide_id = #{userProvideId}
     </update>
 
->>>>>>> 11a904a8c9c379f50b554c2b2fd976c5374af938
+
+    <select id="findByEmailAndPassword" resultMap="UserResultMap">
+        select *
+        from user where user_email=#{userEmail} and user_password=#{userPassword}
+    </select>
+
 </mapper>

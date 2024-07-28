@@ -19,7 +19,7 @@ public class CustomOAuth2User implements OAuth2User {
     public Map<String, Object> getAttributes() {
         Map<String, Object> attributes = new HashMap<>();
         attributes.put("userName", userDto.getUserName());
-        attributes.put("userProvideId", userDto.getUserProvideId());
+        attributes.put("userUUId", userDto.getUserUUId());
         attributes.put("role", userDto.getRole() != null ? userDto.getRole().getKey() : "ROLE_USER"); // 기본값 설정// 역할을 문자열로 변환하여 추가
         return attributes;
     }
@@ -45,7 +45,7 @@ public class CustomOAuth2User implements OAuth2User {
         return userDto.getUserName();
     }
 
-    public String getUserProvideId() {
-        return userDto.getUserProvideId();
+    public String getUserUUId() {
+        return userDto.getUserUUId();
     }
 }

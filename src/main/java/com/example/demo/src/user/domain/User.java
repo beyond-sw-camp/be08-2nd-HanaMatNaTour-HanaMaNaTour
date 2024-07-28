@@ -4,29 +4,30 @@ import com.example.demo.src.user.dto.Provider;
 import com.example.demo.src.user.model.Role;
 import lombok.*;
 
+@ToString
 @Builder
-@Getter
-@AllArgsConstructor
+@Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     private Long userId;
 
-    @Setter
     private String userProvideId;
-    @Setter
+
     private String userName;
-    @Setter
+
     private String userEmail;
-    @Setter
+
     private Role role;
 
-    @Setter
     private String refreshToken;
-    @Setter
+
     private String expiration;
 
-    private String password;
-
     private Provider provider;
+
+    private String userUUId;
+
+    private String userPassword;
 }
