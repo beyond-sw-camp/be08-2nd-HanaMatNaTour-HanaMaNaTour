@@ -26,7 +26,7 @@ public class PostService {
     }
 
     // 특정 ID의 게시글을 가져오는 메소드
-    public PostResponse getPostById(Long id) {
+    public PostResponse getPostById(int id) {
         Post post = postMapper.getPostById(id);
         if (post == null) {
             // 게시글이 없으면 예외 발생
@@ -47,7 +47,7 @@ public class PostService {
     }
 
     // 특정 ID의 게시글을 수정하는 메소드
-    public void updatePost(Long id, PostRequest postRequest) {
+    public void updatePost(int id, PostRequest postRequest) {
         Post post = mapToPost(postRequest); // 요청 DTO를 모델로 변환
         post.setId(id); // ID 설정
         int rowsAffected = postMapper.updatePost(post); // 게시글 수정
@@ -58,7 +58,7 @@ public class PostService {
     }
 
     // 특정 ID의 게시글을 삭제하는 메소드
-    public void deletePost(Long id) {
+    public void deletePost(int id) {
         int rowsAffected = postMapper.deletePost(id); // 게시글 삭제
         if (rowsAffected == 0) {
             // 삭제에 실패하면 예외 발생

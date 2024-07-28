@@ -5,7 +5,6 @@ import com.example.demo.src.hanamoa.dto.PostResponse;
 import com.example.demo.src.hanamoa.service.PostService;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.common.response.BaseResponseStatus;
-import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +27,7 @@ public class PostController {
 
     // 특정 게시글을 ID로 조회하는 API
     @GetMapping("/{id}")
-    public BaseResponse<PostResponse> getPostById(@PathVariable Long id) {
+    public BaseResponse<PostResponse> getPostById(@PathVariable int id) {
         PostResponse post = postService.getPostById(id); // ID로 게시글 조회
         return new BaseResponse<>(post); // 성공 응답 반환
     }
@@ -41,16 +40,15 @@ public class PostController {
     }
 
     // 특정 게시글을 수정하는 API
-    @Operation(summary = "게시글 수정",description = "게시글 상세 정보를 JSON으로 받아 수정")
     @PutMapping("/{id}")
-    public BaseResponse<String> updatePost(@PathVariable Long id, @RequestBody PostRequest postRequest) {
+    public BaseResponse<String> updatePost(@PathVariable int id, @RequestBody PostRequest postRequest) {
         postService.updatePost(id, postRequest); // 게시글 수정
         return new BaseResponse<>(BaseResponseStatus.SUCCESS); // 성공 응답 반환
     }
 
     // 특정 게시글을 삭제하는 API
     @DeleteMapping("/{id}")
-    public BaseResponse<String> deletePost(@PathVariable Long id) {
+    public BaseResponse<String> deletePost(@PathVariable int id) {
         postService.deletePost(id); // 게시글 삭제
         return new BaseResponse<>(BaseResponseStatus.SUCCESS); // 성공 응답 반환
     }

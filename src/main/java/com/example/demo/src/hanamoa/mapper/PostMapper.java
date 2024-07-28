@@ -12,7 +12,7 @@ public interface PostMapper {
     List<Post> getAllPosts();
 
     /** 게시글 상세 조회 */
-    Post getPostById(Long id);
+    Post getPostById(int id);
 
     /** 게시글 작성 */
     int addPost(Post post);
@@ -21,10 +21,10 @@ public interface PostMapper {
     int updatePost(Post post);
 
     /** 게시글 삭제 */
-    int deletePost(Long id);
+    int deletePost(int id);
 
     /** 게시글 조회수 증가 */
-    void incrementViewCount(Long id);
+    void incrementViewCount(int id);
 
     /** 게시글 키워드 검색 */
     List<Post> searchPostsByKeyword(String keyword);

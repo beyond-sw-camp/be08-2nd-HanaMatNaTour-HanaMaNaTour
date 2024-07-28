@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Post {
 
-    private Long id;
+    private int id;
 
     private String title;
 
