@@ -69,16 +69,16 @@ public class RefreshTokenController {
         }
 
 
-        String userProvideId = jwtUtil.getUserProvideId(refresh);
+        String userUUId = jwtUtil.getUserUUId(refresh);
         Role role = jwtUtil.getRole(refresh);
 
         // jwt만들기
-        String newAccess = jwtUtil.createJwt("access", userProvideId, role, 600000L);
-        String newRefresh = jwtUtil.createJwt("refresh", userProvideId, role, 86400000L);
+        String newAccess = jwtUtil.createJwt("access", userUUId, role, 600000L);
+        String newRefresh = jwtUtil.createJwt("refresh", userUUId, role, 86400000L);
 
         // 기존 토큰 삭제 후 새로운 refresh토큰 저장
         userSignUpAndFindService.deleteByRefresh(refresh);
-        addRefreshAddDB(userProvideId, newRefresh, 86400000L);
+        addRefreshAddDB(userUUId, newRefresh, 86400000L);
 
 
         // response에 넣기

@@ -27,6 +27,9 @@ public class UserSignUpAndFindService {
     회원가입관련은 CustoOAuth2UserService에 구현
     * */
     public void save(User user) {
+        //todo : provider 에 소셜 로그인별 enum 값 저장
+        System.out.println("-----UserSignUpAndFindService------");
+        System.out.println(user);
         userMapper.save(user);
     }
 

@@ -1,15 +1,14 @@
-package com.example.demo.src.user.dto;
+package com.example.demo.src.chat.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginReq {
-    private String email;
-    private String password;
+@Getter @Setter
+public class GetRoomListReq {
+
+    private int loginUserId;
 }
