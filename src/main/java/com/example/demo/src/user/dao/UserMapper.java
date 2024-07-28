@@ -15,7 +15,7 @@ public interface UserMapper {
     Optional<User> findById(Long userId);
     Optional<User> findByProvideId(@Param("userProvideId")String userProvideId);
     boolean isExistByNickname(@Param("userNickname")String userNickname);
-    boolean isExistByEmail(@Param("userNickname")String userEmail);
+    boolean isExistByEmail(@Param("userEmail")String userEmail);
     boolean isExistByRefresh(String refreshToken);
     boolean isExistByProvideId(String userProvideId);
     void deleteByRefresh(String refreshToken);

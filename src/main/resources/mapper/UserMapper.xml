@@ -79,4 +79,5 @@
         WHERE user_provide_id = #{userProvideId}
     </update>
 
+>>>>>>> 11a904a8c9c379f50b554c2b2fd976c5374af938
 </mapper>
