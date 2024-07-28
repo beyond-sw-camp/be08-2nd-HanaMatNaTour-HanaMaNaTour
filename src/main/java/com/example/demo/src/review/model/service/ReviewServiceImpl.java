@@ -1,7 +1,8 @@
 package com.example.demo.src.review.model.service;
 
-import com.example.demo.src.review.model.dto.Review;
+import com.example.demo.src.review.model.dto.ReviewRequestDto;
 import com.example.demo.src.review.model.mapper.ReviewMapper;
+import com.example.demo.src.review.model.vo.Review;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,27 +22,32 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<Review> getReviewsByRestaurantId(int restaurantId) {
+    public List<Review> getReviewsByRestaurantId(String restaurantId) {
         return reviewMapper.selectReviewsByRestaurantId(restaurantId);
     }
 
     @Override
-    public Review getReviewById(int reviewId) {
-        return reviewMapper.selectReviewById(reviewId);
+    public Review getReviewByUserId(String reviewId) {
+        return reviewMapper.selectReviewByUserId(reviewId);
     }
 
     @Override
-    public void insertReview(Review review) {
-        reviewMapper.insertReview(review);
+    public int saveReview(Review review) {
+        int result = 0;
+
+        if(review.getReviewId() != null) {
+            // update
+            result = reviewMapper.updateReview(review);
+        } else {
+            // insert
+            result = reviewMapper.insertReview(review);
+        }
+
+        return result;
     }
 
     @Override
-    public void updateReview(Review review) {
-        reviewMapper.updateReview(review);
-    }
-
-    @Override
-    public void deleteReview(int reviewId) {
+    public void deleteReview(String reviewId) {
         reviewMapper.deleteReview(reviewId);
     }
 }
