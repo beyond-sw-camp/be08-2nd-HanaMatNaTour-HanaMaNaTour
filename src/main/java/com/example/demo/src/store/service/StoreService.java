@@ -2,13 +2,11 @@ package com.example.demo.src.store.service;
 
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
-import com.example.demo.src.hanamoa.model.Post;
 import com.example.demo.src.store.dto.StoreRequest;
 import com.example.demo.src.store.dto.StoreResponse;
 import com.example.demo.src.store.mapper.StoreMapper;
 import com.example.demo.src.store.model.Store;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
