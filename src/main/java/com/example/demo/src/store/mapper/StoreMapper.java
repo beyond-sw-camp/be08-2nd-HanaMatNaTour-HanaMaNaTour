@@ -20,4 +20,6 @@ public interface StoreMapper {
     int deleteStore(int id);
 
     List<StoreResponse> getStoresByCategory(String category);
+
+    boolean isStoreExist(String storeName, String storeAddress);
 }

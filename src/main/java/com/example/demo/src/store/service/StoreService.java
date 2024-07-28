@@ -40,6 +40,9 @@ public class StoreService {
     public void addStore(StoreRequest storeRequest) {
 
         Store store = mapToStore(storeRequest); // 요청 DTO를 모델로 변환
+        if (storeMapper.isStoreExist(storeRequest.getStoreName(), storeRequest.getStoreAddress())) {
+            throw new BaseException(BaseResponseStatus.ALREADY_EXIST_STORE);
+        }
         int rowsAffected = storeMapper.addStore(store); // 게시글 추가
         if (rowsAffected == 0) {
             // 오류 시 예외 발생

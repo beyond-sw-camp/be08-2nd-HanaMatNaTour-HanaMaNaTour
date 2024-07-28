@@ -22,6 +22,12 @@
         SELECT * FROM store WHERE category = #{category}
     </select>
 
+    <select id="isStoreExist" parameterType="map" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM stores
+        WHERE store_name = #{storeName} AND store_address = #{storeAddress}
+    </select>
+
     <insert id="addStore" parameterType="com.example.demo.src.store.model.Store">
         INSERT INTO store (store_name, store_address, category, create_at)
         VALUES (#{storeName}, #{storeAddress}, #{category}, NOW())
