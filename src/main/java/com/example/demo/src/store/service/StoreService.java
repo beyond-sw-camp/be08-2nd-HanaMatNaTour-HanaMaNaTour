@@ -7,6 +7,7 @@ import com.example.demo.src.store.dto.StoreRequest;
 import com.example.demo.src.store.dto.StoreResponse;
 import com.example.demo.src.store.mapper.StoreMapper;
 import com.example.demo.src.store.model.Store;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,10 +15,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class StoreService {
 
-    @Autowired
-    private StoreMapper storeMapper;
+    private final StoreMapper storeMapper;
 
 
     // 모든 음식점 가져오는 메소드
@@ -71,7 +72,8 @@ public class StoreService {
                 store.getStoreName(),
                 store.getStoreAddress(),
                 store.getCategory(),
-                store.getLikeCount()
+                store.getLikeCount(),
+                store.getCreateAt()
         );
     }
 

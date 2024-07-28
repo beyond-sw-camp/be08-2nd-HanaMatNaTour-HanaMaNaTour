@@ -6,23 +6,20 @@ import com.example.demo.src.store.dto.StoreRequest;
 import com.example.demo.src.store.dto.StoreResponse;
 import com.example.demo.src.store.service.StoreService;
 import com.example.demo.src.store.service.UserStoreLikesService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/hanamoa/store")
 public class StoreController {
 
     private final StoreService storeService;
     private final UserStoreLikesService userStoreLikesService;
 
-    @Autowired
-    public StoreController(StoreService storeService, UserStoreLikesService userStoreLikesService) {
-        this.storeService = storeService;
-        this.userStoreLikesService = userStoreLikesService;
-    }
 
     // 모든 음식점 정보를 가져오는 API
     @GetMapping

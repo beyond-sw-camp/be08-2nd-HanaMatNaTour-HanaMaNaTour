@@ -5,17 +5,18 @@ import com.example.demo.src.hanamoa.dto.PostResponse;
 import com.example.demo.src.hanamoa.service.PostService;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.common.response.BaseResponseStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/hanamoa/posts")
 public class PostController {
 
-    @Autowired
-    private PostService postService;
+    private final PostService postService;
 
 
     // 모든 게시글을 가져오는 API

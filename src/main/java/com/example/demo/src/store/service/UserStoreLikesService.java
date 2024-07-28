@@ -1,18 +1,16 @@
 package com.example.demo.src.store.service;
 
 import com.example.demo.src.store.mapper.UserStoreLikesMapper;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserStoreLikesService {
 
-    @Autowired
     private final UserStoreLikesMapper userStoreLikesMapper;
 
-    public UserStoreLikesService(UserStoreLikesMapper userStoreLikesMapper) {
-        this.userStoreLikesMapper = userStoreLikesMapper;
-    }
 
     public void addLike(String userProvideId, int storeId) {
         if (!userStoreLikesMapper.isLikedByUser(userProvideId, storeId)) {

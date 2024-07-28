@@ -6,6 +6,7 @@ import com.example.demo.src.hanamoa.mapper.PostMapper;
 import com.example.demo.src.hanamoa.model.Post;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@RequiredArgsConstructor
 public class PostService {
 
-    @Autowired
-    private PostMapper postMapper;
+    private final PostMapper postMapper;
 
     // 모든 게시글을 가져오는 메소드
     public List<PostResponse> getAllPosts() {
