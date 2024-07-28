@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"></html>
+<head>
+    <meta charset="UTF-8">
+    <title>Login</title>
+</head>
+<body>
+<h2>Login Page</h2>
+<div>
+    <button class="google"> <!--onclick="googleLoginHandler()"--> >
+        <a href="/oauth2/authorization/google">구글로그인</a>
+    </button>
+</div>
+<!--
+<script>
+    const clientId = '69357361820-cc4gqelnq7o01m56sckb1k9gbj7pbqf1.apps.googleusercontent.com';
+    const redirectUri = '/login/oauth2/code/google';
+    const responseType = 'code';
+    const scope = 'email profile';
+
+    // 로그인하러 이동
+    function googleLoginHandler() {
+        const googleLoginUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=${responseType}&scope=${scope}`;
+        window.location.href = googleLoginUrl;  /* Google 로그인 페이지로 리디렉션*/
+    }
+
+    </script>-->
+
+</body>
+</html>

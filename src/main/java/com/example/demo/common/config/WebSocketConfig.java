@@ -12,24 +12,17 @@ import org.springframework.web.socket.config.annotation.*;
 @Configuration
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     // 웹 소켓을 구성하는 설정 파일을 작성한다.
-//    @Override
-//    public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-//        // endpoint 설정 : /api/v1/chat/{postId}
-//        // 이를 통해서 ws://localhost:8080/ws/chat 으로 요청이 들어오면 websocket 통신을 진행한다.
-//        // setAllowedOrigins("*") 는 모든 ip에서 접속 가능하도록 해줌
-//        registry.addHandler(webSocketHandler,"/ws/chat").setAllowedOrigins("*");
-//    }
-
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
-        config.setApplicationDestinationPrefixes("/app");
+        config.enableSimpleBroker("/sub"); // 클라이언트에서 topic 구독시 요청 url
+        config.setApplicationDestinationPrefixes("/pub"); // 연결된 소켓을 통해 데이터를 보내는 경로
 
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/ws").withSockJS();
+        registry.addEndpoint("/ws-stomp").setAllowedOrigins("*");
     }
 }
+
