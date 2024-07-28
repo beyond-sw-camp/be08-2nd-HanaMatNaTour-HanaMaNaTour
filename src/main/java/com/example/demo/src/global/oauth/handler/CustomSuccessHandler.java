@@ -47,7 +47,6 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
 
         for (GrantedAuthority authority : authorities) {
             String authorityStr = authority.getAuthority();
-            logger.info("권한: " + authorityStr);
             for (Role r : Role.values()) {
                 if (r.getKey().equals(authorityStr)) {
                     role = r;
@@ -75,7 +74,7 @@ public class CustomSuccessHandler extends SimpleUrlAuthenticationSuccessHandler 
         response.addCookie(createCookie("refresh", refresh));
         response.setStatus(HttpStatus.OK.value());
 
-        getRedirectStrategy().sendRedirect(request, response, "/main");
+        getRedirectStrategy().sendRedirect(request, response, "http://localhost:3000/main");
 
 
     }

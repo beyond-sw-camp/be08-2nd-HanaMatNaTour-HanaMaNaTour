@@ -1,6 +1,7 @@
 package com.example.demo.src.user.controller;
 
 import com.example.demo.common.exceptions.BaseException;
+import com.example.demo.common.response.BaseResponse;
 import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.global.jwt.JWTUtil;
 import com.example.demo.src.user.domain.User;
@@ -24,22 +25,11 @@ public class UserController {
     private final JWTUtil jwtUtil;
 
 
-    @GetMapping("/nickname")
-    @ResponseBody
-    public ResponseEntity<User> getUser(@RequestHeader("access") String access) {
-        if (jwtUtil.isExpired(access)) throw new BaseException(BaseResponseStatus.EXPIRED_TOKEN);
-        String userProvideId = jwtUtil.getUserProvideId(access);
-        User user = userSignUpAndFindService.findByProvideId(userProvideId);
-
-        return ResponseEntity.ok(user);
-    }
-
-
-
-    // 프로필 관련
-    @GetMapping("/profile/{userProvideId}")
-    public userProfileResponseDto getMyProfile(@PathVariable String userProvideId) {
-        return userProfileService.getMyProfile(userProvideId);
+    // 프로필 관련 -> 닉네임 사라지면서 프로필 수정할 게 없어짐
+    @GetMapping("/profile/{userId}")
+    public BaseResponse<userProfileResponseDto> getMyProfile(@PathVariable Long userId) {
+        userProfileResponseDto myProfile = userProfileService.getMyProfile(userId);
+        return new BaseResponse<>(myProfile);
     }
 
 }
