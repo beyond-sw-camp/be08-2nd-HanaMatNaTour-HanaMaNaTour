@@ -45,12 +45,15 @@ public class UserSignUpAndFindService {
         return userMapper.isExistByEmail(email);
     }
 
+    public User findById(Long userId) {
+        return userMapper.findById(userId)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER));
+    }
 
     public User findByProvideId(String userProvideId) {
         return userMapper.findByProvideId(userProvideId)
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER));
     }
-
 
     // 이건 소셜로그인용
     public User checkByProvideId(String userProvideId) {
@@ -83,4 +86,6 @@ public class UserSignUpAndFindService {
     public void updateRefreshToken(String refresh, String expiration, String userProvideId) {
         userMapper.updateRefreshToken(refresh, expiration, userProvideId);
     }
+
+
 }
