@@ -64,12 +64,12 @@ public class JWTFilter extends OncePerRequestFilter { // jwt를 http요청에서
         }
 
         // 액세스 토큰일때
-        String userProvideId = jwtUtil.getUserProvideId(accessToken);
-        Role role = jwtUtil.getRole(accessToken);
+        String userUUId = jwtUtil.getUserUUId(accessToken); // 유저 pk
+        Role role = jwtUtil.getRole(accessToken); // 유저 종류
 
         // dto 생성
         UserDto userDto = new UserDto();
-        userDto.setUserProvideId(userProvideId);
+        userDto.setUserUUId(userUUId);
         userDto.setRole(role);
 
         // UserDetail에 정보 담기

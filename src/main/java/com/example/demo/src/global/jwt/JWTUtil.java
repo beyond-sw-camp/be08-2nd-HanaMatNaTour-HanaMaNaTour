@@ -20,9 +20,9 @@ public class JWTUtil { // jwt 생성, 검증
     }
 
     // provideId 반환 메서드
-    public String getUserProvideId(String token) {
+    public String getUserUUId(String token) {
 
-        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("userProvideId", String.class);
+        return Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token).getPayload().get("userUUId", String.class);
     }
 
     // role 반환 메서드
@@ -45,7 +45,7 @@ public class JWTUtil { // jwt 생성, 검증
     // 토큰 생성
     public String createJwt(String category, String userProvideId, Role role, Long expiredMs) {
         return Jwts.builder()
-                .claim("category", category)
+                .claim("category", category) // jwt 종류 (access, refresh)
                 .claim("userProvideId", userProvideId)
                 .claim("role", role.name())
                 .issuedAt(new Date(System.currentTimeMillis()))

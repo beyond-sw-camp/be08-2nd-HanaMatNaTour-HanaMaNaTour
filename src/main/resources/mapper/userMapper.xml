@@ -16,9 +16,13 @@
     </resultMap>
 
     <!--save()-->
+<!--    <insert id="save" parameterType="com.example.demo.src.user.domain.User">-->
+<!--        INSERT INTO user(user_name, user_provide_id, user_email, role, refresh_token, expiration)-->
+<!--        VALUES (#{userName}, #{userProvideId} , #{userEmail}, #{role}, #{refreshToken}, #{expiration})-->
+<!--    </insert>-->
     <insert id="save" parameterType="com.example.demo.src.user.domain.User">
-        INSERT INTO user(user_name, user_provide_id, user_email, role, refresh_token, expiration)
-        VALUES (#{userName},#{userProvideId} , #{userEmail}, #{role}, #{refreshToken}, #{expiration})
+        INSERT INTO user(user_name, user_provide_id, user_email,role)
+        VALUES (#{userName}, #{userProvideId} , #{userEmail},#{role})
     </insert>
 
     <!-- findByProvideId() -->
@@ -32,7 +36,7 @@
     <select id="findById" parameterType="java.lang.Long" resultType="com.example.demo.src.user.domain.User">
         SELECT user_id, user_provide_id, user_name, user_email, role
         FROM user
-        WHERE user_id = #{user_id}
+        WHERE user_id = #{userId}
     </select>
 
     <!--isExistByEmail-->

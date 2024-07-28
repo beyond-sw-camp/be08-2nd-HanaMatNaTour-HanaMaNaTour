@@ -4,6 +4,7 @@ import com.example.demo.src.user.dto.Provider;
 import com.example.demo.src.user.model.Role;
 import lombok.*;
 
+@ToString
 @Builder
 @Getter
 @AllArgsConstructor
@@ -28,5 +29,9 @@ public class User {
 
     private String password;
 
+    @Setter
     private Provider provider;
+
+    @Setter
+    private String userUUId;
 }
