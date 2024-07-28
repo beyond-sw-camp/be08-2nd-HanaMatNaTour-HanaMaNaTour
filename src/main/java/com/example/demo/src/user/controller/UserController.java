@@ -12,6 +12,8 @@ import com.example.demo.src.user.service.UserSignUpAndFindService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.demo.src.user.dto.UserResponseDto.*;
@@ -66,5 +68,16 @@ public class UserController {
         LoginResponse loginResponse = loginResult.toLoginResponse();
 
         return new BaseResponse<>(loginResponse);
+    }
+
+    @GetMapping("/test")
+    public String test(){
+        String userUUId = getUserUUIdFromAuthentication();
+
+        return userUUId;
+    }
+    private String getUserUUIdFromAuthentication() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return auth.getName();
     }
 }
