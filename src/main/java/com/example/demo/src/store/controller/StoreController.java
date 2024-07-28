@@ -39,6 +39,15 @@ public class StoreController {
         return new BaseResponse<>(store); // 성공 응답 반환
     }
 
+    // 카테고리로 음식점 리스트 조회하는 API
+
+    // 카테고리별 음식점 정보를 가져오는 API
+    @GetMapping("/category")
+    public BaseResponse<List<StoreResponse>> getStoresByCategory(@RequestParam String category) {
+        List<StoreResponse> stores = storeService.getStoresByCategory(category); // 카테고리별 게시글 조회
+        return new BaseResponse<>(stores); // 성공 응답 반환
+    }
+
     // 음식점 등록하는 API
     @PostMapping
     public BaseResponse<String> addStore(@RequestBody StoreRequest storeRequest) {

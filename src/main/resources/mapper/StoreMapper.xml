@@ -18,6 +18,10 @@
         WHERE store_id = #{storeId}
     </select>
 
+    <select id="getStoresByCategory" parameterType="String" resultType="com.example.demo.src.store.dto.StoreResponse">
+        SELECT * FROM store WHERE category = #{category}
+    </select>
+
     <insert id="addStore" parameterType="com.example.demo.src.store.model.Store">
         INSERT INTO store (store_name, store_address, category)
         VALUES (#{storeName}, #{storeAddress}, #{category})
