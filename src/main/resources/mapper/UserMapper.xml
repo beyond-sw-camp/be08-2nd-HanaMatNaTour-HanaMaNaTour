@@ -39,7 +39,7 @@
     <select id="findById" parameterType="java.lang.Long" resultType="com.example.demo.src.user.domain.User">
         SELECT user_id, user_provide_id, user_name, user_email, role
         FROM user
-        WHERE user_id = #{user_id}
+        WHERE user_id = #{userId}
     </select>
 
     <!--isExistByEmail-->
