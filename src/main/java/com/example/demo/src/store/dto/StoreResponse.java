@@ -8,7 +8,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class StoreResponse {
-    private Long storeId;
+    private int storeId;
 
     private String storeName;
 

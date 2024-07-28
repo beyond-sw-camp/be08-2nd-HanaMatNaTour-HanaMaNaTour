@@ -27,7 +27,7 @@ public class StoreService {
                 .collect(Collectors.toList());
     }
 
-    public StoreResponse getStoreById(Long id) {
+    public StoreResponse getStoreById(int id) {
         Store store = storeMapper.getStoreById(id);
         if(store == null) {
             // 음식점이 없으면 예외 발생
@@ -47,7 +47,7 @@ public class StoreService {
         storeMapper.addStore(store);
     }
 
-    public void updateStore(Long id, StoreRequest storeRequest) {
+    public void updateStore(int id, StoreRequest storeRequest) {
         Store store = mapToStore(storeRequest);
         store.setStoreId(id);
         int rowsAffected = storeMapper.updateStore(store);
@@ -56,7 +56,7 @@ public class StoreService {
         }
     }
 
-    public void deleteStore(Long id) {
+    public void deleteStore(int id) {
         int rowsAffected = storeMapper.deleteStore(id);
         if (rowsAffected == 0) {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_ERROR);

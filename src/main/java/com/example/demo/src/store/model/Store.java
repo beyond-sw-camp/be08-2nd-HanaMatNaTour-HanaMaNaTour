@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Store {
-    private Long storeId;
+    private int storeId;
 
     private String storeName;
 

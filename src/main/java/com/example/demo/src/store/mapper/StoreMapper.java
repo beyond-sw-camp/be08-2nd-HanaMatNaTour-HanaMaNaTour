@@ -10,11 +10,11 @@ public interface StoreMapper {
 
     List<Store> getAllStores();
 
-    Store getStoreById(Long id);
+    Store getStoreById(int id);
 
     int addStore(Store store);
 
     int updateStore(Store store);
 
-    int deleteStore(Long id);
+    int deleteStore(int id);
 }
