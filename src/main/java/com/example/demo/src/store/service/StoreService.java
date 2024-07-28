@@ -84,4 +84,7 @@ public class StoreService {
         );
     }
 
+    public List<StoreResponse> getStoresByCategory(String category) {
+        return storeMapper.getStoresByCategory(category);
+    }
 }
