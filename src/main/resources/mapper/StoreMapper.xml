@@ -23,8 +23,8 @@
     </select>
 
     <insert id="addStore" parameterType="com.example.demo.src.store.model.Store">
-        INSERT INTO store (store_name, store_address, category)
-        VALUES (#{storeName}, #{storeAddress}, #{category})
+        INSERT INTO store (store_name, store_address, category, create_at)
+        VALUES (#{storeName}, #{storeAddress}, #{category}, NOW())
     </insert>
 
     <update id="updateStore" parameterType="com.example.demo.src.store.model.Store">
@@ -37,8 +37,9 @@
             store_address = #{storeAddress},
             </if>
             <if test="category != null">
-            category = #{category}
+            category = #{category},
             </if>
+            create_at = NOW()
         </trim>
         WHERE store_id = #{storeId}
     </update>

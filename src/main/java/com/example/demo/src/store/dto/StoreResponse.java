@@ -2,6 +2,8 @@ package com.example.demo.src.store.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,4 +19,6 @@ public class StoreResponse {
     private String category;
 
     private int likeCount;
+
+    private LocalDateTime createAt;
 }

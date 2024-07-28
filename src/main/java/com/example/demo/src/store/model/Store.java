@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -19,6 +21,8 @@ public class Store {
     private String category;
 
     private int likeCount;
+
+    private LocalDateTime createAt;
 
     // StoreRequest를 위해 추가된 생성자
     public Store(String storeName, String storeAddress, String category) {
