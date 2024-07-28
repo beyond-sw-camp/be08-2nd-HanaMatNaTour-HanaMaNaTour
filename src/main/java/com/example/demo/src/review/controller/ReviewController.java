@@ -1,7 +1,6 @@
 package com.example.demo.src.review.controller;
 
 import com.example.demo.common.response.BaseResponse;
-import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.review.model.dto.ReviewRequestDto;
 import com.example.demo.src.review.model.vo.Review;
 import com.example.demo.src.review.model.service.ReviewService;
