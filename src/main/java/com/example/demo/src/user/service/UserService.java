@@ -1,20 +1,17 @@
 package com.example.demo.src.user.service;
 
 import com.example.demo.common.exceptions.BaseException;
-import com.example.demo.src.chat.dto.LoginReq;
 import com.example.demo.src.global.jwt.JWTUtil;
 import com.example.demo.src.user.dao.UserMapper;
 import com.example.demo.src.user.domain.User;
-import com.example.demo.src.user.dto.LoginResponse;
+import com.example.demo.src.user.dto.LoginReq;
 import com.example.demo.src.user.dto.LoginResult;
+import com.example.demo.src.user.dto.Provider;
 import com.example.demo.src.user.dto.SignupReq;
+import com.example.demo.src.user.model.Role;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Optional;
 
 import static com.example.demo.common.response.BaseResponseStatus.INVALID_LOGIN;
 import static com.example.demo.common.response.BaseResponseStatus.USER_EMAIL_ALREADY_EXIST;
@@ -33,10 +30,9 @@ public class UserService {
             throw new BaseException(USER_EMAIL_ALREADY_EXIST);
         }
 
-
         //  가입한 적이 없으면 회원가입 진행
         // todo : 비밀번호 암호화
-        User newUser= signupReq.toUser(signupReq.getUserName(), signupReq.getUserEmail(), signupReq.getPassword());
+        User newUser= signupReq.toUser(signupReq.getUserName(), signupReq.getUserEmail(), signupReq.getPassword(), Role.USER,Provider.LOCAL);
         userMapper.save(newUser);
     }
 

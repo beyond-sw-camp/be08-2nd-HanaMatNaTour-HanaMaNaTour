@@ -6,32 +6,28 @@ import lombok.*;
 
 @ToString
 @Builder
-@Getter
-@AllArgsConstructor
+@Getter @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class User {
 
     private Long userId;
 
-    @Setter
     private String userProvideId;
-    @Setter
+
     private String userName;
-    @Setter
+
     private String userEmail;
-    @Setter
+
     private Role role;
 
-    @Setter
     private String refreshToken;
-    @Setter
+
     private String expiration;
 
-    private String password;
-
-    @Setter
     private Provider provider;
 
-    @Setter
     private String userUUId;
+
+    private String userPassword;
 }

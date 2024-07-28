@@ -1,25 +1,17 @@
 package com.example.demo.src.user.controller;
 
-import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
-import com.example.demo.common.response.BaseResponseStatus;
-import com.example.demo.src.chat.dto.LoginReq;
 import com.example.demo.src.global.jwt.JWTUtil;
-import com.example.demo.src.user.domain.User;
+import com.example.demo.src.user.dto.LoginReq;
 import com.example.demo.src.user.dto.LoginResponse;
 import com.example.demo.src.user.dto.LoginResult;
 import com.example.demo.src.user.dto.SignupReq;
-import com.example.demo.src.user.dto.UserResponseDto;
-import com.example.demo.src.user.model.Role;
 import com.example.demo.src.user.service.UserProfileService;
 import com.example.demo.src.user.service.UserService;
 import com.example.demo.src.user.service.UserSignUpAndFindService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseCookie;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import static com.example.demo.src.user.dto.UserResponseDto.*;
