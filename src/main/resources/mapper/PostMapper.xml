@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.src.hanamoa.mapper.PostMapper">
+
+    <!-- 모든 게시글을 조회하는 쿼리 -->
+    <select id="getAllPosts" resultType="com.example.demo.src.hanamoa.model.Post">
+        SELECT
+            p.post_id,
+            p.title,
+            p.content,
+            u.user_name,
+            s.store_name,
+            p.created_at,
+            p.updated_at,
+            p.view_count
+        FROM
+            post p
+        INNER JOIN
+            user u ON p.user_provide_id = u.user_provide_id
+        INNER JOIN
+            store s ON p.store_id = s.store_id
+    </select>
+
+    <!-- 특정 ID의 게시글을 조회하는 쿼리 -->
+    <select id="getPostById" parameterType="Long" resultType="com.example.demo.src.hanamoa.model.Post">
+        SELECT
+            p.post_id,
+            p.title,
+            p.content,
+            u.user_name,
+            s.store_name,
+            p.created_at,
+            p.updated_at,
+            p.view_count
+        FROM post
+        INNER JOIN
+             user u ON p.user_provide_id = u.user_provide_id
+        INNER JOIN
+             store s ON p.store_id = s.store_id
+        WHERE post_id = #{id}
+    </select>
+
+    <!-- 게시글을 추가하는 쿼리 -->
+    <insert id="addPost" parameterType="com.example.demo.src.hanamoa.model.Post">
+        INSERT INTO post (title, content, user_provide_id, store_id, created_at)
+        VALUES (#{title}, #{content}, #{userId}, #{storeId}, NOW())
+    </insert>
+
+    <!-- 게시글을 수정하는 쿼리 -->
+    <update id="updatePost" parameterType="com.example.demo.src.hanamoa.model.Post">
+        UPDATE post
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">
+            title = #{title},
+            </if>
+            <if test="title != null">
+            content = #{content},
+            </if>
+            <if test="title != null">
+            user_provide_id = #{userId},
+            </if>
+            <if test="title != null">
+            store_id = #{storeId},
+            </if>
+            updated_at = NOW()
+        </trim>
+        INNER JOIN
+        user u ON p.user_provide_id = u.user_provide_id
+        INNER JOIN
+        store s ON p.store_id = s.store_id
+        WHERE post_id = #{id}
+    </update>
+
+    <!-- 게시글을 삭제하는 쿼리 -->
+    <delete id="deletePost" parameterType="Long">
+        DELETE FROM post
+        WHERE post_id = #{id}
+    </delete>
+
+    <!-- 게시글의 조회수를 증가시키는 쿼리 -->
+    <update id="incrementViewCount" parameterType="Long">
+        UPDATE post
+        SET view_count = view_count + 1
+        WHERE post_id = #{id}
+    </update>
+
+    <!-- 키워드로 게시글을 검색하는 쿼리 -->
+    <select id="searchPostsByKeyword" parameterType="String" resultType="com.example.demo.src.hanamoa.model.Post">
+        SELECT
+            post_id, title, content, user_provide_id, store_id,
+            created_at, updated_at, view_count
+        FROM post
+        WHERE
+            title LIKE CONCAT('%', #{keyword}, '%')
+           OR content LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+
+</mapper>
