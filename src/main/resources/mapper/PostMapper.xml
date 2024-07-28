@@ -17,10 +17,11 @@
             p.view_count
         FROM
             post p
-        INNER JOIN
+        LEFT OUTER JOIN
             user u ON p.user_provide_id = u.user_provide_id
-        INNER JOIN
+        LEFT OUTER JOIN
             store s ON p.store_id = s.store_id
+        LIMIT #{size} OFFSET #{offset}
     </select>
 
     <!-- 특정 ID의 게시글을 조회하는 쿼리 -->
@@ -87,14 +88,26 @@
     </update>
 
     <!-- 키워드로 게시글을 검색하는 쿼리 -->
-    <select id="searchPostsByKeyword" parameterType="String" resultType="com.example.demo.src.hanamoa.model.Post">
-        SELECT
-            post_id, title, content, user_provide_id, store_id,
-            created_at, updated_at, view_count
-        FROM post
+    <select id="searchPostsByKeyword" parameterType="com.example.demo.src.hanamoa.dto.PostSearchParam" resultType="com.example.demo.src.hanamoa.model.Post">
+       SELECT
+            p.post_id,
+            p.title,
+            p.content,
+            u.user_name,
+            s.store_name,
+            p.created_at,
+            p.updated_at,
+            p.view_count
+        FROM
+            post p
+        LEFT OUTER JOIN
+            user u ON p.user_provide_id = u.user_provide_id
+        LEFT OUTER JOIN
+            store s ON p.store_id = s.store_id
         WHERE
-            title LIKE CONCAT('%', #{keyword}, '%')
-           OR content LIKE CONCAT('%', #{keyword}, '%')
+            p.title LIKE CONCAT('%', #{keyword}, '%')
+           OR p.content LIKE CONCAT('%', #{keyword}, '%')
+        LIMIT #{size} OFFSET #{offset}
     </select>
 
 </mapper>

@@ -34,7 +34,7 @@ public class StoreController {
         }
     }
 
-    // 특정 음식점을 ID로 조회하는 API
+    // 특정 음식점 정보 상세 조회하는 API
     @GetMapping("/{id}")
     public BaseResponse<StoreResponse> getStoreById(@PathVariable int id) {
         StoreResponse store = storeService.getStoreById(id); // ID로 특정 음식점 조회
@@ -43,8 +43,6 @@ public class StoreController {
     }
 
     // 카테고리로 음식점 리스트 조회하는 API
-
-    // 카테고리별 음식점 정보를 가져오는 API
     @GetMapping("/category")
     public BaseResponse<List<StoreResponse>> getStoresByCategory(
             @RequestParam(defaultValue = "0") int page,

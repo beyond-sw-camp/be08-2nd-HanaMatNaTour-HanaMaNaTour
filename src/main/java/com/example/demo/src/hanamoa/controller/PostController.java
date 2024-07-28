@@ -1,12 +1,12 @@
 package com.example.demo.src.hanamoa.controller;
 
+import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.src.hanamoa.dto.PostRequest;
 import com.example.demo.src.hanamoa.dto.PostResponse;
 import com.example.demo.src.hanamoa.service.PostService;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +21,20 @@ public class PostController {
 
     // 모든 게시글을 가져오는 API
     @GetMapping
-    public BaseResponse<List<PostResponse>> getAllPosts() {
-        List<PostResponse> posts = postService.getAllPosts(); // 모든 게시글 조회
-        return new BaseResponse<>(posts); // 성공 응답 반환
+    public BaseResponse<List<PostResponse>> getAllPosts(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        try {
+            List<PostResponse> posts = postService.getAllPosts(page, size); // 모든 게시글 조회
+            return new BaseResponse<>(posts); // 성공 응답 반환
+        } catch (BaseException e) {
+            return new BaseResponse<>(BaseResponseStatus.NOT_FOUND_POSTS);
+        }
+
+
     }
 
-    // 특정 게시글을 ID로 조회하는 API
+    // 특정 게시글 내용을 상세 조회하는 API
     @GetMapping("/{id}")
     public BaseResponse<PostResponse> getPostById(@PathVariable int id) {
         PostResponse post = postService.getPostById(id); // ID로 게시글 조회
@@ -56,8 +64,11 @@ public class PostController {
 
     // 키워드로 게시글을 검색하는 API
     @GetMapping("/search")
-    public BaseResponse<List<PostResponse>> searchPostsByKeyword(@RequestParam String keyword) {
-        List<PostResponse> posts = postService.searchPostsByKeyword(keyword); // 키워드로 게시글 검색
+    public BaseResponse<List<PostResponse>> searchPostsByKeyword(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam String keyword) {
+        List<PostResponse> posts = postService.searchPostsByKeyword(page, size, keyword); // 키워드로 게시글 검색
         return new BaseResponse<>(posts); // 성공 응답 반환
     }
 }
