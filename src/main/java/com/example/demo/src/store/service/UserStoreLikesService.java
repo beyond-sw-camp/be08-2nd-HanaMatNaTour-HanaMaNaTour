@@ -12,15 +12,15 @@ public class UserStoreLikesService {
     private final UserStoreLikesMapper userStoreLikesMapper;
 
 
-    public void addLike(String userProvideId, int storeId) {
-        if (!userStoreLikesMapper.isLikedByUser(userProvideId, storeId)) {
-            userStoreLikesMapper.addLike(userProvideId, storeId);
+    public void addLike(String userUuid, int storeId) {
+        if (!userStoreLikesMapper.isLikedByUser(userUuid, storeId)) {
+            userStoreLikesMapper.addLike(userUuid, storeId);
         }
     }
 
-    public void removeLike(String userProvideId, int storeId) {
-        if (userStoreLikesMapper.isLikedByUser(userProvideId, storeId)) {
-            userStoreLikesMapper.removeLike(userProvideId, storeId);
+    public void removeLike(String userUuid, int storeId) {
+        if (userStoreLikesMapper.isLikedByUser(userUuid, storeId)) {
+            userStoreLikesMapper.removeLike(userUuid, storeId);
         }
     }
 
@@ -28,7 +28,7 @@ public class UserStoreLikesService {
         return userStoreLikesMapper.getLikesCount(storeId);
     }
 
-    public boolean isLikedByUser(String userProvideId, int storeId) {
-        return userStoreLikesMapper.isLikedByUser(userProvideId, storeId);
+    public boolean isLikedByUser(String userUuid, int storeId) {
+        return userStoreLikesMapper.isLikedByUser(userUuid, storeId);
     }
 }
