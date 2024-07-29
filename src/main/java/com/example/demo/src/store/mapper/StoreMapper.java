@@ -20,7 +20,7 @@ public interface StoreMapper {
 
     int deleteStore(int id);
 
-    List<Store> getStoresByCategory(@Param("offset") int offset, @Param("size") int size, @Param("category") String category);
+    List<Store> getStoresByCategory(@Param("category") String category, @Param("offset") int offset, @Param("size") int size);
 
     boolean isStoreExist(String storeName, String storeAddress);
 }
