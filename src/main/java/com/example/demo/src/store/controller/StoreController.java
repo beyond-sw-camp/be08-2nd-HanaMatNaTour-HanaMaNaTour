@@ -3,6 +3,7 @@ package com.example.demo.src.store.controller;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.common.response.BaseResponseStatus;
+import com.example.demo.common.util.UserUtil;
 import com.example.demo.src.store.dto.StoreRequest;
 import com.example.demo.src.store.dto.StoreResponse;
 import com.example.demo.src.store.service.StoreService;
@@ -45,11 +46,12 @@ public class StoreController {
     // 카테고리로 음식점 리스트 조회하는 API
     @GetMapping("/category")
     public BaseResponse<List<StoreResponse>> getStoresByCategory(
+            @RequestParam String category,
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam String category) {
+            @RequestParam(defaultValue = "10") int size
+            ) {
         try {
-            List<StoreResponse> stores = storeService.getStoresByCategory(page, size, category); // 카테고리별 음식점 조회
+            List<StoreResponse> stores = storeService.getStoresByCategory(category, page, size); // 카테고리별 음식점 조회
             return new BaseResponse<>(stores); // 성공 응답 반환
         } catch (BaseException e) {
             return new BaseResponse<>(BaseResponseStatus.NOT_FOUND_STORE);
@@ -84,27 +86,20 @@ public class StoreController {
 
     // 좋아요 상태를 변경하는 API
     @PostMapping("/{id}/likes/toggle")
-    public BaseResponse<Void> toggleLike(@RequestParam String userId, @PathVariable int id) {
-        boolean isLiked = userStoreLikesService.isLikedByUser(userId, id);
+    public BaseResponse<Void> toggleLike(@PathVariable int id) {
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
+        boolean isLiked = userStoreLikesService.isLikedByUser(userUUId, id);
         if (isLiked) {
-            userStoreLikesService.removeLike(userId, id);
+            userStoreLikesService.removeLike(userUUId, id);
         } else {
-            userStoreLikesService.addLike(userId, id);
+            userStoreLikesService.addLike(userUUId, id);
         }
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
-    }
-
-    // 특정 음식점의 좋아요 개수를 가져오는 API
-    @GetMapping("/likes/count")
-    public BaseResponse<Integer> getLikesCount(@RequestParam int storeId) {
-        int count = userStoreLikesService.getLikesCount(storeId);
-        return new BaseResponse<>(count);
     }
 
     // 유저가 특정 음식점을 좋아하는지 확인하는 API
     @GetMapping("/likes/is-liked")
     public BaseResponse<Boolean> isLikedByUser(@RequestParam int storeId) {
-
         String userUUId = UserUtil.getUserUUIdFromAuthentication();
 
         boolean isLiked = userStoreLikesService.isLikedByUser(userUUId, storeId);

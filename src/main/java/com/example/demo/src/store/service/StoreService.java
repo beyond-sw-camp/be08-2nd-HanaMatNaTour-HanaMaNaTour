@@ -5,6 +5,7 @@ import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.store.dto.StoreRequest;
 import com.example.demo.src.store.dto.StoreResponse;
 import com.example.demo.src.store.mapper.StoreMapper;
+import com.example.demo.src.store.mapper.UserStoreLikesMapper;
 import com.example.demo.src.store.model.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,7 @@ import java.util.stream.Collectors;
 public class StoreService {
 
     private final StoreMapper storeMapper;
+    private final UserStoreLikesMapper userStoreLikesMapper;
 
 
     // 모든 음식점 가져오는 메소드
@@ -37,10 +39,10 @@ public class StoreService {
         return mapToStoreResponse(store);
     }
 
-    public List<StoreResponse> getStoresByCategory(int page, int size, String category) {
+    public List<StoreResponse> getStoresByCategory(String category, int page, int size) {
         int offset = page * size;
 
-        return storeMapper.getStoresByCategory(offset, size, category).stream()
+        return storeMapper.getStoresByCategory(category, offset, size).stream()
                 .map(this::mapToStoreResponse)
                 .collect(Collectors.toList());
     }
@@ -55,7 +57,6 @@ public class StoreService {
             // 오류 시 예외 발생
             throw new BaseException(BaseResponseStatus.NOT_FOUND_ERROR);
         }
-        storeMapper.addStore(store);
     }
 
     public void updateStore(int id, StoreRequest storeRequest) {
@@ -85,7 +86,7 @@ public class StoreService {
         response.setLikeCount(store.getLikeCount());
         response.setAvgRating(store.getAvgRating());
         response.setUpdateAt(store.getUpdateAt());
-
+        response.setLikeCount(userStoreLikesMapper.getLikesCount(store.getStoreId()));
         return response;
     }
 

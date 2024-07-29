@@ -22,12 +22,13 @@
     <select id="getStoresByCategory" parameterType="map" resultType="com.example.demo.src.store.model.Store">
         SELECT category, store_id, store_name, store_address, like_count, avg_rating, update_at FROM store
         WHERE category = #{category}
+        ORDER BY store_name ASC
         LIMIT #{size} OFFSET #{offset}
     </select>
 
     <select id="isStoreExist" parameterType="map" resultType="boolean">
         SELECT COUNT(*) > 0
-        FROM stores
+        FROM store
         WHERE store_name = #{storeName} AND store_address = #{storeAddress}
     </select>
 
@@ -53,7 +54,7 @@
         WHERE store_id = #{storeId}
     </update>
 
-    <delete id="deleteStore"  parameterType="long">
+    <delete id="deleteStore"  parameterType="int">
         DELETE FROM store
         WHERE store_id = #{id}
     </delete>
