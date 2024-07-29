@@ -98,5 +98,12 @@ public class StoreService {
         );
     }
 
+    public void setRating(int id) {
+        Double ratingAvg = storeMapper.getRatingAverage(id);
+
+        if(ratingAvg == null) {
+            ratingAvg = 0.0;
+        }
+    }
 
 }

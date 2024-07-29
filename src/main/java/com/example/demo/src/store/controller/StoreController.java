@@ -3,7 +3,6 @@ package com.example.demo.src.store.controller;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.common.response.BaseResponseStatus;
-import com.example.demo.common.util.UserUtil;
 import com.example.demo.src.store.dto.StoreRequest;
 import com.example.demo.src.store.dto.StoreResponse;
 import com.example.demo.src.store.service.StoreService;
@@ -84,15 +83,13 @@ public class StoreController {
 
 
     // 좋아요 상태를 변경하는 API
-    @PostMapping("/likes/toggle")
-    public BaseResponse<Void> toggleLike(@RequestParam int storeId) {
-        String userUUId = UserUtil.getUserUUIdFromAuthentication();
-
-        boolean isLiked = userStoreLikesService.isLikedByUser(userUUId, storeId);
+    @PostMapping("/{id}/likes/toggle")
+    public BaseResponse<Void> toggleLike(@RequestParam String userId, @PathVariable int id) {
+        boolean isLiked = userStoreLikesService.isLikedByUser(userId, id);
         if (isLiked) {
-            userStoreLikesService.removeLike(userUUId, storeId);
+            userStoreLikesService.removeLike(userId, id);
         } else {
-            userStoreLikesService.addLike(userUUId, storeId);
+            userStoreLikesService.addLike(userId, id);
         }
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
