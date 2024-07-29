@@ -3,6 +3,7 @@ package com.example.demo.src.store.controller;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.common.response.BaseResponseStatus;
+import com.example.demo.common.util.UserUtil;
 import com.example.demo.src.store.dto.StoreRequest;
 import com.example.demo.src.store.dto.StoreResponse;
 import com.example.demo.src.store.service.StoreService;
@@ -22,7 +23,7 @@ public class StoreController {
 
 
     // 모든 음식점 정보를 가져오는 API
-    @GetMapping
+    @GetMapping("/")
     public BaseResponse<List<StoreResponse>> getAllStores(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -84,12 +85,14 @@ public class StoreController {
 
     // 좋아요 상태를 변경하는 API
     @PostMapping("/likes/toggle")
-    public BaseResponse<Void> toggleLike(@RequestParam String userProvideId, @RequestParam int storeId) {
-        boolean isLiked = userStoreLikesService.isLikedByUser(userProvideId, storeId);
+    public BaseResponse<Void> toggleLike(@RequestParam int storeId) {
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
+
+        boolean isLiked = userStoreLikesService.isLikedByUser(userUUId, storeId);
         if (isLiked) {
-            userStoreLikesService.removeLike(userProvideId, storeId);
+            userStoreLikesService.removeLike(userUUId, storeId);
         } else {
-            userStoreLikesService.addLike(userProvideId, storeId);
+            userStoreLikesService.addLike(userUUId, storeId);
         }
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
@@ -103,8 +106,11 @@ public class StoreController {
 
     // 유저가 특정 음식점을 좋아하는지 확인하는 API
     @GetMapping("/likes/is-liked")
-    public BaseResponse<Boolean> isLikedByUser(@RequestParam String userProvideId, @RequestParam int storeId) {
-        boolean isLiked = userStoreLikesService.isLikedByUser(userProvideId, storeId);
+    public BaseResponse<Boolean> isLikedByUser(@RequestParam int storeId) {
+
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
+
+        boolean isLiked = userStoreLikesService.isLikedByUser(userUUId, storeId);
         return new BaseResponse<>(isLiked);
     }
 }

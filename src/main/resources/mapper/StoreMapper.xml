@@ -7,20 +7,20 @@
     <!-- 모든 음식점을 조회하는 쿼리 -->
     <select id="getAllStores" parameterType="map" resultType="com.example.demo.src.store.model.Store">
         SELECT
-            store_id, store_name, store_address, category, like_count
+            store_id, store_name, store_address, category, like_count, avg_rating, update_at
         FROM store
         LIMIT #{size} OFFSET #{offset}
     </select>
 
     <select id="getStoreById" parameterType="int" resultType="com.example.demo.src.store.model.Store">
         SELECT
-            store_id, store_name, store_address, category, like_count
+            store_id, store_name, store_address, category, like_count, avg_rating, update_at
         FROM store
         WHERE store_id = #{storeId}
     </select>
 
     <select id="getStoresByCategory" parameterType="map" resultType="com.example.demo.src.store.model.Store">
-        SELECT * FROM store
+        SELECT category, store_id, store_name, store_address, like_count, avg_rating, update_at FROM store
         WHERE category = #{category}
         LIMIT #{size} OFFSET #{offset}
     </select>
@@ -32,7 +32,7 @@
     </select>
 
     <insert id="addStore" parameterType="com.example.demo.src.store.model.Store">
-        INSERT INTO store (store_name, store_address, category, create_at)
+        INSERT INTO store (store_name, store_address, category, update_at)
         VALUES (#{storeName}, #{storeAddress}, #{category}, NOW())
     </insert>
 
@@ -48,7 +48,7 @@
             <if test="category != null">
             category = #{category},
             </if>
-            create_at = NOW()
+            update_at = NOW()
         </trim>
         WHERE store_id = #{storeId}
     </update>
