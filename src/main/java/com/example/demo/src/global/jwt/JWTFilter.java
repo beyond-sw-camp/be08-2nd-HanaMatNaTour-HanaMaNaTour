@@ -33,7 +33,7 @@ public class JWTFilter extends OncePerRequestFilter { // jwt를 http요청에서
 
         //1. Request Header에서 JWT 액세스 토큰 추출
         String accessToken = resolveToken(request);
-        System.out.println(accessToken);
+        System.out.println("accessToken:"+accessToken);
 
 
         // 토큰 없으면 다음 필터로 넘기기

@@ -25,6 +25,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -59,7 +60,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth // 일단 권한 널널하게 열어두기
                         .requestMatchers("/","/main/**", "/oauth2/**","/index.html", "/login/**", "/users/login","/users/signup").permitAll()
                         .requestMatchers("/reissue").permitAll()
-                        .requestMatchers("/review/**", "/restaurant/**",
+                        .requestMatchers("/review/**", "/restaurant/**","/ws-stomp/**",
                                 "/foodlist/**", "/hanamoa/lists/**", "/hanamoa/posts/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -73,7 +74,7 @@ public class SecurityConfig {
                         CorsConfiguration configuration = new CorsConfiguration();
 
                         configuration.setAllowedOrigins(Collections.singletonList("http://localhost:3000"));
-                        configuration.setAllowedMethods(Collections.singletonList("*"));
+                        configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"));
                         configuration.setAllowCredentials(true);
                         configuration.setAllowedHeaders(Collections.singletonList("*"));
                         configuration.setMaxAge(3600L);

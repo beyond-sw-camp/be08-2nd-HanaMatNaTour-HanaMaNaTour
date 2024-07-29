@@ -41,7 +41,7 @@ public class ChatRoomController {
     }
 
     // 특정 유저가 속한 모든 채팅방 목록 반환
-    @PostMapping("/rooms")
+    @GetMapping("/rooms")
     public BaseResponse<List<GetRoomListRes>> getRoomList() {
         String userUUId = UserUtil.getUserUUIdFromAuthentication();
 
