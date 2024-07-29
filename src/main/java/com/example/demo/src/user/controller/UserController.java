@@ -75,11 +75,6 @@ public class UserController {
     }
 
 
-    private String getUserUUIdFromAuthentication() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.getName();
-    }
-
     private void validateInputEmptySignup(SignupReq signupReq) {
         if(signupReq.getUserName().isEmpty()){
             throw new BaseException(NAME_EMPTY);
@@ -90,7 +85,6 @@ public class UserController {
         if (signupReq.getPassword().isEmpty()) {
             throw new BaseException(PASSWORD_EMPTY);
         }
-
     }
 
     private void validateEmailRegex(String target) {
