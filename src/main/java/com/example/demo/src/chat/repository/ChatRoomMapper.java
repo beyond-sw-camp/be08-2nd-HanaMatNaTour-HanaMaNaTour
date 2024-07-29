@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Mapper
 public interface ChatRoomMapper {
@@ -16,7 +17,7 @@ public interface ChatRoomMapper {
 
     void insertChatRoom(ChatRoom chatRoom); // 채팅방 생성
 
-    ChatRoom selectRoomExist(@Param("user1") int user1, @Param("user2") int user2); // 채팅방 조회
+    ChatRoom selectRoomExist(@Param("user1") String user1, @Param("user2") String user2); // 채팅방 조회
 
     List<ChatMessage> findByRoomId(@Param("roomId") int roomId); // 특정 채팅방 메세지 내역 조회
 
@@ -24,6 +25,8 @@ public interface ChatRoomMapper {
 
     int insertMessage(ChatMessage message);
 
+    List<GetRoomListRes> selectRoomListByUserUUID(@Param("userUUID") String userUUID);
 
-    List<GetRoomListRes> selectRoomList(@Param("userId") int userId);
+    boolean isExistByUserUUIDAndRoomId(@Param("userUUID") String userUUID,@Param("roomId") int roomId);
+
 }
