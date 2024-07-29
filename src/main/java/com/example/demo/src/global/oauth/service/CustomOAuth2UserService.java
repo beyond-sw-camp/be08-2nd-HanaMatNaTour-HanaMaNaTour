@@ -6,6 +6,7 @@ import com.example.demo.src.global.oauth.dto.OAuth2Response;
 import com.example.demo.src.global.oauth.dto.UserDto;
 import com.example.demo.src.user.converter.UserConverter;
 import com.example.demo.src.user.domain.User;
+import com.example.demo.src.user.dto.Provider;
 import com.example.demo.src.user.model.Role;
 import com.example.demo.src.user.service.UserSignUpAndFindService;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -29,6 +30,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2User oAuth2User = super.loadUser(userRequest);
+        Provider provider = Provider.GOOGLE;
         // check
         System.out.println(oAuth2User);
 
@@ -37,15 +39,19 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
         OAuth2Response oAuth2Response = null;
         if (registrationId.equals("google")) {
             oAuth2Response = new GoogleResponse(oAuth2User.getAttributes());
+         //   provider = Provider.GOOGLE;
+
         } else {
             // 확장을 위한 ...
             return null;
         }
 
         String provideId = oAuth2Response.getProvider() + " " + oAuth2Response.getProviderId();
+        System.out.println(provideId);
 
         // 이미 존재하는지 여부 판단을 위한 데이터 받기
         User existUser = userSignUpAndFindService.checkByProvideId(provideId);
+        System.out.println(existUser);
 
         if (existUser == null) {
             // 회원가입 진행
@@ -57,14 +63,14 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                     .build();
 
             UserConverter userConverter = new UserConverter();
-            User user = userConverter.UserSocialDtoToUser(userEntity);
+            User user = userConverter.UserSocialDtoToUser(userEntity,provider);
 
-            userSignUpAndFindService.save(user);
+            userSignUpAndFindService.save(user); // db에 저장
 
             // 소셜로그인에 넘기기
             UserDto userDto = new UserDto();
             userDto.setUserName(oAuth2Response.getName());
-            userDto.setUserProvideId(provideId);
+            userDto.setUserUUId(user.getUserUUId());
             userDto.setRole(user.getRole());
 
             return new CustomOAuth2User(userDto);
@@ -81,7 +87,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
             // 소셜로그인에 넘기기
             UserDto userDto = new UserDto();
             userDto.setUserName(oAuth2Response.getName());
-            userDto.setUserProvideId(provideId);
+            userDto.setUserUUId(existUser.getUserUUId());
             userDto.setRole(existUser.getRole());
 
             return new CustomOAuth2User(userDto);

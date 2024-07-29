@@ -4,14 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
-
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewRequestDto {
-    private String userId;
-    private String restaurantId;
+    private String userUuid;
+    private int storeId;
     private int reviewScore;
     private String reviewContents;
     private String reviewImg;

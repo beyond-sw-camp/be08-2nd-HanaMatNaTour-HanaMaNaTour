@@ -1,27 +1,26 @@
 package com.example.demo.src.review.controller;
 
 import com.example.demo.common.response.BaseResponse;
+import com.example.demo.common.util.UserUtil;
 import com.example.demo.src.review.model.dto.ReviewRequestDto;
-import com.example.demo.src.review.model.vo.Review;
 import com.example.demo.src.review.model.service.ReviewService;
+import com.example.demo.src.review.model.vo.Review;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.demo.common.response.BaseResponseStatus.*;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
+import static com.example.demo.common.response.BaseResponseStatus.NOT_FOUND_METHOD_ERROR;
+import static com.example.demo.common.response.BaseResponseStatus.SUCCESS;
 
 @RestController
 @RequestMapping("/reviews")
+@RequiredArgsConstructor
 public class ReviewController {
 
     private final ReviewService reviewService;
-
-    public ReviewController(ReviewService reviewService) {
-        this.reviewService = reviewService;
-    }
 
     @Operation(summary = "전체 리뷰 조회") // 전체 리뷰 조회
     @GetMapping
@@ -34,11 +33,11 @@ public class ReviewController {
         }
     }
 
-    @Operation(summary = "리뷰 조회 by restaurant ID") // 레스토랑 ID로 리뷰 조회
-    @GetMapping("/restaurant/{restaurantId}")
-    public BaseResponse<List<Review>> getReviewsByRestaurantId(
-            @Parameter(description = "Restaurant ID", example = "꿈꾸는 돼지") @PathVariable String restaurantId) {
-        List<Review> reviews = reviewService.getReviewsByRestaurantId(restaurantId);
+    @Operation(summary = "리뷰 조회 by store ID") // 레스토랑 ID로 리뷰 조회
+    @GetMapping("/store/{storeId}")
+    public BaseResponse<List<Review>> getReviewsByStoreId(
+            @Parameter(description = "Store Id", example = "꿈꾸는 돼지") @PathVariable int storeId) {
+        List<Review> reviews = reviewService.getReviewsByStoreId(storeId);
         if (reviews != null && !reviews.isEmpty()) {
             return new BaseResponse<>(reviews);
         } else {
@@ -48,9 +47,9 @@ public class ReviewController {
 
     @Operation(summary = "작성 리뷰 조회") // 리뷰 ID로 리뷰 조회
     @GetMapping("/{reviewId}")
-    public BaseResponse<Review> getReviewByUserId(
-            @Parameter(description = "Review ID", example = "1") @PathVariable String reviewId) {
-        Review review = reviewService.getReviewByUserId(reviewId);
+    public BaseResponse<Review> getReviewByReviewId(
+            @Parameter(description = "Review ID", example = "1") @PathVariable int reviewId) {
+        Review review = reviewService.getReviewByReviewId(reviewId);
         if (review != null) {
             return new BaseResponse<>(review);
         } else {
@@ -61,7 +60,8 @@ public class ReviewController {
     @Operation(summary = "Create review") // 리뷰 생성
     @PostMapping("/create")
     public BaseResponse<Review> createReview(@RequestBody ReviewRequestDto requestDto) {
-        Review review = new Review(requestDto);
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
+        Review review = new Review(requestDto,userUUId);
         reviewService.saveReview(review);
         return new BaseResponse<>(review);
     }
@@ -69,7 +69,8 @@ public class ReviewController {
     @Operation(summary = "Update review") // 리뷰 수정
     @PostMapping("/update")
     public BaseResponse<Review> updateReview(@RequestBody ReviewRequestDto requestDto) {
-        Review review = new Review(requestDto);
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
+        Review review = new Review(requestDto,userUUId);
         reviewService.saveReview(review);
         if (review != null) {
             return new BaseResponse<>(review);
@@ -81,7 +82,7 @@ public class ReviewController {
     @Operation(summary = "Delete review") // 리뷰 삭제
     @DeleteMapping("/{reviewId}")
     public BaseResponse<Void> deleteReview(
-            @Parameter(description = "Review ID", example = "1") @PathVariable String reviewId) {
+            @Parameter(description = "Review ID", example = "1") @PathVariable int reviewId) {
         reviewService.deleteReview(reviewId);
         return new BaseResponse<>(SUCCESS);
     }
