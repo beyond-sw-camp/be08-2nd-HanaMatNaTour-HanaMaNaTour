@@ -39,7 +39,10 @@ public enum BaseResponseStatus {
 
     /* 하나모나 게시판 관련 실패 */
     NO_POSTS_FOUND(false, HttpStatus.NOT_FOUND.value(), "게시글이 존재하지 않습니다."),
-
+    UNAUTHORIZED(false,HttpStatus.NOT_FOUND.value(), "권한이 없습니다."),
+    TITLE_EMPTY(false, HttpStatus.BAD_REQUEST.value(), "제목을 입력해 주세요."),
+    CONTENT_EMPTY(false, HttpStatus.BAD_REQUEST.value(), "내용을 입력해 주세요."),
+    INVALID_STORE_ID(false, HttpStatus.BAD_REQUEST.value(), "올바른 입력 값이 아닙니다."),
     /* 음식점 관련 실패 */
     ALREADY_EXIST_STORE(false, HttpStatus.CONFLICT.value(), "중복된 가게 이름 또는 주소가 존재합니다."),
     NOT_FOUND_STORE(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 가게 입니다."),
