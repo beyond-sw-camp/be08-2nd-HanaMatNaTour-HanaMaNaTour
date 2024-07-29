@@ -60,7 +60,7 @@ public class SecurityConfig {
                         .requestMatchers("/","/main/**", "/oauth2/**","/index.html", "/login/**", "/users/login","/users/signup").permitAll()
                         .requestMatchers("/reissue").permitAll()
                         .requestMatchers("/review/**", "/restaurant/**",
-                                "/foodlist/**", "/hanamoa/lists/**", "/hanamoa/posts/**", "/users/profile").permitAll()
+                                "/foodlist/**", "/hanamoa/lists/**", "/hanamoa/posts/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
