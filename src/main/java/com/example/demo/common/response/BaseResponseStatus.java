@@ -26,7 +26,7 @@ public enum BaseResponseStatus {
     NAME_EMPTY(false,HttpStatus.BAD_REQUEST.value(), "이름을 입력해 주세요."),
     PASSWORD_EMPTY(false,HttpStatus.BAD_REQUEST.value(), "비밀번호를 입력해 주세요."),
     EMAIL_REGEX_ERROR(false,HttpStatus.BAD_REQUEST.value(), "이메일 형식으로 입력해주세요."),
-
+    PASSWORD_ENCRYPTION_ERROR(false,HttpStatus.INTERNAL_SERVER_ERROR.value(), "비밀번호 암호화에 실패했습니다."),
 
     USER_EMAIL_ALREADY_EXIST(false,HttpStatus.BAD_REQUEST.value(), "이미 가입한 이메일입니다."),
 

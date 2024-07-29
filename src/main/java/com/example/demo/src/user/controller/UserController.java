@@ -3,10 +3,7 @@ package com.example.demo.src.user.controller;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.global.jwt.JWTUtil;
-import com.example.demo.src.user.dto.LoginReq;
-import com.example.demo.src.user.dto.LoginResponse;
-import com.example.demo.src.user.dto.LoginResult;
-import com.example.demo.src.user.dto.SignupReq;
+import com.example.demo.src.user.dto.*;
 import com.example.demo.src.user.service.UserProfileService;
 import com.example.demo.src.user.service.UserService;
 import com.example.demo.src.user.service.UserSignUpAndFindService;
@@ -45,13 +42,13 @@ public class UserController {
         로컬 회원가입 API
      */
     @PostMapping("/signup")
-    public String signUp(@RequestBody SignupReq signupReq) {
+    public BaseResponse<SignupRes> signUp(@RequestBody SignupReq signupReq) {
         validateInputEmptySignup(signupReq);
         validateEmailRegex(signupReq.getUserEmail());
 
-        userService.signUp(signupReq);
+        SignupRes result = userService.signUp(signupReq);
 
-        return "회원가입을 완료했습니다.";
+        return new BaseResponse<>(result);
     }
 
     // 로컬 로그인
@@ -84,6 +81,9 @@ public class UserController {
     }
 
     private void validateInputEmptySignup(SignupReq signupReq) {
+        if(signupReq.getUserName().isEmpty()){
+            throw new BaseException(NAME_EMPTY);
+        }
         if (signupReq.getUserEmail().isEmpty()) {
             throw new BaseException(EMAIL_EMPTY);
         }
