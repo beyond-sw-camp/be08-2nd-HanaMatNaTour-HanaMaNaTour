@@ -5,12 +5,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Store {
-    private Long storeId;
+    private int storeId;
 
     private String storeName;
 
@@ -19,6 +21,10 @@ public class Store {
     private String category;
 
     private int likeCount;
+
+    private double avgRating;
+
+    private LocalDateTime updateAt;
 
     // StoreRequest를 위해 추가된 생성자
     public Store(String storeName, String storeAddress, String category) {

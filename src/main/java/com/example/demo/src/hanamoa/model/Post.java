@@ -13,13 +13,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Post {
 
-    private Long id;
+    private int postId;
 
     private String title;
 
     private String content;
 
-    private String userProvideId; // 작성자 ID
+    private String userUuid; // 작성자 ID
 
     private int storeId; // 위치 ID
 
@@ -36,10 +36,9 @@ public class Post {
     private String storeName; // 위치 이름
 
     // PostRequest를 위해 추가된 생성자
-    public Post(String title, String content, String userProvideId, int storeId) {
+    public Post(String title, String content, int storeId) {
         this.title = title;
         this.content = content;
-        this.userProvideId = userProvideId;
         this.storeId = storeId;
     }
 }

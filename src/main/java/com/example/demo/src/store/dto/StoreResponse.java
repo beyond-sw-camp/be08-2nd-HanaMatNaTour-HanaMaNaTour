@@ -2,13 +2,15 @@ package com.example.demo.src.store.dto;
 
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class StoreResponse {
-    private Long storeId;
+    private int storeId;
 
     private String storeName;
 
@@ -17,4 +19,8 @@ public class StoreResponse {
     private String category;
 
     private int likeCount;
+
+    private double avgRating;
+
+    private LocalDateTime updateAt;
 }

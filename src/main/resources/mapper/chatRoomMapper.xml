@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.src.chat.repository.ChatRoomMapper">
+
+    <resultMap id="messageResultMap" type="ChatMessage">
+        <id property="id" column="id"/>
+        <result property="roomId" column="room_id"/>
+        <result property="sender" column="sender"/>
+        <result property="message" column="message"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <resultMap id="roomResultMap" type="ChatRoom">
+        <id property="id" column="id" />
+        <result property="userId1" column="user1_id"/>
+        <result property="userId2" column="user2_id"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <select id="findByRoomId" resultMap="messageResultMap">
+        select *
+        from chat_message
+        where room_id = #{roomId}
+        order by created_at;
+    </select>
+
+    <insert id="insertChatRoom" useGeneratedKeys="true" keyProperty="id" >
+        insert into chat_room(host_id,guest_id)
+        values (#{hostId},#{guestId})
+    </insert>
+    <insert id="insertMessage" >
+        insert into chat_message(room_id,sender,message)
+        values (#{roomId},#{sender},#{message})
+    </insert>
+
+
+    <select id="selectRoomExist" resultMap="roomResultMap">
+        select *
+        from chat_room
+        where host_id = #{user1} and guest_id=#{user2}
+    </select>
+
+    <select id="isExistByUserUUIDAndRoomId">
+        select count(*)
+        from chat_room
+        where id=#{roomId} and (host_id=#{userUUID} or guest_id=#{userUUID});
+    </select>
+
+
+<!--    <select id="selectRoomListByUserUUID" resultType="" >-->
+<!--        select a.id as 'roomId',-->
+<!--               a.host_id as 'host',-->
+<!--               a.guest_id as 'guest',-->
+<!--               a.created_at as 'createdAt',-->
+<!--               b.message as 'recentChatContent'-->
+
+
+<!--        from chat_room a-->
+<!--        join chat_message b on a.id = b.id-->
+<!--        where user1_id = #{userId} or user2_id = #{userId}-->
+<!--        order by b.message desc-->
+<!--    </select>-->
+
+
+
+</mapper>
