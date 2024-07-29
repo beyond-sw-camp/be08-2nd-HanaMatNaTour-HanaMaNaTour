@@ -14,7 +14,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public List<Menu> getMenusByStoreId(String storeId) {
+    public List<Menu> getMenusByStoreId(int storeId) {
         return menuMapper.selectMenusByStoreId(storeId);
     }
 
@@ -23,7 +23,7 @@ public class MenuServiceImpl implements MenuService {
 
         int result = 0;
 
-        if (menu.getId() != null) {
+        if (menu.getMenuId() != 0) {
             // update
             result = menuMapper.updateMenu(menu);
         } else {
@@ -35,7 +35,7 @@ public class MenuServiceImpl implements MenuService {
     }
 
     @Override
-    public void deleteMenu(String menuId) {
+    public void deleteMenu(int menuId) {
         menuMapper.deleteMenu(menuId);
     }
 }

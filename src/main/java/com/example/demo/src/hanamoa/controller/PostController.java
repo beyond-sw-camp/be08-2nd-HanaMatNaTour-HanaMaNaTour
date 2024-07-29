@@ -28,7 +28,7 @@ public class PostController {
             List<PostResponse> posts = postService.getAllPosts(page, size); // 모든 게시글 조회
             return new BaseResponse<>(posts); // 성공 응답 반환
         } catch (BaseException e) {
-            return new BaseResponse<>(BaseResponseStatus.NO_POSTS_FOUND);
+            return new BaseResponse<>(BaseResponseStatus.NOT_FOUND_POSTS);
         }
 
 
@@ -68,11 +68,7 @@ public class PostController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam String keyword) {
-        try {
-            List<PostResponse> posts = postService.searchPostsByKeyword(page, size, keyword); // 키워드로 게시글 검색
-            return new BaseResponse<>(posts); // 성공 응답 반환
-        } catch (BaseException e) {
-            return new BaseResponse<>(BaseResponseStatus.NO_POSTS_FOUND);
-        }
+        List<PostResponse> posts = postService.searchPostsByKeyword(page, size, keyword); // 키워드로 게시글 검색
+        return new BaseResponse<>(posts); // 성공 응답 반환
     }
 }

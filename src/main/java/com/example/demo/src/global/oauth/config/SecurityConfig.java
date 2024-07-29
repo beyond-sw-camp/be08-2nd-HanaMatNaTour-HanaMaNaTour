@@ -59,7 +59,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth // 일단 권한 널널하게 열어두기
                         .requestMatchers("/","/main/**", "/oauth2/**","/index.html", "/login/**", "/users/login","/users/signup").permitAll()
                         .requestMatchers("/reissue").permitAll()
-                        .requestMatchers("/review/**", "/hanamoa/store/**",
+                        .requestMatchers("/review/**", "/restaurant/**",
                                 "/foodlist/**", "/hanamoa/lists/**", "/hanamoa/posts/**").permitAll()
                         .anyRequest().authenticated()
                 )

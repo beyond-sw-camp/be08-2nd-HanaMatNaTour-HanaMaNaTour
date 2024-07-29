@@ -83,8 +83,7 @@ public class StoreService {
         response.setStoreAddress(store.getStoreAddress());
         response.setCategory(store.getCategory());
         response.setLikeCount(store.getLikeCount());
-        response.setAvgRating(store.getAvgRating());
-        response.setUpdateAt(store.getUpdateAt());
+        response.setCreateAt(store.getCreateAt());
 
         return response;
     }
@@ -98,12 +97,5 @@ public class StoreService {
         );
     }
 
-    public void setRating(int id) {
-        Double ratingAvg = storeMapper.getRatingAverage(id);
-
-        if(ratingAvg == null) {
-            ratingAvg = 0.0;
-        }
-    }
 
 }

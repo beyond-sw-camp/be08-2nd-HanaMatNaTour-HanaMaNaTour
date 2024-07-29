@@ -8,10 +8,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MenuRequestDto {
-    private String id;
-    private String storeId;
-    private String userId;
-    private String name;
+    private String menuId;
+    private int storeId;
+    private String userUuid;
+    private String menuName;
     private String image;
     private double price;
 }

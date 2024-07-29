@@ -6,8 +6,8 @@ import java.util.List;
 
 @Mapper
 public interface MenuMapper {
-    List<Menu> selectMenusByStoreId(String storeId);
+    List<Menu> selectMenusByStoreId(int storeId);
     int insertMenu(Menu menu);
     int updateMenu(Menu menu);
-    void deleteMenu(String menuId);
+    void deleteMenu(int menuId);
 }

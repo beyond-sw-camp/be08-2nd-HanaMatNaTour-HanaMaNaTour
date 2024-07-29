@@ -27,7 +27,7 @@ public class UserSignUpAndFindService {
     회원가입관련은 CustoOAuth2UserService에 구현
     * */
     public void save(User user) {
-        // todo : provider 에 소셜 로그인별 enum 값 저장
+        //todo : provider 에 소셜 로그인별 enum 값 저장
         System.out.println("-----UserSignUpAndFindService------");
         System.out.println(user);
         userMapper.save(user);
@@ -74,6 +74,16 @@ public class UserSignUpAndFindService {
     public void deleteByRefresh(String refreshToken) {
         if (!isExistByRefresh(refreshToken)) throw new BaseException(BaseResponseStatus.NOT_FOUND_USER);
         userMapper.deleteByRefresh(refreshToken);
+    }
+
+    public void deleteByProvideId(String userProvideId) {
+        if (!isExistByProvideId(userProvideId)) throw new BaseException(BaseResponseStatus.NOT_FOUND_USER);
+        userMapper.deleteByProvideId(userProvideId);
+    }
+
+
+    public void updateRole(Role role, String userProvideId) {
+        userMapper.updateRole(role, userProvideId);
     }
 
     public void updateRefreshToken(String refresh, String expiration, String userProvideId) {

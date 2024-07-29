@@ -38,7 +38,7 @@ public enum BaseResponseStatus {
     INVALID_LOGIN(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"아이디나 비밀번호를 다시 확인해주세요."),
 
     /* 하나모나 게시판 관련 실패 */
-    NO_POSTS_FOUND(false, HttpStatus.NOT_FOUND.value(), "게시글이 존재하지 않습니다."),
+    NOT_FOUND_POSTS(false, HttpStatus.NOT_FOUND.value(), "게시글이 존재하지 않습니다."),
 
     /* 음식점 관련 실패 */
     ALREADY_EXIST_STORE(false, HttpStatus.CONFLICT.value(), "중복된 가게 이름 또는 주소가 존재합니다."),

@@ -5,44 +5,43 @@
 
 <mapper namespace="com.example.demo.src.menu.MenuMapper">
 
-    <resultMap id="menuResultMap" type="com.example.vo.Menu">
-        <id property="id" column="id" />
+    <resultMap id="menuResultMap" type="Menu">
+        <id property="menuId" column="menu_id" />
         <result property="storeId" column="store_id" />
         <result property="userId" column="user_id" />
-        <result property="name" column="name" />
+        <result property="menuName" column="menu_name" />
         <result property="image" column="image" />
         <result property="price" column="price" />
     </resultMap>
 
-    <select id="selectMenusByStoreId" parameterType="string" resultMap="menuResultMap">
-        SELECT * FROM menus WHERE store_id = #{storeId}
+    <select id="selectMenusByStoreId" parameterType="Integer" resultMap="menuResultMap">
+        SELECT * FROM menu WHERE store_id = #{storeId}
     </select>
 
     <insert id="insertMenu" parameterType="Menu">
-        INSERT INTO menus (
+        INSERT INTO menu (
             store_id,
-            user_id,
-            name,
+            menu_name,
             image,
             price
         ) VALUES (
                      #{storeId},
-                     #{userId},
-                     #{name},
+                     #{menuName},
                      #{image},
                      #{price}
                  )
     </insert>
 
     <update id="updateMenu" parameterType="Menu">
-        UPDATE menus SET
-                         name = #{name},
+        UPDATE menu SET
+                         store_id = #{storeId},
+                         menu_name = #{menuName},
                          image = #{image},
                          price = #{price}
-        WHERE id = #{id}
+        WHERE menu_id = #{menuId}
     </update>
 
-    <delete id="deleteMenu" parameterType="String">
-        DELETE FROM menus WHERE id = #{menuId}
+    <delete id="deleteMenu" parameterType="int">
+        DELETE FROM menu WHERE menu_id = #{menuId}
     </delete>
 </mapper>

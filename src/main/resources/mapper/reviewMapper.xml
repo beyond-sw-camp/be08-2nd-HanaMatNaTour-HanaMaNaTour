@@ -6,8 +6,8 @@
 
         <id property="reviewId" column="review_id" />
 
-        <result property="userId" column="user_id"/>
-        <result property="restaurantId" column="restaurant_id"/>
+        <result property="userUuid" column="user_uuid"/>
+        <result property="storeId" column="store_id"/>
         <result property="reviewScore" column="review_score"/>
         <result property="reviewContents" column="review_contents"/>
         <result property="reviewImg" column="review_img"/>
@@ -18,8 +18,8 @@
     <select id="selectAllReviews" resultMap="reviewResultMap">
         SELECT
             review_id,
-            user_id,
-            restaurant_id,
+            user_uuid,
+            store_id,
             review_score,
             review_contents,
             review_img,
@@ -29,11 +29,11 @@
     </select>
 
     <!-- 특정 레스토랑의 리뷰 조회 -->
-    <select id="selectReviewsByRestaurantId" parameterType="string" resultMap="reviewResultMap">
+    <select id="selectReviewsByStoreId" parameterType="int" resultMap="reviewResultMap">
         SELECT
             review_id,
-            user_id,
-            restaurant_id,
+            user_uuid,
+            store_id,
             review_score,
             review_contents,
             review_img,
@@ -41,15 +41,15 @@
         FROM
             reviews
         WHERE
-            restaurant_id = #{restaurantId}
+            store_id = #{storeId}
     </select>
 
     <!-- 단일 리뷰 조회 -->
-    <select id="selectReviewByUserId" parameterType="string" resultMap="reviewResultMap">
+    <select id="selectReviewByReviewId" parameterType="int" resultMap="reviewResultMap">
         SELECT
             review_id,
-            user_id,
-            restaurant_id,
+            user_uuid,
+            store_id,
             review_score,
             review_contents,
             review_img,
@@ -63,43 +63,39 @@
     <!-- 리뷰 작성 -->
     <insert id="insertReview" parameterType="Review">
         INSERT INTO reviews (
-            user_id,
-            restaurant_id,
+            user_uuid,
+            store_id,
             review_score,
             review_contents,
-            review_img,
-            review_date
+            review_img
         ) VALUES (
-             #{userId},
-             #{restaurantId},
-             #{reviewScore},
-             #{reviewContents},
-             #{reviewImg},
-             #{reviewDate}
-        )
+                     #{userUuid},
+                     #{storeId},
+                     #{reviewScore},
+                     #{reviewContents},
+                     #{reviewImg}
+                 )
     </insert>
 
     <!-- 리뷰 수정 -->
     <update id="updateReview" parameterType="Review">
         UPDATE reviews
         SET
-            restaurant_id = #{restaurantId},
+            store_id = #{storeId},
             review_score = #{reviewScore},
             review_contents = #{reviewContents},
-            review_img = #{reviewImg},
-            review_date = #{reviewDate}
+            review_img = #{reviewImg}
         WHERE
             review_id = #{reviewId}
-          AND user_id = #{userId}
+          AND user_uuid = #{userUuid}
     </update>
 
     <!-- 리뷰 삭제 -->
-    <delete id="deleteReview" parameterType="string">
+    <delete id="deleteReview" parameterType="int">
         DELETE FROM reviews
         WHERE
             review_id = #{reviewId}
     </delete>
 
 </mapper>
-
 

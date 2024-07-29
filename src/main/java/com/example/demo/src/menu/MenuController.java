@@ -21,7 +21,7 @@ public class MenuController {
     @Operation(summary = "스토어 ID로 메뉴 조회")
     @GetMapping("/{storeId}")
     public BaseResponse<List<Menu>> getMenusByStoreId(
-            @Parameter(description = "Store ID", example = "1") @PathVariable String storeId) {
+            @Parameter(description = "Store ID", example = "1") @PathVariable int storeId) {
         List<Menu> menus = menuService.getMenusByStoreId(storeId);
         if (menus != null && !menus.isEmpty()) {
             return new BaseResponse<>(menus);
@@ -49,7 +49,7 @@ public class MenuController {
     @Operation(summary = "메뉴 삭제")
     @DeleteMapping("/delete/{menuId}")
     public BaseResponse<Void> deleteMenu(
-            @Parameter(description = "Menu ID", example = "1") @PathVariable String menuId) {
+            @Parameter(description = "Menu ID", example = "1") @PathVariable int menuId) {
         menuService.deleteMenu(menuId);
         return new BaseResponse<>(SUCCESS);
     }
