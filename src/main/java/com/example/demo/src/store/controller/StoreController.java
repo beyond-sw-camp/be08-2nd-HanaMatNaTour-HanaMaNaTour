@@ -101,6 +101,7 @@ public class StoreController {
         return new BaseResponse<>(count);
     }
 
+
     // 유저가 특정 음식점을 좋아하는지 확인하는 API
     @GetMapping("/likes/is-liked")
     public BaseResponse<Boolean> isLikedByUser(@RequestParam String userUuid, @RequestParam int storeId) {

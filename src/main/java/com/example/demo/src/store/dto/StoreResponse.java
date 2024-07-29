@@ -20,5 +20,7 @@ public class StoreResponse {
 
     private int likeCount;
 
-    private LocalDateTime createAt;
+    private double AvgRating;
+
+    private LocalDateTime updateAt;
 }
