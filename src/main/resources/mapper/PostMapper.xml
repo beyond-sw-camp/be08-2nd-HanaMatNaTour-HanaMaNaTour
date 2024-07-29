@@ -18,7 +18,7 @@
         FROM
             post p
         LEFT OUTER JOIN
-            user u ON p.user_uuid = u.user_uuid
+            user u ON p.user_provide_id = u.user_provide_id
         LEFT OUTER JOIN
             store s ON p.store_id = s.store_id
         LIMIT #{size} OFFSET #{offset}
@@ -39,7 +39,7 @@
             p.view_count
         FROM post p
         INNER JOIN
-             user u ON p.user_uuid = u.user_uuid
+             user u ON p.user_provide_id = u.user_provide_id
         INNER JOIN
              store s ON p.store_id = s.store_id
         WHERE post_id = #{id}
@@ -47,8 +47,8 @@
 
     <!-- 게시글을 추가하는 쿼리 -->
     <insert id="addPost" parameterType="com.example.demo.src.hanamoa.model.Post">
-        INSERT INTO post (title, content, user_uuid, store_id, created_at)
-        VALUES (#{title}, #{content}, #{userUuid}, #{storeId}, NOW())
+        INSERT INTO post (title, content, user_provide_id, store_id, created_at)
+        VALUES (#{title}, #{content}, #{userId}, #{storeId}, NOW())
     </insert>
 
     <!-- 게시글을 수정하는 쿼리 -->
@@ -58,7 +58,7 @@
             <if test="title != null">
             title = #{title},
             </if>
-            <if test="content != null">
+            <if test="title != null">
             content = #{content},
             </if>
             <if test="storeId != null">
@@ -66,7 +66,9 @@
             </if>
             updated_at = NOW()
         </trim>
+
         WHERE post_id = #{postId} AND user_uuid = #{userUuid}
+
     </update>
 
     <!-- 게시글을 삭제하는 쿼리 -->
@@ -96,7 +98,7 @@
         FROM
             post p
         LEFT OUTER JOIN
-            user u ON p.user_uuid = u.user_uuid
+            user u ON p.user_provide_id = u.user_provide_id
         LEFT OUTER JOIN
             store s ON p.store_id = s.store_id
         WHERE

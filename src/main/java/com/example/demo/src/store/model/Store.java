@@ -22,9 +22,7 @@ public class Store {
 
     private int likeCount;
 
-    private double avgRating;
-
-    private LocalDateTime updateAt;
+    private LocalDateTime createAt;
 
     // StoreRequest를 위해 추가된 생성자
     public Store(String storeName, String storeAddress, String category) {

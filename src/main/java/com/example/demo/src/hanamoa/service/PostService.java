@@ -25,11 +25,7 @@ public class PostService {
     // 모든 게시글을 가져오는 메소드
     public List<PostResponse> getAllPosts(int page, int size) {
         int offset = page * size;
-        List<Post> posts = postMapper.getAllPosts(offset, size);
-        if (posts.isEmpty()) {
-            throw new BaseException(BaseResponseStatus.NO_POSTS_FOUND);
-        }
-        return posts.stream()
+        return postMapper.getAllPosts(offset, size).stream()
                 .map(this::mapToPostResponse) // 게시글 모델을 DTO로 변환
                 .collect(Collectors.toList()); // 리스트로 반환
     }
@@ -39,7 +35,7 @@ public class PostService {
         Post post = postMapper.getPostById(id);
         if (post == null) {
             // 게시글이 없으면 예외 발생
-            throw new BaseException(BaseResponseStatus.NO_POSTS_FOUND);
+            throw new BaseException(BaseResponseStatus.NOT_FOUND_POSTS);
         }
         postMapper.incrementViewCount(id); // 조회수 증가
         return mapToPostResponse(post); // 게시글을 DTO로 변환하여 반환
@@ -117,11 +113,7 @@ public class PostService {
         searchParam.setKeyword(keyword);
         searchParam.setOffset(offset);
         searchParam.setSize(size);
-        List<Post> posts = postMapper.searchPostsByKeyword(searchParam);
-        if (posts.isEmpty()) {
-            throw new BaseException(BaseResponseStatus.NO_POSTS_FOUND);
-        }
-        return posts.stream()
+        return postMapper.searchPostsByKeyword(searchParam).stream()
                 .map(this::mapToPostResponse) // 게시글 모델을 DTO로 변환
                 .collect(Collectors.toList()); // 리스트로 반환
     }
