@@ -46,7 +46,9 @@ public class UserController {
      */
     @PostMapping("/signup")
     public BaseResponse<SignupRes> signUp(@RequestBody SignupReq signupReq) {
-        validateInputEmptySignup(signupReq);
+        validateInputUserName(signupReq.getUserName());
+        validateInputEmail(signupReq.getUserEmail());
+        validateInputPassword(signupReq.getPassword());
         validateEmailRegex(signupReq.getUserEmail());
 
         SignupRes result = userService.signUp(signupReq);
@@ -57,8 +59,9 @@ public class UserController {
     // 로컬 로그인
     @PostMapping("/login")
     public BaseResponse<LoginResponse> login(@RequestBody LoginReq loginReq, HttpServletResponse response) {
-        // todo : 형식적 validation
-
+        validateInputEmail(loginReq.getEmail());
+        validateInputPassword(loginReq.getPassword());
+        validateEmailRegex(loginReq.getEmail());
         //  토큰 발급, 유저 정보 로드
         LoginResult loginResult = userService.login(loginReq);
         String accessToken = loginResult.getAccessToken();
@@ -78,22 +81,20 @@ public class UserController {
     }
 
 
-    private String getUserUUIdFromAuthentication() {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return auth.getName();
-    }
-
-    private void validateInputEmptySignup(SignupReq signupReq) {
-        if(signupReq.getUserName().isEmpty()){
+    private void validateInputUserName(String name) {
+        if(name.isEmpty()){
             throw new BaseException(NAME_EMPTY);
         }
-        if (signupReq.getUserEmail().isEmpty()) {
+    }
+    private void validateInputEmail(String email) {
+        if (email.isEmpty()) {
             throw new BaseException(EMAIL_EMPTY);
         }
-        if (signupReq.getPassword().isEmpty()) {
+    }
+    private void validateInputPassword(String password) {
+        if (password.isEmpty()) {
             throw new BaseException(PASSWORD_EMPTY);
         }
-
     }
 
     private void validateEmailRegex(String target) {

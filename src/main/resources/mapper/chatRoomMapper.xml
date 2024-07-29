@@ -49,19 +49,15 @@
     </select>
 
 
-<!--    <select id="selectRoomListByUserUUID" resultType="" >-->
-<!--        select a.id as 'roomId',-->
-<!--               a.host_id as 'host',-->
-<!--               a.guest_id as 'guest',-->
-<!--               a.created_at as 'createdAt',-->
-<!--               b.message as 'recentChatContent'-->
+    <select id="selectRoomListByUserUUID" resultType="GetRoomListRes">
+        select id as 'roomId',
+               host_id as 'host',
+               guest_id as 'guest',
+               created_at as 'createdAt'
 
-
-<!--        from chat_room a-->
-<!--        join chat_message b on a.id = b.id-->
-<!--        where user1_id = #{userId} or user2_id = #{userId}-->
-<!--        order by b.message desc-->
-<!--    </select>-->
+        from chat_room
+        where host_id = #{userUUID} or guest_id = #{userUUID}
+    </select>
 
 
 

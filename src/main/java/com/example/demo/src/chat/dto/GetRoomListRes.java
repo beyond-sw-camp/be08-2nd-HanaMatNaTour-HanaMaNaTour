@@ -14,6 +14,6 @@ public class GetRoomListRes {
     private String host; // 방 생성자
     private String guest; // 방 참여자
     private LocalDateTime createdAt; // 방 생성 날짜
-    private String recentChatContent; // 가장 최근 메세지 내용
+  //  private String recentChatContent; // 가장 최근 메세지 내용
 
 }
