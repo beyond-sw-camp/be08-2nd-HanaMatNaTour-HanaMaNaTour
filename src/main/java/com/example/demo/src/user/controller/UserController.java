@@ -89,7 +89,7 @@ public class UserController {
         }
     }
     private void validateInputPassword(String password) {
-        if (password) {
+        if (password.isEmpty()) {
             throw new BaseException(PASSWORD_EMPTY);
         }
     }
