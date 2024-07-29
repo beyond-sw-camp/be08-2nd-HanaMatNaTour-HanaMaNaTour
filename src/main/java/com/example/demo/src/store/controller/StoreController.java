@@ -22,7 +22,7 @@ public class StoreController {
 
 
     // 모든 음식점 정보를 가져오는 API
-    @GetMapping
+    @GetMapping("/")
     public BaseResponse<List<StoreResponse>> getAllStores(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -83,13 +83,13 @@ public class StoreController {
 
 
     // 좋아요 상태를 변경하는 API
-    @PostMapping("/likes/toggle")
-    public BaseResponse<Void> toggleLike(@RequestParam String userProvideId, @RequestParam int storeId) {
-        boolean isLiked = userStoreLikesService.isLikedByUser(userProvideId, storeId);
+    @PostMapping("/{id}/likes/toggle")
+    public BaseResponse<Void> toggleLike(@RequestParam String userId, @PathVariable int id) {
+        boolean isLiked = userStoreLikesService.isLikedByUser(userId, id);
         if (isLiked) {
-            userStoreLikesService.removeLike(userProvideId, storeId);
+            userStoreLikesService.removeLike(userId, id);
         } else {
-            userStoreLikesService.addLike(userProvideId, storeId);
+            userStoreLikesService.addLike(userId, id);
         }
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
@@ -103,8 +103,11 @@ public class StoreController {
 
     // 유저가 특정 음식점을 좋아하는지 확인하는 API
     @GetMapping("/likes/is-liked")
-    public BaseResponse<Boolean> isLikedByUser(@RequestParam String userProvideId, @RequestParam int storeId) {
-        boolean isLiked = userStoreLikesService.isLikedByUser(userProvideId, storeId);
+    public BaseResponse<Boolean> isLikedByUser(@RequestParam int storeId) {
+
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
+
+        boolean isLiked = userStoreLikesService.isLikedByUser(userUUId, storeId);
         return new BaseResponse<>(isLiked);
     }
 }
