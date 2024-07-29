@@ -58,6 +58,12 @@ public class UserSignUpAndFindService {
                 .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER));
     }
 
+
+    public User findByUUID(String userUUId) {
+        return userMapper.findByUserUUID(userUUId)
+                .orElseThrow(() -> new BaseException(BaseResponseStatus.NOT_FOUND_USER));
+    }
+
     // 이건 소셜로그인용
     public User checkByProvideId(String userProvideId) {
         return userMapper.findByProvideId(userProvideId).orElse(null);

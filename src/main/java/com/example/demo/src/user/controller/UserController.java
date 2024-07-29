@@ -2,6 +2,7 @@ package com.example.demo.src.user.controller;
 
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
+import com.example.demo.common.util.UserUtil;
 import com.example.demo.src.global.jwt.JWTUtil;
 import com.example.demo.src.user.dto.*;
 import com.example.demo.src.user.service.UserProfileService;
@@ -33,8 +34,9 @@ public class UserController {
 
     // 프로필 관련 -> 닉네임 사라지면서 프로필 수정할 게 없어짐
     @GetMapping("/profile/{userId}")
-    public BaseResponse<userProfileResponseDto> getMyProfile(@PathVariable Long userId) {
-        userProfileResponseDto myProfile = userProfileService.getMyProfile(userId);
+    public BaseResponse<userProfileResponseDto> getMyProfile(@PathVariable int userId) {
+        String userUUID = UserUtil.getUserUUIdFromAuthentication();
+        userProfileResponseDto myProfile = userProfileService.getMyProfile(userUUID);
         return new BaseResponse<>(myProfile);
     }
 
