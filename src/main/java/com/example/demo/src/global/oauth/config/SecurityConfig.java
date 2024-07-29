@@ -14,6 +14,8 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
@@ -57,7 +59,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth // 일단 권한 널널하게 열어두기
                         .requestMatchers("/","/main/**", "/oauth2/**","/index.html", "/login/**", "/users/login","/users/signup").permitAll()
                         .requestMatchers("/reissue").permitAll()
-                        .requestMatchers("/review/**", "/restaurant/**",
+                        .requestMatchers("/review/**", "/hanamoa/store/**",
                                 "/foodlist/**", "/hanamoa/lists/**", "/hanamoa/posts/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -84,5 +86,11 @@ public class SecurityConfig {
                 }));
 
         return http.build();
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder(){
+        // BCrypt Encoder 사용
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }

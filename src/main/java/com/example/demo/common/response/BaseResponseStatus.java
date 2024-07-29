@@ -3,6 +3,7 @@ package com.example.demo.common.response;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+
 @Getter
 public enum BaseResponseStatus {
 
@@ -20,6 +21,12 @@ public enum BaseResponseStatus {
     ALREADY_USE_NICKNAME(false, HttpStatus.ALREADY_REPORTED.value(), "이미 존재하는 닉네임입니다."),
     NOT_FOUND_USER(false, HttpStatus.NOT_FOUND.value(), "해당 유저가 존재하지 않습니다."),
 
+    NO_AUTHORITY(false, HttpStatus.NOT_FOUND.value(), "해당 유저에게 권한이 없는 방입니다."),
+    EMAIL_EMPTY(false,HttpStatus.BAD_REQUEST.value(), "이메일을 입력해 주세요."),
+    NAME_EMPTY(false,HttpStatus.BAD_REQUEST.value(), "이름을 입력해 주세요."),
+    PASSWORD_EMPTY(false,HttpStatus.BAD_REQUEST.value(), "비밀번호를 입력해 주세요."),
+    EMAIL_REGEX_ERROR(false,HttpStatus.BAD_REQUEST.value(), "이메일 형식으로 입력해주세요."),
+    PASSWORD_ENCRYPTION_ERROR(false,HttpStatus.INTERNAL_SERVER_ERROR.value(), "비밀번호 암호화에 실패했습니다."),
 
     USER_EMAIL_ALREADY_EXIST(false,HttpStatus.BAD_REQUEST.value(), "이미 가입한 이메일입니다."),
 
@@ -30,6 +37,12 @@ public enum BaseResponseStatus {
     INVALID_SIGNUP(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"회원가입에 실패했습니다."),
     INVALID_LOGIN(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"아이디나 비밀번호를 다시 확인해주세요."),
 
+    /* 하나모나 게시판 관련 실패 */
+    NO_POSTS_FOUND(false, HttpStatus.NOT_FOUND.value(), "게시글이 존재하지 않습니다."),
+
+    /* 음식점 관련 실패 */
+    ALREADY_EXIST_STORE(false, HttpStatus.CONFLICT.value(), "중복된 가게 이름 또는 주소가 존재합니다."),
+    NOT_FOUND_STORE(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 가게 입니다."),
 
 
     UNEXPECTED_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "예상치 못한 에러가 발생했습니다."),

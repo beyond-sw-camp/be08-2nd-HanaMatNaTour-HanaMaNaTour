@@ -1,11 +1,9 @@
 package com.example.demo.src.user.controller;
 
+import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.src.global.jwt.JWTUtil;
-import com.example.demo.src.user.dto.LoginReq;
-import com.example.demo.src.user.dto.LoginResponse;
-import com.example.demo.src.user.dto.LoginResult;
-import com.example.demo.src.user.dto.SignupReq;
+import com.example.demo.src.user.dto.*;
 import com.example.demo.src.user.service.UserProfileService;
 import com.example.demo.src.user.service.UserService;
 import com.example.demo.src.user.service.UserSignUpAndFindService;
@@ -16,6 +14,10 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import static com.example.demo.common.response.BaseResponseStatus.*;
 import static com.example.demo.src.user.dto.UserResponseDto.*;
 
 @Slf4j
@@ -40,11 +42,13 @@ public class UserController {
         로컬 회원가입 API
      */
     @PostMapping("/signup")
-    public String signUp(@RequestBody SignupReq signupReq) {
-        // todo : validation 처리
-        userService.signUp(signupReq);
+    public BaseResponse<SignupRes> signUp(@RequestBody SignupReq signupReq) {
+        validateInputEmptySignup(signupReq);
+        validateEmailRegex(signupReq.getUserEmail());
 
-        return "회원가입을 완료했습니다.";
+        SignupRes result = userService.signUp(signupReq);
+
+        return new BaseResponse<>(result);
     }
 
     // 로컬 로그인
@@ -70,14 +74,33 @@ public class UserController {
         return new BaseResponse<>(loginResponse);
     }
 
-    @GetMapping("/test")
-    public String test(){
-        String userUUId = getUserUUIdFromAuthentication();
 
-        return userUUId;
-    }
     private String getUserUUIdFromAuthentication() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         return auth.getName();
     }
+
+    private void validateInputEmptySignup(SignupReq signupReq) {
+        if(signupReq.getUserName().isEmpty()){
+            throw new BaseException(NAME_EMPTY);
+        }
+        if (signupReq.getUserEmail().isEmpty()) {
+            throw new BaseException(EMAIL_EMPTY);
+        }
+        if (signupReq.getPassword().isEmpty()) {
+            throw new BaseException(PASSWORD_EMPTY);
+        }
+
+    }
+
+    private void validateEmailRegex(String target) {
+        String regex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+        Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = pattern.matcher(target);
+        if (!matcher.find()) {
+            throw new BaseException(EMAIL_REGEX_ERROR);
+        }
+
+    }
+
 }

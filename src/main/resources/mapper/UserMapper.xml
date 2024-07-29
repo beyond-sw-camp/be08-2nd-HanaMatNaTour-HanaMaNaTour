@@ -92,4 +92,9 @@
         from user where user_email=#{userEmail} and user_password=#{userPassword}
     </select>
 
+    <select id="findByUserUUID" resultMap="UserResultMap">
+        select *
+        from user where user_uuid=#{userUUID}
+    </select>
+
 </mapper>

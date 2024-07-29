@@ -1,6 +1,7 @@
 package com.example.demo.src.menu;
 
 import lombok.AllArgsConstructor;
+<<<<<<< HEAD
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,4 +24,24 @@ public class Menu {
         this.image = requestDto.getImage();
         this.price = requestDto.getPrice();
     }
+=======
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class Menu {
+
+    private Long menuId;
+
+    private String menuName;
+
+    private int menuPrice;
+
+    private String menuImage;
+
+>>>>>>> 73715f60779941da20d8ef08eb752bad67ce3d49
 }

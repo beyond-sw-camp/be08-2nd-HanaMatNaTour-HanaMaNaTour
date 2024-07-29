@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.src.store.mapper.StoreMapper">
+
+    <!-- 모든 음식점을 조회하는 쿼리 -->
+    <select id="getAllStores" parameterType="map" resultType="com.example.demo.src.store.model.Store">
+        SELECT
+            store_id, store_name, store_address, category, like_count, avg_rating, update_at
+        FROM store
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="getStoreById" parameterType="int" resultType="com.example.demo.src.store.model.Store">
+        SELECT
+            store_id, store_name, store_address, category, like_count, avg_rating, update_at
+        FROM store
+        WHERE store_id = #{storeId}
+    </select>
+
+    <select id="getStoresByCategory" parameterType="map" resultType="com.example.demo.src.store.model.Store">
+        SELECT category, store_id, store_name, store_address, like_count, avg_rating, update_at FROM store
+        WHERE category = #{category}
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <select id="isStoreExist" parameterType="map" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM stores
+        WHERE store_name = #{storeName} AND store_address = #{storeAddress}
+    </select>
+
+    <insert id="addStore" parameterType="com.example.demo.src.store.model.Store">
+        INSERT INTO store (store_name, store_address, category, update_at)
+        VALUES (#{storeName}, #{storeAddress}, #{category}, NOW())
+    </insert>
+
+    <update id="updateStore" parameterType="com.example.demo.src.store.model.Store">
+        UPDATE store
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="storeName != null">
+            store_name = #{storeName},
+            </if>
+            <if test="storeAddress != null">
+            store_address = #{storeAddress},
+            </if>
+            <if test="category != null">
+            category = #{category},
+            </if>
+            update_at = NOW()
+        </trim>
+        WHERE store_id = #{storeId}
+    </update>
+
+    <delete id="deleteStore"  parameterType="long">
+        DELETE FROM store
+        WHERE store_id = #{id}
+    </delete>
+</mapper>
