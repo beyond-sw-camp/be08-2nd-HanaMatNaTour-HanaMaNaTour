@@ -83,13 +83,13 @@ public class StoreController {
 
 
     // 좋아요 상태를 변경하는 API
-    @PostMapping("/likes/toggle")
-    public BaseResponse<Void> toggleLike(@RequestParam String userUuid, @RequestParam int storeId) {
-        boolean isLiked = userStoreLikesService.isLikedByUser(userUuid, storeId);
+    @PostMapping("/{id}/likes/toggle")
+    public BaseResponse<Void> toggleLike(@RequestParam String userId, @PathVariable int id) {
+        boolean isLiked = userStoreLikesService.isLikedByUser(userId, id);
         if (isLiked) {
-            userStoreLikesService.removeLike(userUuid, storeId);
+            userStoreLikesService.removeLike(userId, id);
         } else {
-            userStoreLikesService.addLike(userUuid, storeId);
+            userStoreLikesService.addLike(userId, id);
         }
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }

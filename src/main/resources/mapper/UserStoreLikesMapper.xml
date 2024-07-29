@@ -8,13 +8,13 @@
     <!-- 좋아요 추가 -->
     <insert id="addLike">
         INSERT INTO user_store_likes (user_uuid, store_id)
-        VALUES (#{userUuid}, #{storeId})
+        VALUES (#{userId}, #{storeId})
     </insert>
 
     <!-- 좋아요 삭제 -->
     <delete id="removeLike">
         DELETE FROM user_store_likes
-        WHERE user_uuid = #{userUuid} AND store_id = #{storeId}
+        WHERE user_uuid = #{userId} AND store_id = #{storeId}
     </delete>
 
     <!-- 특정 가게에 대한 좋아요 수 가져오기 -->
@@ -28,7 +28,7 @@
     <select id="isLikedByUser" resultType="boolean">
         SELECT COUNT(*) > 0
         FROM user_store_likes
-        WHERE user_provide_id = #{userUuid} AND store_id = #{storeId}
+        WHERE user_uuid = #{userId} AND store_id = #{storeId}
     </select>
 
 </mapper>
