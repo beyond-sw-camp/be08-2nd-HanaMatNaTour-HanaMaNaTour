@@ -46,7 +46,6 @@ public class UserController {
      */
     @PostMapping("/signup")
     public String signUp(@RequestBody SignupReq signupReq) {
-        // todo : validation 처리
         validateInputEmptySignup(signupReq);
         validateEmailRegex(signupReq.getUserEmail());
 
