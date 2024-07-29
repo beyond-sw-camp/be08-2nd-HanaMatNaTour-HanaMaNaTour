@@ -25,7 +25,7 @@
     </select>
 
     <!-- 특정 ID의 게시글을 조회하는 쿼리 -->
-    <select id="getPostById" parameterType="Long" resultType="com.example.demo.src.hanamoa.model.Post">
+    <select id="getPostById" parameterType="int" resultType="com.example.demo.src.hanamoa.model.Post">
         SELECT
             p.post_id,
             p.title,
