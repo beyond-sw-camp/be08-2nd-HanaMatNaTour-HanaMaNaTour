@@ -25,7 +25,7 @@ public interface ChatRoomMapper {
 
     int insertMessage(ChatMessage message);
 
-    List<GetRoomListRes> selectRoomList(@Param("userId") int userId);
+    List<GetRoomListRes> selectRoomListByUserUUID(@Param("userUUID") String userUUID);
 
     boolean isExistByUserUUIDAndRoomId(@Param("userUUID") String userUUID,@Param("roomId") int roomId);
 

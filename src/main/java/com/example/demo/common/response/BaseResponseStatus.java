@@ -21,6 +21,10 @@ public enum BaseResponseStatus {
     NOT_FOUND_USER(false, HttpStatus.NOT_FOUND.value(), "해당 유저가 존재하지 않습니다."),
 
     NO_AUTHORITY(false, HttpStatus.NOT_FOUND.value(), "해당 유저에게 권한이 없는 방입니다."),
+    EMAIL_EMPTY(false,HttpStatus.BAD_REQUEST.value(), "이메일을 입력해 주세요."),
+    NAME_EMPTY(false,HttpStatus.BAD_REQUEST.value(), "이름을 입력해 주세요."),
+    PASSWORD_EMPTY(false,HttpStatus.BAD_REQUEST.value(), "비밀번호를 입력해 주세요."),
+    EMAIL_REGEX_ERROR(false,HttpStatus.BAD_REQUEST.value(), "이메일 형식으로 입력해주세요."),
 
 
     USER_EMAIL_ALREADY_EXIST(false,HttpStatus.BAD_REQUEST.value(), "이미 가입한 이메일입니다."),

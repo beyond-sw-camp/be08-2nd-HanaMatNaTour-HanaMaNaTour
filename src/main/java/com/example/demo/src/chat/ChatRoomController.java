@@ -42,10 +42,10 @@ public class ChatRoomController {
 
     // 특정 유저가 속한 모든 채팅방 목록 반환
     @PostMapping("/rooms")
-    public BaseResponse<List<GetRoomListRes>> getRoomList(@RequestBody GetRoomListReq getRoomListReq) {
-        // todo : jwt 토큰을 통해서 유저 식별값 가져오는 것으로 변경
-        System.out.println("getRoomList 호출");
-        List<GetRoomListRes> result = chatRoomService.getRoomList(getRoomListReq);
+    public BaseResponse<List<GetRoomListRes>> getRoomList() {
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
+
+        List<GetRoomListRes> result = chatRoomService.getRoomList(userUUId);
         return new BaseResponse<>(result);
 
     }
