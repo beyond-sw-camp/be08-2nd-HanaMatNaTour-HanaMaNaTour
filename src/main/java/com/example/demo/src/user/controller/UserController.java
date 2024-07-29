@@ -36,6 +36,7 @@ public class UserController {
     @GetMapping("/profile/{userId}")
     public BaseResponse<userProfileResponseDto> getMyProfile(@PathVariable int userId) {
         String userUUID = UserUtil.getUserUUIdFromAuthentication();
+        System.out.println("userUUID : " + userUUID);
         userProfileResponseDto myProfile = userProfileService.getMyProfile(userUUID);
         return new BaseResponse<>(myProfile);
     }
