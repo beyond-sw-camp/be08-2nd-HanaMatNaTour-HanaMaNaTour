@@ -27,8 +27,8 @@
     </select>
 
     <insert id="insertChatRoom" useGeneratedKeys="true" keyProperty="id" >
-        insert into chat_room(user1_id,user2_id)
-        values (#{user1_id},#{user2_id})
+        insert into chat_room(host_id,guest_id)
+        values (#{hostId},#{guestId})
     </insert>
     <insert id="insertMessage" >
         insert into chat_message(room_id,sender,message)
@@ -39,8 +39,10 @@
     <select id="selectRoomExist" resultMap="roomResultMap">
         select *
         from chat_room
-        where user1_id = #{user1} and user2_id=#{user2}
+        where host_id = #{user1} and guest_id=#{user2}
     </select>
+
+
 
 
   <!--  <select id="selectRoomList" resultType="" >
