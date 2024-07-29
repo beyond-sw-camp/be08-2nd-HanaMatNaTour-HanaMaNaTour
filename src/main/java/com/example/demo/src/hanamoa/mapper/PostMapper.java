@@ -1,5 +1,6 @@
 package com.example.demo.src.hanamoa.mapper;
 
+import com.example.demo.src.hanamoa.dto.DeleteRequest;
 import com.example.demo.src.hanamoa.dto.PostSearchParam;
 import com.example.demo.src.hanamoa.model.Post;
 import org.apache.ibatis.annotations.Mapper;
@@ -23,7 +24,7 @@ public interface PostMapper {
     int updatePost(Post post);
 
     /** 게시글 삭제 */
-    int deletePost(int id);
+    int deletePost(DeleteRequest deleteRequest);
 
     /** 게시글 조회수 증가 */
     void incrementViewCount(int id);

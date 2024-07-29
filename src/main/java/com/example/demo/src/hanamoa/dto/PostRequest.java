@@ -15,7 +15,5 @@ public class PostRequest {
 
     private String content;
 
-    private String userUuid; // 작성자 ID
-
     private int storeId; // 위치 ID
 }
