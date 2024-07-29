@@ -20,6 +20,8 @@ public enum BaseResponseStatus {
     ALREADY_USE_NICKNAME(false, HttpStatus.ALREADY_REPORTED.value(), "이미 존재하는 닉네임입니다."),
     NOT_FOUND_USER(false, HttpStatus.NOT_FOUND.value(), "해당 유저가 존재하지 않습니다."),
 
+    NO_AUTHORITY(false, HttpStatus.NOT_FOUND.value(), "해당 유저에게 권한이 없는 방입니다."),
+
 
     USER_EMAIL_ALREADY_EXIST(false,HttpStatus.BAD_REQUEST.value(), "이미 가입한 이메일입니다."),
 

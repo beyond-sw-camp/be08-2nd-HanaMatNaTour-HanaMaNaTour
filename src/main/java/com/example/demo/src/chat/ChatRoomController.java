@@ -34,8 +34,9 @@ public class ChatRoomController {
     // 특정 채팅방 내용 조회 -> 채팅방 리스트에서 특정 채팅방을 클릭했을 때
     @GetMapping("/room/{roomId}")
     public BaseResponse<List<ChatMessage>> getRoomMessage(@PathVariable int roomId) {
-        // todo : refactoring -> 해당 채팅방에 속한 유저인지 확인후 조회하도록
-        List<ChatMessage> result = chatRoomService.getRoomMessage(roomId);
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
+
+        List<ChatMessage> result = chatRoomService.getRoomMessage(roomId,userUUId);
         return new BaseResponse<>(result);
     }
 

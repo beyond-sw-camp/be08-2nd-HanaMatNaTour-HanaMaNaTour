@@ -42,7 +42,11 @@
         where host_id = #{user1} and guest_id=#{user2}
     </select>
 
-
+    <select id="isExistByUserUUIDAndRoomId">
+        select count(*)
+        from chat_room
+        where id=#{roomId} and (host_id=#{userUUID} or guest_id=#{userUUID});
+    </select>
 
 
   <!--  <select id="selectRoomList" resultType="" >
