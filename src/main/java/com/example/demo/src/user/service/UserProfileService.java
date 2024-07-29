@@ -29,8 +29,8 @@ public class UserProfileService {
 //    private final List<list> list;
 //    private final List<Review> review;
 
-    public userProfileResponseDto getMyProfile(Long userId) {
-        User user = userSignUpAndFindService.findById(userId);
+    public userProfileResponseDto getMyProfile(String userUUId) {
+        User user = userSignUpAndFindService.findByUUID(userUUId);
         return userProfileResponseDto.builder()
                 .userName(user.getUserName())
                 .userEmail(user.getUserEmail())
