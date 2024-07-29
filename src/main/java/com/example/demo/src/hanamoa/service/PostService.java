@@ -1,5 +1,6 @@
 package com.example.demo.src.hanamoa.service;
 
+import com.example.demo.src.hanamoa.dto.DeleteRequest;
 import com.example.demo.src.hanamoa.dto.PostRequest;
 import com.example.demo.src.hanamoa.dto.PostResponse;
 import com.example.demo.src.hanamoa.dto.PostSearchParam;
@@ -7,6 +8,7 @@ import com.example.demo.src.hanamoa.mapper.PostMapper;
 import com.example.demo.src.hanamoa.model.Post;
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
+import com.example.demo.src.store.mapper.StoreMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 public class PostService {
 
     private final PostMapper postMapper;
+    private final StoreMapper storeMapper;
 
     // 모든 게시글을 가져오는 메소드
     public List<PostResponse> getAllPosts(int page, int size) {
@@ -39,8 +42,22 @@ public class PostService {
     }
 
     // 새로운 게시글을 추가하는 메소드
-    public void addPost(PostRequest postRequest) {
-        Post post = mapToPost(postRequest); // 요청 DTO를 모델로 변환
+    public void addPost(String userUuid, PostRequest postRequest) {
+        if (postRequest.getTitle() == null || postRequest.getTitle().isEmpty()) {
+            throw new BaseException(BaseResponseStatus.TITLE_EMPTY);
+        }
+        if (postRequest.getContent() == null || postRequest.getContent().isEmpty()) {
+            throw new BaseException(BaseResponseStatus.CONTENT_EMPTY);
+        }
+
+        if (!storeMapper.isStoreInTable(postRequest.getStoreId())){
+            throw new BaseException(BaseResponseStatus.INVALID_STORE_ID);
+        }
+        Post post = new Post();
+        post.setTitle(postRequest.getTitle());
+        post.setContent(postRequest.getContent());
+        post.setUserUuid(userUuid);
+        post.setStoreId(postRequest.getStoreId());
         int rowsAffected = postMapper.addPost(post); // 게시글 추가
         if (rowsAffected == 0) {
             // 오류 시 예외 발생
@@ -49,9 +66,19 @@ public class PostService {
     }
 
     // 특정 ID의 게시글을 수정하는 메소드
-    public void updatePost(int id, PostRequest postRequest) {
-        Post post = mapToPost(postRequest); // 요청 DTO를 모델로 변환
-        post.setPostId(id); // ID 설정
+    public void updatePost(int id, String userUuid, PostRequest postRequest) {
+        Post post = postMapper.getPostById(id); // 요청한 id값의 게시글 model
+        if (post == null) {
+            throw new BaseException(BaseResponseStatus.NO_POSTS_FOUND);
+        }
+        // 작성자 확인
+        String postUserUuid = post.getUserUuid();
+        if (postUserUuid == null || !postUserUuid.equals(userUuid)) {
+            throw new BaseException(BaseResponseStatus.UNAUTHORIZED);
+        }
+        post.setTitle(postRequest.getTitle());
+        post.setContent(postRequest.getContent());
+        post.setStoreId(postRequest.getStoreId());
         int rowsAffected = postMapper.updatePost(post); // 게시글 수정
         if (rowsAffected == 0) {
             // 수정에 실패하면 예외 발생
@@ -60,8 +87,19 @@ public class PostService {
     }
 
     // 특정 ID의 게시글을 삭제하는 메소드
-    public void deletePost(int id) {
-        int rowsAffected = postMapper.deletePost(id); // 게시글 삭제
+    public void deletePost(int id, String userUuid) {
+        Post post = postMapper.getPostById(id);
+        if (post == null) {
+            throw new BaseException(BaseResponseStatus.NO_POSTS_FOUND);
+        }
+
+        if (!post.getUserUuid().equals(userUuid)){
+            throw new BaseException(BaseResponseStatus.UNAUTHORIZED);
+        }
+        DeleteRequest request = new DeleteRequest();
+        request.setId(id);
+        request.setUserUuid(userUuid);
+        int rowsAffected = postMapper.deletePost(request); // 게시글 삭제
         if (rowsAffected == 0) {
             // 삭제에 실패하면 예외 발생
             throw new BaseException(BaseResponseStatus.NOT_FOUND_ERROR);
@@ -86,7 +124,9 @@ public class PostService {
                 post.getPostId(),
                 post.getTitle(),
                 post.getContent(),
+                post.getUserUuid(),
                 post.getUserName(), // 작성자 이름
+                post.getStoreId(),
                 post.getStoreName(), // 위치 이름
                 post.getCreatedAt(),
                 post.getUpdatedAt(),
@@ -99,7 +139,6 @@ public class PostService {
         return new Post(
                 request.getTitle(),
                 request.getContent(),
-                request.getUserProvideId(), // 작성자 ID
                 request.getStoreId() // 위치 ID
         );
     }

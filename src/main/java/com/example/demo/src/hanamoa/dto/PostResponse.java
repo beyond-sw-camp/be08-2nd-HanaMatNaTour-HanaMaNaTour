@@ -21,7 +21,11 @@ public class PostResponse {
 
     private String content;
 
+    private String userUuid;
+
     private String userName; // 작성자 이름
+
+    private int storeId;
 
     private String storeName; // 위치 이름
 

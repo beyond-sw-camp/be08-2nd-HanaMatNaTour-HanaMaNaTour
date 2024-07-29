@@ -1,6 +1,7 @@
 package com.example.demo.src.hanamoa.controller;
 
 import com.example.demo.common.exceptions.BaseException;
+import com.example.demo.common.util.UserUtil;
 import com.example.demo.src.hanamoa.dto.PostRequest;
 import com.example.demo.src.hanamoa.dto.PostResponse;
 import com.example.demo.src.hanamoa.service.PostService;
@@ -44,21 +45,25 @@ public class PostController {
     // 새로운 게시글을 추가하는 API
     @PostMapping
     public BaseResponse<String> addPost(@RequestBody PostRequest postRequest) {
-        postService.addPost(postRequest); // 게시글 추가
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
+        postService.addPost(userUUId, postRequest); // 게시글 추가
         return new BaseResponse<>(BaseResponseStatus.SUCCESS); // 성공 응답 반환
     }
 
     // 특정 게시글을 수정하는 API
     @PutMapping("/{id}")
     public BaseResponse<String> updatePost(@PathVariable int id, @RequestBody PostRequest postRequest) {
-        postService.updatePost(id, postRequest); // 게시글 수정
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
+
+        postService.updatePost(id, userUUId, postRequest); // 게시글 수정
         return new BaseResponse<>(BaseResponseStatus.SUCCESS); // 성공 응답 반환
     }
 
     // 특정 게시글을 삭제하는 API
     @DeleteMapping("/{id}")
     public BaseResponse<String> deletePost(@PathVariable int id) {
-        postService.deletePost(id); // 게시글 삭제
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
+        postService.deletePost(id, userUUId); // 게시글 삭제
         return new BaseResponse<>(BaseResponseStatus.SUCCESS); // 성공 응답 반환
     }
 

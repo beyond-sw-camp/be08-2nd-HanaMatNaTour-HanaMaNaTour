@@ -25,17 +25,19 @@
     </select>
 
     <!-- 특정 ID의 게시글을 조회하는 쿼리 -->
-    <select id="getPostById" parameterType="Long" resultType="com.example.demo.src.hanamoa.model.Post">
+    <select id="getPostById" parameterType="int" resultType="com.example.demo.src.hanamoa.model.Post">
         SELECT
             p.post_id,
             p.title,
             p.content,
+            p.user_uuid,
             u.user_name,
+            s.store_id,
             s.store_name,
             p.created_at,
             p.updated_at,
             p.view_count
-        FROM post
+        FROM post p
         INNER JOIN
              user u ON p.user_provide_id = u.user_provide_id
         INNER JOIN
@@ -59,29 +61,24 @@
             <if test="title != null">
             content = #{content},
             </if>
-            <if test="title != null">
-            user_provide_id = #{userId},
-            </if>
-            <if test="title != null">
+            <if test="storeId != null">
             store_id = #{storeId},
             </if>
             updated_at = NOW()
         </trim>
-        INNER JOIN
-        user u ON p.user_provide_id = u.user_provide_id
-        INNER JOIN
-        store s ON p.store_id = s.store_id
-        WHERE post_id = #{id}
+
+        WHERE post_id = #{postId} AND user_uuid = #{userUuid}
+
     </update>
 
     <!-- 게시글을 삭제하는 쿼리 -->
-    <delete id="deletePost" parameterType="Long">
+    <delete id="deletePost" parameterType="com.example.demo.src.hanamoa.dto.DeleteRequest">
         DELETE FROM post
-        WHERE post_id = #{id}
+        WHERE post_id = #{id} AND user_uuid = #{userUuid}
     </delete>
 
     <!-- 게시글의 조회수를 증가시키는 쿼리 -->
-    <update id="incrementViewCount" parameterType="Long">
+    <update id="incrementViewCount" parameterType="int">
         UPDATE post
         SET view_count = view_count + 1
         WHERE post_id = #{id}

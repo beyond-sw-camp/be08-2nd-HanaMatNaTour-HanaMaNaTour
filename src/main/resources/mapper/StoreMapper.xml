@@ -32,6 +32,12 @@
         WHERE store_name = #{storeName} AND store_address = #{storeAddress}
     </select>
 
+    <select id="isStoreInTable" parameterType="int" resultType="boolean">
+        SELECT COUNT(*) > 0
+        FROM store
+        WHERE store_id = #{id}
+    </select>
+
     <insert id="addStore" parameterType="com.example.demo.src.store.model.Store">
         INSERT INTO store (store_name, store_address, category, create_at)
         VALUES (#{storeName}, #{storeAddress}, #{category}, NOW())
