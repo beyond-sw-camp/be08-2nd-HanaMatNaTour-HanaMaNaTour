@@ -2,6 +2,7 @@ package com.example.demo.src.store.service;
 
 import com.example.demo.src.store.mapper.UserStoreLikesMapper;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,15 +12,15 @@ public class UserStoreLikesService {
     private final UserStoreLikesMapper userStoreLikesMapper;
 
 
-    public void addLike(String userId, int storeId) {
-        if (!userStoreLikesMapper.isLikedByUser(userId, storeId)) {
-            userStoreLikesMapper.addLike(userId, storeId);
+    public void addLike(String userProvideId, int storeId) {
+        if (!userStoreLikesMapper.isLikedByUser(userProvideId, storeId)) {
+            userStoreLikesMapper.addLike(userProvideId, storeId);
         }
     }
 
-    public void removeLike(String userId, int storeId) {
-        if (userStoreLikesMapper.isLikedByUser(userId, storeId)) {
-            userStoreLikesMapper.removeLike(userId, storeId);
+    public void removeLike(String userProvideId, int storeId) {
+        if (userStoreLikesMapper.isLikedByUser(userProvideId, storeId)) {
+            userStoreLikesMapper.removeLike(userProvideId, storeId);
         }
     }
 
@@ -27,7 +28,7 @@ public class UserStoreLikesService {
         return userStoreLikesMapper.getLikesCount(storeId);
     }
 
-    public boolean isLikedByUser(String userId, int storeId) {
-        return userStoreLikesMapper.isLikedByUser(userId, storeId);
+    public boolean isLikedByUser(String userProvideId, int storeId) {
+        return userStoreLikesMapper.isLikedByUser(userProvideId, storeId);
     }
 }

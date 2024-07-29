@@ -23,6 +23,4 @@ public interface StoreMapper {
     List<Store> getStoresByCategory(@Param("category") String category, @Param("offset") int offset, @Param("size") int size);
 
     boolean isStoreExist(String storeName, String storeAddress);
-
-    Double getRatingAverage(int id);
 }

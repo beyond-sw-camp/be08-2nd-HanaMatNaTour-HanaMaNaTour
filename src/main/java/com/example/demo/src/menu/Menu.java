@@ -1,22 +1,24 @@
 package com.example.demo.src.menu;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Menu {
-
-    private Long menuId;
-
+    private int menuId;
+    private int storeId;
     private String menuName;
+    private String image;
+    private double price;
 
-    private int menuPrice;
-
-    private String menuImage;
-
+    // Constructor for initializing Menu using MenuRequestDto
+    public Menu(MenuRequestDto requestDto) {
+        this.storeId = requestDto.getStoreId();
+        this.menuName = requestDto.getMenuName();
+        this.image = requestDto.getImage();
+        this.price = requestDto.getPrice();
+    }
 }
