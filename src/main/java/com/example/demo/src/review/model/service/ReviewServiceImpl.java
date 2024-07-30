@@ -1,10 +1,14 @@
 package com.example.demo.src.review.model.service;
 
+import com.example.demo.common.response.BaseResponse;
+import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.review.model.mapper.ReviewMapper;
 import com.example.demo.src.review.model.vo.Review;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static com.example.demo.common.response.BaseResponseStatus.NOT_FOUND_USER;
 
 @Service
 public class ReviewServiceImpl implements ReviewService {
@@ -49,7 +53,18 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void deleteReview(int reviewId) {
-        reviewMapper.deleteReview(reviewId);
+    public void deleteReview(Review review) {
+        System.out.println(review);
+
+        Review checkReview = reviewMapper.selectReviewByUserUuid(review.getUserUuid(), review.getReviewId());
+
+//        System.out.println(checkReview);
+        System.out.println(review.getReviewId());
+
+        if (checkReview.getUserUuid().equals(review.getUserUuid())){
+            reviewMapper.deleteReview(review.getReviewId());
+        } else {
+            new BaseResponse<>(NOT_FOUND_USER);
+        }
     }
 }
