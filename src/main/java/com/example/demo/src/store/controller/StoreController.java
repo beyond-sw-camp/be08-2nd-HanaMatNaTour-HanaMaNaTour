@@ -39,6 +39,7 @@ public class StoreController {
     @GetMapping("/{id}")
     public BaseResponse<StoreResponse> getStoreById(@PathVariable int id) {
         StoreResponse store = storeService.getStoreById(id); // ID로 특정 음식점 조회
+
         store.setLikeCount(userStoreLikesService.getLikesCount(id));
         return new BaseResponse<>(store); // 성공 응답 반환
     }

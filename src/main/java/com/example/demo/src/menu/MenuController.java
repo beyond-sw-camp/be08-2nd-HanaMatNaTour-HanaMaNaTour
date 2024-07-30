@@ -18,10 +18,8 @@ public class MenuController {
 
     private final MenuService menuService;
 
-    @Operation(summary = "스토어 ID로 메뉴 조회")
     @GetMapping("/{storeId}")
-    public BaseResponse<List<Menu>> getMenusByStoreId(
-            @Parameter(description = "Store ID", example = "1") @PathVariable int storeId) {
+    public BaseResponse<List<Menu>> getMenusByStoreId(@PathVariable int storeId) {
         List<Menu> menus = menuService.getMenusByStoreId(storeId);
         if (menus != null && !menus.isEmpty()) {
             return new BaseResponse<>(menus);

@@ -1,8 +1,10 @@
 package com.example.demo.src.store.dto;
 
+import com.example.demo.src.menu.Menu;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Setter @Getter
 @NoArgsConstructor
@@ -16,4 +18,5 @@ public class StoreResponse {
     private int likeCount;
     private double avgRating;
     private LocalDateTime updateAt;
+    List<Menu> menuList;
 }
