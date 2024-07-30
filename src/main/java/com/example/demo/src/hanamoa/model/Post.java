@@ -1,12 +1,9 @@
 package com.example.demo.src.hanamoa.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
-
+@ToString
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,9 +26,9 @@ public class Post {
     private String storeName; // 위치 이름
 
     // PostRequest를 위해 추가된 생성자
-    public Post(String title, String content, int storeId) {
-            this.title = title;
-            this.content = content;
-            this.storeId = storeId;
-        }
+//    public Post(String title, String content, int storeId) {
+//            this.title = title;
+//            this.content = content;
+//            this.storeId = storeId;
+//        }
 }

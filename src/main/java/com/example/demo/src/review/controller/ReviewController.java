@@ -26,11 +26,12 @@ public class ReviewController {
     @GetMapping
     public BaseResponse<List<Review>> getAllReviews() {
         List<Review> reviews = reviewService.getAllReviews();
-        if (reviews != null && !reviews.isEmpty()) {
-            return new BaseResponse<>(reviews);
-        } else {
-            return new BaseResponse<>(NOT_FOUND_METHOD_ERROR);
-        }
+//        if (reviews != null && !reviews.isEmpty()) {
+//            return new BaseResponse<>(reviews);
+//        } else {
+//            return new BaseResponse<>(NOT_FOUND_METHOD_ERROR);
+//        }
+        return new BaseResponse<>(reviews);
     }
 
     @Operation(summary = "리뷰 조회 by store ID") // 레스토랑 ID로 리뷰 조회

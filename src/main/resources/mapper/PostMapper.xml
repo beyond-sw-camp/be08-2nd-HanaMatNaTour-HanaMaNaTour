@@ -29,7 +29,7 @@
             p.post_id,
             p.title,
             p.content,
-            p.user_uuid,
+            p.user_uuid as 'userUuid',
             u.user_name,
             s.store_id,
             s.store_name,
