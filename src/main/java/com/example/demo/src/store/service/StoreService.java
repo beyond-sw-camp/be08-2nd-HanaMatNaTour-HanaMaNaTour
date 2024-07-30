@@ -75,10 +75,9 @@ public class StoreService {
         }
     }
 
-
     // 음식점 모델을 DTO로 변환하는 메소드
     private StoreResponse mapToStoreResponse(Store store) {
-        StoreResponse response = new StoreResponse();
+    StoreResponse response = new StoreResponse();
         response.setStoreId(store.getStoreId());
         response.setStoreName(store.getStoreName());
         response.setStoreAddress(store.getStoreAddress());
@@ -88,7 +87,7 @@ public class StoreService {
         response.setUpdateAt(store.getUpdateAt());
         response.setLikeCount(userStoreLikesMapper.getLikesCount(store.getStoreId()));
         return response;
-    }
+}
 
     // 요청 DTO를 음식점 모델로 변환하는 메소드
     private Store mapToStore(StoreRequest request) {
@@ -99,5 +98,11 @@ public class StoreService {
         );
     }
 
+    public void setRating(int id) {
+        Double ratingAvg = storeMapper.getRatingAverage(id);
 
+        if(ratingAvg == null) {
+            ratingAvg = 0.0;
+        }
+    }
 }

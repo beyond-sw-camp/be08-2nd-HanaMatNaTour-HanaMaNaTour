@@ -6,21 +6,21 @@
 
     <!-- 모든 음식점을 조회하는 쿼리 -->
     <select id="getAllStores" parameterType="map" resultType="com.example.demo.src.store.model.Store">
-        SELECT
-            store_id, store_name, store_address, category, like_count
-        FROM store
-        LIMIT #{size} OFFSET #{offset}
+    SELECT
+        store_id, store_name, store_address, category, like_count, avg_rating, update_at
+    FROM store
+    LIMIT #{size} OFFSET #{offset}
     </select>
 
     <select id="getStoreById" parameterType="int" resultType="com.example.demo.src.store.model.Store">
         SELECT
-            store_id, store_name, store_address, category, like_count
+            store_id, store_name, store_address, category, like_count, avg_rating, update_at
         FROM store
         WHERE store_id = #{storeId}
     </select>
 
     <select id="getStoresByCategory" parameterType="map" resultType="com.example.demo.src.store.model.Store">
-        SELECT * FROM store
+        SELECT category, store_id, store_name, store_address, like_count, avg_rating, update_at FROM store
         WHERE category = #{category}
         ORDER BY store_name ASC
         LIMIT #{size} OFFSET #{offset}
@@ -39,23 +39,24 @@
     </select>
 
     <insert id="addStore" parameterType="com.example.demo.src.store.model.Store">
-        INSERT INTO store (store_name, store_address, category, create_at)
+        INSERT INTO store (store_name, store_address, category, update_at)
         VALUES (#{storeName}, #{storeAddress}, #{category}, NOW())
     </insert>
+
 
     <update id="updateStore" parameterType="com.example.demo.src.store.model.Store">
         UPDATE store
         <trim prefix="SET" suffixOverrides=",">
             <if test="storeName != null">
-            store_name = #{storeName},
+                store_name = #{storeName},
             </if>
             <if test="storeAddress != null">
-            store_address = #{storeAddress},
+                store_address = #{storeAddress},
             </if>
             <if test="category != null">
-            category = #{category},
+                category = #{category},
             </if>
-            create_at = NOW()
+            update_at = NOW()
         </trim>
         WHERE store_id = #{storeId}
     </update>
@@ -64,4 +65,5 @@
         DELETE FROM store
         WHERE store_id = #{id}
     </delete>
+
 </mapper>

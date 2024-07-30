@@ -35,7 +35,7 @@ public class PostService {
         Post post = postMapper.getPostById(id);
         if (post == null) {
             // 게시글이 없으면 예외 발생
-            throw new BaseException(BaseResponseStatus.NOT_FOUND_POSTS);
+            throw new BaseException(BaseResponseStatus.NO_POSTS_FOUND);
         }
         postMapper.incrementViewCount(id); // 조회수 증가
         return mapToPostResponse(post); // 게시글을 DTO로 변환하여 반환
@@ -64,6 +64,7 @@ public class PostService {
             throw new BaseException(BaseResponseStatus.NOT_FOUND_ERROR);
         }
     }
+
 
     // 특정 ID의 게시글을 수정하는 메소드
     public void updatePost(int id, String userUuid, PostRequest postRequest) {
