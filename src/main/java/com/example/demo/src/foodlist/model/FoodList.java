@@ -1,40 +1,36 @@
 package com.example.demo.src.foodlist.model;
 
-import com.example.demo.src.foodlist.dto.ListRequestDto;
-import io.swagger.v3.oas.annotations.media.Schema;
+
+import com.example.demo.src.store.model.Store;
 import lombok.*;
 
 
-import java.math.BigInteger;
-import java.util.Date;
-
-
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class FoodList {
 
-    @Schema(description = "음식리스트 아이디")
-    private Long foodlistId;
+    private int foodlistId;
 
     private String foodlistName;
 
-    private String userName;
+    private int ListLikeCount;
 
-    private BigInteger like;
+    private User user;
 
-    private Date enrolldate;
+    private Store store;
 
 
-    public void setListRequestDto(ListRequestDto requestDto) {
-        // requestDto에서 필요한 값으로 설정
-        this.foodlistId = requestDto.getId();
-        this.foodlistName = requestDto.getFoodlistName();
-        this.userName = requestDto.getUserName();
-        this.like = requestDto.getLike();
-        this.enrolldate = requestDto.getEnrolldate();
 
+    public FoodList(String foodlistName, int listLikeCount, User user, Store store) {
+        this.foodlistName = foodlistName;
+        this.ListLikeCount = listLikeCount;
+        this.user = user;
+        this.store = store;
     }
 
-
+    public FoodList(String foodlistName) {
+        this.foodlistName = foodlistName;
+    }
 }

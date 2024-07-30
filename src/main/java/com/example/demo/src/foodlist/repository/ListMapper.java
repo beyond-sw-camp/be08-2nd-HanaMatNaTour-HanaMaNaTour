@@ -1,7 +1,7 @@
 package com.example.demo.src.foodlist.repository;
 
 
-import com.example.demo.src.foodlist.dto.ListRequestDto;
+import com.example.demo.src.foodlist.dto.FoodListRequest;
 import com.example.demo.src.foodlist.model.FoodList;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -12,15 +12,13 @@ import java.util.List;
 @Mapper
 public interface ListMapper {
 
-    List<FoodList> findFoodListById(Long foodlistid);
 
-    int getTotalCountByUser(@Param("userId") Long userId);
 
-    List<FoodList> getFoodListsByUser(@Param("userId") Long userId, @Param("offset") int page, @Param("limit") int numOfRows);
+    List<FoodList> getFoodListsByUser(@Param("offset") int offset, @Param("size") int size, String userName );
 
-    FoodList getFoodListById(@Param("foodlistId") Long foodlistId);
+    FoodList getFoodListById(@Param("foodlistId") int foodlistId);
 
-    boolean deleteFoodListById(@Param("foodlistId") Long foodlistId);
+    int deleteFoodListById(@Param("foodlistId") int foodlistId);
 
-    void updateFoodList(@Param("list") FoodList list);
+    int updateFoodList(FoodList foodList);
 }

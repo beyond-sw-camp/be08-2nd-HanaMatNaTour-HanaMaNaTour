@@ -5,111 +5,80 @@
 <mapper namespace="com.example.demo.src.foodlist.repository.ListMapper">
 
     <resultMap id="userResultMap" type="com.example.demo.src.foodlist.model.User">
-        <id property="userId" column="userId" />
-        <result property="userName" column="user_name" />
+        <id property="id" column="user_id" />
+        <id property="userUuid" column="user_uuid" />
+        <result property="userName" column="userName" />
     </resultMap>
 
-    <resultMap id="restaurantResultMap" type="com.example.demo.src.foodlist.model.Restaurant">
-        <id property="restaurantId" column="restaurant_id" />
-        <result property="restaurantName" column="restaurant_name" />
-        <result property="restaurantAddress" column="restaurant_addr" />
-        <result property="restaurantCategory" column="restaurant_category" />
-        <result property="score" column="restaurant_score" />
+    <resultMap id="storeResultMap" type="com.example.demo.src.store.model.Store">
+        <id property="storeId" column="store_id" />
+        <result property="storeName" column="store_name" />
+        <result property="storeAddress" column="store_address" />
+        <result property="category" column="category" />
+        <result property="likeCount" column="like_count" />
+    </resultMap>
+
+    <resultMap id="foodListResultMap" type="com.example.demo.src.foodlist.model.FoodList">
+        <id property="foodlistId" column="foodlist_id"/>
+        <result property="foodlistName" column="foodlist_name"/>
+        <result property="ListLikeCount" column="like_count"/>
+        <result property="enrolldate" column="foodlist_enroll_date"/>
+        <association property="user" javaType="com.example.demo.src.foodlist.model.User" resultMap="userResultMap" />
+        <association property="store" javaType="com.example.demo.src.store.model.Store" resultMap="storeResultMap" />
     </resultMap>
 
     <!-- id/ 하나 이상의 id 요소를 정의하여 주 키나 고유 식별자 정의 -->
     <!-- result/ 하나 이상의 result요소를 정의하여 매핑된 객체의  속성을 정의-->
+
     <!-- association/ 다른 객체나 resultMap과의 연관관계를 정의-->
     <!-- collection/ 연관된 컬렉션을 정의 -->
     <!-- descriminator/ 타입을 구분하느데 사용되는 분기를 정의 -->
-<!--    <resultMap id="foodListResultMap" type="com.example.demo.src.foodlist.model.FoodList">-->
-<!--        <id property="foodlistId" column="foodlist_id" />-->
-<!--        <result property="foodlistName" column="foodlist_name" />-->
-<!--        <association property="user" javaType="com.example.demo.src.foodlist.model.User" resultMap="userResultMap" />-->
-<!--        <association property="restaurant" javaType="com.example.demo.src.foodlist.model.Restaurant" resultMap="restaurantResultMap" />-->
-<!--        <result property="like" column="like" />-->
-<!--        <result property="enrolldate" column="foodlist_enroll_date" />-->
-<!--    </resultMap>-->
+
+
+
 
     <!-- User별 FoodList 조회 -->
-    <select id="getFoodListsByUser" resultType="com.example.demo.src.foodlist.model.FoodList">
-        SELECT a.foodlist_id
-               a.foodlist_name
-               u.userName
-               r.restaurant_name
-               r.restaurant_addr ,
-               r.restaurant_category ,
-               r.restaurant_score ,
-               r.restaurant_like ,
-           a.foodlist_enroll_date
-        FROM foodlist a
-            LEFT OUTER JOIN user u ON a.userId = u.userId
-            LEFT OUTER JOIN restaurants r ON a.restaurant_id = r.restaurant_id
-        WHERE a.userId = #{userId}
-
+    <select id="getFoodListsByUser" resultMap="foodListResultMap">
+        SELECT *
+        FROM foodlist f
+                 LEFT OUTER JOIN user u ON u.user_uuid = f.user_uuid
+        WHERE u.userName = #{userName};
     </select>
-
     <!-- User별 FoodList 전체 개수 조회 -->
     <select id="getTotalCountByUser" resultType="_int">
         SELECT COUNT(*)
         FROM foodlist
-        WHERE userId = #{userId}
+        WHERE user_uuid = #{userUuid}
     </select>
 
 
-    <!-- FoodList별 ID로 상세 조회 -->
-    <select id="getFoodListById" resultType="com.example.demo.src.foodlist.model.FoodList">
-        SELECT a.foodlist_id ,
-               a.foodlist_name ,
-               u.userName ,
-               r.restaurant_name ,
-               r.restaurant_addr ,
-               r.restaurant_category ,
-               r.restaurant_score ,
-               r.restaurant_like ,
-           a.foodlist_enroll_date
-        FROM foodlist a
-            LEFT OUTER JOIN user u ON a.userId = u.userId
-            LEFT OUTER JOIN restaurants r ON a.restaurant_id = r.restaurant_id
-        WHERE a.foodlist_id = #{foodlistId}
+    <!--     FoodList별 상세 조회-->
+    <select id="getFoodListById" resultMap="foodListResultMap">
+        SELECT f.foodlist_id,
+               f.foodlist_name,
+               f.store_id,
+               s.store_name,
+               s.store_address,
+               s.category
+        FROM foodlist f
+                 LEFT OUTER JOIN store s ON s.store_id = f.store_id
+        WHERE f.foodlist_id = #{foodlistId};
     </select>
 
 
     <!-- 수정을 위해 조회하기 -->
-    <select id="findFoodListById" resultType="FoodList">
-        SELECT foodlist_id ,
-               foodlist_name ,
-               foodlist_enroll_date
-        FROM foodlist
-        WHERE foodlist_id = #{foodlistId}
-    </select>
+    <!--    <select id="findFoodListById" resultType="com.example.demo.src.foodlist.model.FoodList">-->
+    <!--        SELECT foodlist_id ,-->
+    <!--               foodlist_name ,-->
+    <!--               foodlist_enroll_date-->
+    <!--        FROM foodlist-->
+    <!--        WHERE foodlist_id = #{foodlistId}-->
+    <!--    </select>-->
 
     <!-- FoodList 수정 -->
-    <update id="updateFoodList" parameterType="com.example.demo.src.foodlist.dto.ListRequestDto">
+    <update id="updateFoodList" parameterType="com.example.demo.src.foodlist.model.FoodList">
         UPDATE foodlist
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="requestDto.foodlistName != null">
-                foodlist_name = #{requestDto.foodlistName},
-            </if>
-            <if test="requestDto.restaurantName != null">
-                restaurant_name = #{requestDto.restaurantName},
-            </if>
-            <if test="requestDto.restaurantAddress != null">
-                restaurant_addr = #{requestDto.restaurantAddress},
-            </if>
-            <if test="requestDto.restaurantCategory != null">
-                restaurant_category = #{requestDto.restaurantCategory},
-            </if>
-            <if test="requestDto.score != null">
-                restaurant_score = #{requestDto.score},
-            </if>
-            <if test="requestDto.like != null">
-                restaurant_like = #{requestDto.like},
-            </if>
-            <if test="requestDto.enrolldate != null">
-                foodlist_enroll_date = #{requestDto.enrolldate},
-            </if>
-        </trim>
+        SET   foodlist_name = #{foodlistName}
         WHERE foodlist_id = #{foodlistId}
     </update>
 
