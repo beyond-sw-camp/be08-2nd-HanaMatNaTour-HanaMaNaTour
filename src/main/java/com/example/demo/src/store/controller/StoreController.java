@@ -23,7 +23,7 @@ public class StoreController {
 
 
     // 모든 음식점 정보를 가져오는 API
-    @GetMapping
+    @GetMapping("/")
     public BaseResponse<List<StoreResponse>> getAllStores(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
