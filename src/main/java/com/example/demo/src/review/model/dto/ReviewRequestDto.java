@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ReviewRequestDto {
-    private String userUuid;
     private int storeId;
     private int reviewScore;
     private String reviewContents;

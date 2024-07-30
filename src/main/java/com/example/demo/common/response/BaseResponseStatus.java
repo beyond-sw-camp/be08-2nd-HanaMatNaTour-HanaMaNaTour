@@ -46,6 +46,8 @@ public enum BaseResponseStatus {
     /* 음식점 관련 실패 */
     ALREADY_EXIST_STORE(false, HttpStatus.CONFLICT.value(), "중복된 가게 이름 또는 주소가 존재합니다."),
     NOT_FOUND_STORE(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 가게 입니다."),
+    /* 리뷰 관련 */
+    NOT_FOUND_REVIEW_ID(false, HttpStatus.CONFLICT.value(), "유효하지 않은 리뷰번호입니다."),
 
 
     UNEXPECTED_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "예상치 못한 에러가 발생했습니다."),
