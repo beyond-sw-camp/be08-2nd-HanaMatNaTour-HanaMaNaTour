@@ -8,6 +8,7 @@ import com.example.demo.src.favoriteList.dto.AddStoreRequest;
 import com.example.demo.src.favoriteList.dto.FavoriteListRequest;
 import com.example.demo.src.favoriteList.dto.FavoriteListResponse;
 import com.example.demo.src.favoriteList.service.ListService;
+import com.example.demo.src.favoriteList.service.UserListLikesService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ import java.util.List;
 public class ListController {
 
     private final ListService listService;
+    private final UserListLikesService userListLikesService;
 
     // 맛집 리스트 생성
     @PostMapping
@@ -76,7 +78,7 @@ public class ListController {
         }
     }
 
-    // 다른 사용자 맛집 리스트 조회
+    // 특정 맛집 리스트 조회
     @GetMapping("/{listId}")
     public BaseResponse<FavoriteListResponse> getFavoriteListById(@PathVariable int listId) {
         try {
@@ -85,5 +87,19 @@ public class ListController {
         } catch (BaseException e) {
             return new BaseResponse<>(BaseResponseStatus.NO_LIST_FOUND);
         }
+    }
+
+    // 해당 리스트 좋아요 상태를 변경하는 API
+    @PostMapping("/{listId}/likes/toggle")
+    public BaseResponse<Void> toggleLike(@PathVariable int listId) {
+        String userUuid = UserUtil.getUserUUIdFromAuthentication();
+
+        boolean isLiked = userListLikesService.isLikedByUser(userUuid, listId);
+        if (isLiked) {
+            userListLikesService.removeLike(userUuid, listId);
+        } else {
+            userListLikesService.addLike(userUuid, listId);
+        }
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 }

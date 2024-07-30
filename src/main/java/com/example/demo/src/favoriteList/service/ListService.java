@@ -5,6 +5,7 @@ import com.example.demo.common.response.BaseResponseStatus;
 import com.example.demo.src.favoriteList.dto.FavoriteListRequest;
 import com.example.demo.src.favoriteList.dto.FavoriteListResponse;
 import com.example.demo.src.favoriteList.mapper.ListMapper;
+import com.example.demo.src.favoriteList.mapper.UserListLikesMapper;
 import com.example.demo.src.store.mapper.StoreMapper;
 import com.example.demo.src.store.model.Store;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ public class ListService {
 
     private final ListMapper listMapper;
     private final StoreMapper storeMapper;
+    private final UserListLikesMapper userListLikesMapper;
 
     // 맛집 리스트 전체 조회
     public List<FavoriteListResponse> getFavoriteListsAll(int page, int size){
@@ -60,13 +62,7 @@ public class ListService {
 
     // 다른 사용자 맛집 리스트 조회
     public FavoriteListResponse getFavoriteListById(int listId) throws BaseException {
-        FavoriteListResponse response =  listMapper.getFavoriteListById(listId);
-        String[] storeIdsArray = response.getStoreIds().split(",");
-        List<Integer> storeIds = Arrays.stream(storeIdsArray).map(Integer::parseInt).collect(Collectors.toList());
-        List<Store> stores = storeMapper.getStoresByIds(storeIds);
-        response.setStores(stores);
-
-        return response;
+        return getFavoriteListInfoById(listId);
     }
 
     // 사용자 권한 확인
@@ -100,4 +96,16 @@ public class ListService {
         return responses;
     }
 
+    private FavoriteListResponse getFavoriteListInfoById(int listId){
+        FavoriteListResponse response =  listMapper.getFavoriteListById(listId);
+        String[] storeIdsArray = response.getStoreIds().split(",");
+        List<Integer> storeIds = Arrays.stream(storeIdsArray).
+                map(Integer::parseInt).
+                collect(Collectors.toList());
+        List<Store> stores = storeMapper.getStoresByIds(storeIds);
+        response.setStores(stores);
+        response.setLikeCount(userListLikesMapper.getLikesCount(response.getListId()));
+
+        return response;
+    }
 }
