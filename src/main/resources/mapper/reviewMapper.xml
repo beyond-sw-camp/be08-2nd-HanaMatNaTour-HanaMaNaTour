@@ -44,6 +44,21 @@
             store_id = #{storeId}
     </select>
 
+    <!-- 특정 유저의 리뷰 조회 -->
+    <select id="selectReviewsByUserUuid" parameterType="string" resultMap="reviewResultMap">
+        SELECT
+            review_id,
+            store_id,
+            review_score,
+            review_contents,
+            review_img,
+            review_date
+        FROM
+            reviews
+        WHERE
+            user_uuid = #{userUuid}
+    </select>
+
     <!-- 단일 리뷰 조회 -->
     <select id="selectReviewByReviewId" parameterType="int" resultMap="reviewResultMap">
         SELECT
