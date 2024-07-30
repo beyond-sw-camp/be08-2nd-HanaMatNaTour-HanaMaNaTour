@@ -31,6 +31,11 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
+    public List<Review> getReviewsByUserUuid(String userUuid) {
+        return reviewMapper.selectReviewsByUserUuid(userUuid);
+    }
+
+    @Override
     public void saveReview(Review review) {
         Review result= null;
 

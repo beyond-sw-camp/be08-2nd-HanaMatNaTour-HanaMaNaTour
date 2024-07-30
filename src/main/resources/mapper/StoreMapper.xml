@@ -66,4 +66,17 @@
         WHERE store_id = #{id}
     </delete>
 
+    <!-- 평점 계산 및 추가를 위한 쿼리 -->
+    <select id="getRatingAverage" parameterType="int" resultType="java.lang.Double">
+        SELECT AVG(review_score)
+        FROM reviews
+        WHERE store_id = #{storeId}
+    </select>
+
+    <update id="updateStoreAvgRating">
+        UPDATE store
+        SET avg_rating = #{avgRating}
+        WHERE store_id = #{storeId}
+    </update>
+
 </mapper>

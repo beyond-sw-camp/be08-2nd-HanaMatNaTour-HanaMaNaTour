@@ -1,21 +1,21 @@
 package com.example.demo.src.review.controller;
 
-import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponse;
 import com.example.demo.common.util.UserUtil;
 import com.example.demo.src.review.model.dto.ReviewRequestDto;
 import com.example.demo.src.review.model.service.ReviewService;
 import com.example.demo.src.review.model.vo.Review;
-import com.fasterxml.jackson.databind.ser.Serializers;
+import com.example.demo.src.store.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
-import org.apache.ibatis.javassist.NotFoundException;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.example.demo.common.response.BaseResponseStatus.*;
+import static com.example.demo.common.response.BaseResponseStatus.NOT_FOUND_METHOD_ERROR;
+import static com.example.demo.common.response.BaseResponseStatus.SUCCESS;
 
 @RestController
 @RequestMapping("/reviews")
@@ -23,17 +23,17 @@ import static com.example.demo.common.response.BaseResponseStatus.*;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final StoreService storeService;
 
     @Operation(summary = "전체 리뷰 조회") // 전체 리뷰 조회
     @GetMapping
     public BaseResponse<List<Review>> getAllReviews() {
         List<Review> reviews = reviewService.getAllReviews();
-//        if (reviews != null && !reviews.isEmpty()) {
-//            return new BaseResponse<>(reviews);
-//        } else {
-//            return new BaseResponse<>(NOT_FOUND_METHOD_ERROR);
-//        }
-        return new BaseResponse<>(reviews);
+        if (reviews != null && !reviews.isEmpty()) {
+            return new BaseResponse<>(reviews);
+        } else {
+            return new BaseResponse<>(NOT_FOUND_METHOD_ERROR);
+        }
     }
 
     @Operation(summary = "리뷰 조회 by store ID") // 레스토랑 ID로 리뷰 조회
@@ -41,18 +41,35 @@ public class ReviewController {
     public BaseResponse<List<Review>> getReviewsByStoreId(
             @Parameter(description = "Store Id", example = "꿈꾸는 돼지") @PathVariable int storeId) {
         List<Review> reviews = reviewService.getReviewsByStoreId(storeId);
-       return new BaseResponse<>(reviews);
+        if (reviews != null && !reviews.isEmpty()) {
+            return new BaseResponse<>(reviews);
+        } else {
+            return new BaseResponse<>(NOT_FOUND_METHOD_ERROR);
+        }
     }
 
-    @Operation(summary = "리뷰 ID로 특정 리뷰 상세 조회") // 리뷰 ID로 리뷰 조회
-    @GetMapping("/{reviewId}")
+    @Operation(summary = "리뷰 조회 by User Uuid") // 유져 ID로 리뷰 조회
+    @GetMapping("/userid/{userUuid}")
+    public BaseResponse<List<Review>> getReviewsByUserUuid(
+            @Parameter(description = "User Uuid") @PathVariable String userUuid) {
+        List<Review> reviews = reviewService.getReviewsByUserUuid(userUuid);
+        if (reviews != null && !reviews.isEmpty()) {
+            return new BaseResponse<>(reviews);
+        } else {
+            return new BaseResponse<>(NOT_FOUND_METHOD_ERROR);
+        }
+    }
+
+    @Operation(summary = "작성 리뷰 조회") // 리뷰 ID로 리뷰 조회
+    @GetMapping("/reviewid/{reviewId}")
     public BaseResponse<Review> getReviewByReviewId(
             @Parameter(description = "Review ID", example = "1") @PathVariable int reviewId) {
         Review review = reviewService.getReviewByReviewId(reviewId);
-        if (review == null) {
-            throw new BaseException(NOT_FOUND_REVIEW_ID);
+        if (review != null) {
+            return new BaseResponse<>(review);
+        } else {
+            return new BaseResponse<>(NOT_FOUND_METHOD_ERROR);
         }
-        return new BaseResponse<>(review);
     }
 
     @Operation(summary = "Create review") // 리뷰 생성
@@ -61,6 +78,7 @@ public class ReviewController {
         String userUUId = UserUtil.getUserUUIdFromAuthentication();
         Review review = new Review(requestDto,userUUId);
         reviewService.saveReview(review);
+        storeService.updateStoreAverageRating(requestDto.getStoreId()); // 평점 업데이트
         return new BaseResponse<>(review);
     }
 
@@ -70,18 +88,19 @@ public class ReviewController {
         String userUUId = UserUtil.getUserUUIdFromAuthentication();
         Review review = new Review(requestDto,userUUId);
         reviewService.saveReview(review);
-//        if (review != null) {
-//            return new BaseResponse<>(review);
-//        }
-        return new BaseResponse<>(review);
-
+        storeService.updateStoreAverageRating(requestDto.getStoreId()); // 평점 업데이트
+        if (review != null) {
+            return new BaseResponse<>(review);
+        } else {
+            return new BaseResponse<>(NOT_FOUND_METHOD_ERROR);
+        }
     }
 
     @Operation(summary = "Delete review") // 리뷰 삭제
     @DeleteMapping("/{reviewId}")
-    public BaseResponse<String> deleteReview(
+    public BaseResponse<Void> deleteReview(
             @Parameter(description = "Review ID", example = "1") @PathVariable int reviewId) {
         reviewService.deleteReview(reviewId);
-        return new BaseResponse<>("삭제가 완료되었습니다.");
+        return new BaseResponse<>(SUCCESS);
     }
 }

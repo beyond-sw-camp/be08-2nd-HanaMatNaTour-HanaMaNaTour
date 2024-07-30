@@ -73,9 +73,7 @@ public class PostService {
             throw new BaseException(BaseResponseStatus.NO_POSTS_FOUND);
         }
         // 작성자 확인
-        System.out.println("post : "+post);
         String postUserUuid = post.getUserUuid();
-        System.out.println("postUserUuid = " + postUserUuid);
         if (postUserUuid == null || !postUserUuid.equals(userUuid)) {
             throw new BaseException(BaseResponseStatus.UNAUTHORIZED);
         }
@@ -87,7 +85,6 @@ public class PostService {
             // 수정에 실패하면 예외 발생
             throw new BaseException(BaseResponseStatus.NOT_FOUND_ERROR);
         }
-
     }
 
     // 특정 ID의 게시글을 삭제하는 메소드
@@ -138,12 +135,11 @@ public class PostService {
         );
     }
 
-    // 요청 DTO를 게시글 모델로 변환하는 메소드
-//    private Post mapToPost(PostRequest request) {
-//        return new Post(
-//                request.getTitle(),
-//                request.getContent(),
-//                request.getStoreId() // 위치 ID
-//        );
-//    }
+    public List<PostResponse> getPostsByUser(String userUUId) {
+        List<PostResponse> posts = postMapper.findPostsByUserUUId(userUUId);
+        if (posts.isEmpty()) {
+            throw new BaseException(BaseResponseStatus.NO_POSTS_FOUND);
+        }
+        return posts;
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.demo.src.hanamoa.mapper;
 
 import com.example.demo.src.hanamoa.dto.DeleteRequest;
+import com.example.demo.src.hanamoa.dto.PostResponse;
 import com.example.demo.src.hanamoa.dto.PostSearchParam;
 import com.example.demo.src.hanamoa.model.Post;
 import org.apache.ibatis.annotations.Mapper;
@@ -31,4 +32,6 @@ public interface PostMapper {
 
     /** 게시글 키워드 검색 */
     List<Post> searchPostsByKeyword(PostSearchParam searchParam);
+
+    List<PostResponse> findPostsByUserUUId(String userUUId);
 }
