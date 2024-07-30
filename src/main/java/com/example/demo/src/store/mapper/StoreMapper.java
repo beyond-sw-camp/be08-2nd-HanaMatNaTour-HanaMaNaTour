@@ -25,5 +25,8 @@ public interface StoreMapper {
   
     boolean isStoreInTable(@Param("id") int id);
 
-    Double getRatingAverage(int id);
+    Double getRatingAverage(int storeId);
+
+    void updateStoreAvgRating(@Param("storeId") int storeId, @Param("avgRating") double avgRating);
+
 }
