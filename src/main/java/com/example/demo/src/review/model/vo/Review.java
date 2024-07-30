@@ -31,4 +31,8 @@ public class Review {
 
     }
 
+    public Review(int reviewId, String userUUId) {
+        this.reviewId = reviewId;
+        this.userUuid = userUUId;
+    }
 }
