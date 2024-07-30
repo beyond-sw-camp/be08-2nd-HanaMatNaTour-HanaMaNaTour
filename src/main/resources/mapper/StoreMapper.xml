@@ -79,4 +79,14 @@
         WHERE store_id = #{storeId}
     </update>
 
+    <!-- Store ID를 사용하여 Store 목록을 조회하는 쿼리 -->
+    <select id="getStoresByIds" parameterType="java.util.List" resultType="com.example.demo.src.store.model.Store">
+        SELECT store_id, store_name, store_address, category, like_count, avg_rating, update_at
+        FROM store
+        WHERE store_id IN
+        <foreach item="storeId" collection="storeIds" open="(" separator="," close=")">
+            #{storeId}
+        </foreach>
+    </select>
+
 </mapper>

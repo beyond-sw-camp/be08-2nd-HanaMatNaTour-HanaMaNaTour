@@ -48,8 +48,20 @@ public class ReviewController {
         }
     }
 
+    @Operation(summary = "리뷰 조회 by User Uuid") // 유져 ID로 리뷰 조회
+    @GetMapping("/userid/{userUuid}")
+    public BaseResponse<List<Review>> getReviewsByUserUuid(
+            @Parameter(description = "User Uuid") @PathVariable String userUuid) {
+        List<Review> reviews = reviewService.getReviewsByUserUuid(userUuid);
+        if (reviews != null && !reviews.isEmpty()) {
+            return new BaseResponse<>(reviews);
+        } else {
+            return new BaseResponse<>(NOT_FOUND_METHOD_ERROR);
+        }
+    }
+
     @Operation(summary = "작성 리뷰 조회") // 리뷰 ID로 리뷰 조회
-    @GetMapping("/{reviewId}")
+    @GetMapping("/reviewid/{reviewId}")
     public BaseResponse<Review> getReviewByReviewId(
             @Parameter(description = "Review ID", example = "1") @PathVariable int reviewId) {
         Review review = reviewService.getReviewByReviewId(reviewId);

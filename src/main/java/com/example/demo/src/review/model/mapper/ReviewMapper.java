@@ -13,5 +13,5 @@ public interface ReviewMapper {
     void updateReview(Review review);
     void insertReview(Review review);
     void deleteReview(int reviewId);
-
+    List<Review> selectReviewsByUserUuid(String userUuid);
 }

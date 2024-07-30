@@ -10,4 +10,5 @@ public interface ReviewService {
     void saveReview(Review review);
     void deleteReview(int reviewId);
     Review getReviewByReviewId(int reviewId);
+    List<Review> getReviewsByUserUuid(String userUuid);
 }

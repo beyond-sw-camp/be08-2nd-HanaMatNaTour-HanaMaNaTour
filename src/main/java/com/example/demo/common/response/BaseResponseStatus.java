@@ -3,7 +3,6 @@ package com.example.demo.common.response;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
-
 @Getter
 public enum BaseResponseStatus {
 
@@ -47,12 +46,18 @@ public enum BaseResponseStatus {
     ALREADY_EXIST_STORE(false, HttpStatus.CONFLICT.value(), "중복된 가게 이름 또는 주소가 존재합니다."),
     NOT_FOUND_STORE(false, HttpStatus.NOT_FOUND.value(), "존재하지 않는 가게 입니다."),
 
+    /**
+     * FoodList 오류
+     */
+    FOOD_NOT_UPDATE(false, HttpStatus.NOT_FOUND.value(),"수정할 내용이 없습니다."),
+    NO_LISTS_FOUND(false, HttpStatus.NOT_FOUND.value(),"음식리스트가 없습니다."),
+    NO_LIST_FOUND(false, HttpStatus.NOT_FOUND.value(),"음식리스트가 없습니다."),
 
     UNEXPECTED_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "예상치 못한 에러가 발생했습니다."),
     /**
      * 500 :  Database, Server 오류
      */
-
+    INVALID_USER_JWT(false, HttpStatus.UNAUTHORIZED.value(), "권한이 없습니다."),
     INVALID_SEND_MESSAGE(false,HttpStatus.INTERNAL_SERVER_ERROR.value(),"메세지 전송해 실패하였습니다."),
 
     DATABASE_ERROR(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), "데이터베이스 연결에 실패하였습니다."),
