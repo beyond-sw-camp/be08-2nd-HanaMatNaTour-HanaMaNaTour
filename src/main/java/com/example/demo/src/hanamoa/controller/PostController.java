@@ -9,17 +9,12 @@ import com.example.demo.common.response.BaseResponse;
 import com.example.demo.common.response.BaseResponseStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/hanamoa/posts")
 public class PostController {
-
     private final PostService postService;
-
-
     // 모든 게시글을 가져오는 API
     @GetMapping
     public BaseResponse<List<PostResponse>> getAllPosts(
@@ -29,19 +24,15 @@ public class PostController {
             List<PostResponse> posts = postService.getAllPosts(page, size); // 모든 게시글 조회
             return new BaseResponse<>(posts); // 성공 응답 반환
         } catch (BaseException e) {
-            return new BaseResponse<>(BaseResponseStatus.NOT_FOUND_POSTS);
+            return new BaseResponse<>(BaseResponseStatus.NO_POSTS_FOUND);
         }
-
-
     }
-
     // 특정 게시글 내용을 상세 조회하는 API
     @GetMapping("/{id}")
     public BaseResponse<PostResponse> getPostById(@PathVariable int id) {
         PostResponse post = postService.getPostById(id); // ID로 게시글 조회
         return new BaseResponse<>(post); // 성공 응답 반환
     }
-
     // 새로운 게시글을 추가하는 API
     @PostMapping
     public BaseResponse<String> addPost(@RequestBody PostRequest postRequest) {
@@ -73,7 +64,11 @@ public class PostController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,
             @RequestParam String keyword) {
-        List<PostResponse> posts = postService.searchPostsByKeyword(page, size, keyword); // 키워드로 게시글 검색
-        return new BaseResponse<>(posts); // 성공 응답 반환
+        try {
+            List<PostResponse> posts = postService.searchPostsByKeyword(page, size, keyword); // 키워드로 게시글 검색
+            return new BaseResponse<>(posts); // 성공 응답 반환
+        } catch (BaseException e) {
+            return new BaseResponse<>(BaseResponseStatus.NO_POSTS_FOUND);
+        }
     }
 }

@@ -4,21 +4,16 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Setter @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
 public class StoreResponse {
     private int storeId;
-
     private String storeName;
-
     private String storeAddress;
-
     private String category;
-
     private int likeCount;
-
-    private LocalDateTime createAt;
+    private double avgRating;
+    private LocalDateTime updateAt;
 }

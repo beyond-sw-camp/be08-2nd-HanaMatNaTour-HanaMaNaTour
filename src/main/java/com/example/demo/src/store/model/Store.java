@@ -17,12 +17,13 @@ public class Store {
     private String storeName;
 
     private String storeAddress;
-
     private String category;
 
     private int likeCount;
 
-    private LocalDateTime createAt;
+    private double avgRating;
+
+    private LocalDateTime updateAt;
 
     // StoreRequest를 위해 추가된 생성자
     public Store(String storeName, String storeAddress, String category) {

@@ -61,7 +61,7 @@ public class SecurityConfig {
                         .requestMatchers("/","/main/**", "/oauth2/**","/index.html", "/login/**", "/users/login","/users/signup").permitAll()
                         .requestMatchers("/reissue").permitAll()
                         .requestMatchers("/review/**", "/restaurant/**",
-                        .requestMatchers("/review/**", "/restaurant/**","/ws-stomp/**",
+                        "/review/**", "/restaurant/**","/ws-stomp/**",
                                 "/foodlist/**", "/hanamoa/lists/**", "/hanamoa/posts/**").permitAll()
                         .anyRequest().authenticated()
                 )
