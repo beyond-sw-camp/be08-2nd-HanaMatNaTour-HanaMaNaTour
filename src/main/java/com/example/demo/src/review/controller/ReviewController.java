@@ -5,9 +5,11 @@ import com.example.demo.common.util.UserUtil;
 import com.example.demo.src.review.model.dto.ReviewRequestDto;
 import com.example.demo.src.review.model.service.ReviewService;
 import com.example.demo.src.review.model.vo.Review;
+import com.example.demo.src.store.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import static com.example.demo.common.response.BaseResponseStatus.SUCCESS;
 public class ReviewController {
 
     private final ReviewService reviewService;
+    private final StoreService storeService;
 
     @Operation(summary = "전체 리뷰 조회") // 전체 리뷰 조회
     @GetMapping
@@ -75,6 +78,7 @@ public class ReviewController {
         String userUUId = UserUtil.getUserUUIdFromAuthentication();
         Review review = new Review(requestDto,userUUId);
         reviewService.saveReview(review);
+        storeService.updateStoreAverageRating(requestDto.getStoreId()); // 평점 업데이트
         return new BaseResponse<>(review);
     }
 
@@ -84,6 +88,7 @@ public class ReviewController {
         String userUUId = UserUtil.getUserUUIdFromAuthentication();
         Review review = new Review(requestDto,userUUId);
         reviewService.saveReview(review);
+        storeService.updateStoreAverageRating(requestDto.getStoreId()); // 평점 업데이트
         if (review != null) {
             return new BaseResponse<>(review);
         } else {

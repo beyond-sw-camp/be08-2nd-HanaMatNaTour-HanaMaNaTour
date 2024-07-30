@@ -98,11 +98,11 @@ public class StoreService {
         );
     }
 
-    public void setRating(int id) {
-        Double ratingAvg = storeMapper.getRatingAverage(id);
-
-        if(ratingAvg == null) {
-            ratingAvg = 0.0;
+    public void updateStoreAverageRating(int storeId) {
+        Double avgRating = storeMapper.getRatingAverage(storeId);
+        if (avgRating == null) {
+            avgRating = 0.0;
         }
+        storeMapper.updateStoreAvgRating(storeId, avgRating);
     }
 }
