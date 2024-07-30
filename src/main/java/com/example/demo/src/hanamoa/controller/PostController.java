@@ -74,8 +74,9 @@ public class PostController {
         }
     }
 
-    @GetMapping("/user/{userUUId}")
-    public BaseResponse<List<PostResponse>> getPostsByUser(@PathVariable String userUUId) {
+    @GetMapping("/user")
+    public BaseResponse<List<PostResponse>> getPostsByUser() {
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
         try {
             List<PostResponse> posts = postService.getPostsByUser(userUUId);
             return new BaseResponse<>(posts); // 성공 응답 반환

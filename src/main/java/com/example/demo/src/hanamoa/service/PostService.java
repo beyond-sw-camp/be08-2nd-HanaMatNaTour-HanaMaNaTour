@@ -137,9 +137,9 @@ public class PostService {
 
     public List<PostResponse> getPostsByUser(String userUUId) {
         List<PostResponse> posts = postMapper.findPostsByUserUUId(userUUId);
-        if (posts.isEmpty()) {
-            throw new BaseException(BaseResponseStatus.NO_POSTS_FOUND);
-        }
+//        if (posts.isEmpty()) {
+//            throw new BaseException(BaseResponseStatus.NO_POSTS_FOUND);
+//        }
         return posts;
     }
 }
