@@ -2,6 +2,7 @@ package com.example.demo.src.chat;
 
 import com.example.demo.src.chat.dto.ChatMessage;
 import com.example.demo.src.chat.repository.ChatRoomMapper;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
