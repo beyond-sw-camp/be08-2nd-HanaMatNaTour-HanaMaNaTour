@@ -2,6 +2,7 @@ package com.example.demo.src.review.model.mapper;
 
 import com.example.demo.src.review.model.vo.Review;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,4 +15,5 @@ public interface ReviewMapper {
     void insertReview(Review review);
     void deleteReview(int reviewId);
     List<Review> selectReviewsByUserUuid(String userUuid);
+    Review selectReviewByUserUuid(@Param("userUuid") String userUuid,@Param("reviewId") int reviewId);
 }

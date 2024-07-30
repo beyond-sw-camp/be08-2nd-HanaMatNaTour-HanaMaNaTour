@@ -8,7 +8,7 @@ public interface ReviewService {
     List<Review> getAllReviews();
     List<Review> getReviewsByStoreId(int storeId);
     void saveReview(Review review);
-    void deleteReview(int reviewId);
+    void deleteReview(Review review);
     Review getReviewByReviewId(int reviewId);
     List<Review> getReviewsByUserUuid(String userUuid);
 }

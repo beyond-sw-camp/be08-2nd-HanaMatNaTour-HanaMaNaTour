@@ -95,7 +95,9 @@ public class ReviewController {
     @DeleteMapping("/{reviewId}")
     public BaseResponse<Void> deleteReview(
             @Parameter(description = "Review ID", example = "1") @PathVariable int reviewId) {
-        reviewService.deleteReview(reviewId);
+        String userUUId = UserUtil.getUserUUIdFromAuthentication();
+        Review review = new Review(reviewId,userUUId);
+        reviewService.deleteReview(review);
         return new BaseResponse<>(SUCCESS);
     }
 }
