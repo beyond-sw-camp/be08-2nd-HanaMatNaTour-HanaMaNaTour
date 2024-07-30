@@ -71,4 +71,15 @@ public class PostController {
             return new BaseResponse<>(BaseResponseStatus.NO_POSTS_FOUND);
         }
     }
+
+    @GetMapping("/user/{userUUId}")
+    public BaseResponse<List<PostResponse>> getPostsByUser(@PathVariable String userUUId) {
+        try {
+            List<PostResponse> posts = postService.getPostsByUser(userUUId);
+            return new BaseResponse<>(posts); // 성공 응답 반환
+        } catch (BaseException e) {
+            return new BaseResponse<>(BaseResponseStatus.NO_POSTS_FOUND);
+        }
+    }
+
 }

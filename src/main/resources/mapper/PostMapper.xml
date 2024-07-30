@@ -104,4 +104,23 @@
            OR p.content LIKE CONCAT('%', #{keyword}, '%')
         LIMIT #{size} OFFSET #{offset}
     </select>
+
+    <select id="findPostsByUserUUId" resultType="com.example.demo.src.hanamoa.dto.PostResponse">
+        SELECT   p.post_id,
+                 p.title,
+                 p.content,
+                 u.user_name,
+                 s.store_name,
+                 p.created_at,
+                 p.updated_at,
+                 p.view_count
+        FROM posts p
+        LEFT OUTER JOIN user u
+        ON p.user_uuid = u.user_uuid
+        LEFT OUTER JOIN store s
+        ON p.store_id = s.store_id
+        WHERE user_uuid = #{userUUId}
+        LIMIT 5
+    </select>
+
 </mapper>
