@@ -37,13 +37,14 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void saveReview(Review review) {
+        Review result= null;
 
         if(review.getReviewId() != 0) {
             // update
            reviewMapper.updateReview(review);
         } else {
             // insert
-            reviewMapper.insertReview(review);
+           reviewMapper.insertReview(review);
         }
     }
 

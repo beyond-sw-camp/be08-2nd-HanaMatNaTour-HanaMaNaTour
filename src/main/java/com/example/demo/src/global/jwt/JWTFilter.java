@@ -1,6 +1,5 @@
 package com.example.demo.src.global.jwt;
 
-import com.example.demo.src.global.oauth.dto.CustomOAuth2User;
 import com.example.demo.src.global.oauth.dto.UserDto;
 import com.example.demo.src.user.model.Role;
 import io.jsonwebtoken.ExpiredJwtException;

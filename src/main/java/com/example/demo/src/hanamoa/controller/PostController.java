@@ -37,17 +37,19 @@ public class PostController {
     @PostMapping
     public BaseResponse<String> addPost(@RequestBody PostRequest postRequest) {
         String userUUId = UserUtil.getUserUUIdFromAuthentication();
+        System.out.println("게시글 post data : "+postRequest);
+        System.out.println("로그인한 유저 pk : "+userUUId);
         postService.addPost(userUUId, postRequest); // 게시글 추가
-        return new BaseResponse<>(BaseResponseStatus.SUCCESS); // 성공 응답 반환
+        return new BaseResponse<>("게시글 등록을 완료했습니다."); // 성공 응답 반환
     }
 
     // 특정 게시글을 수정하는 API
     @PutMapping("/{id}")
     public BaseResponse<String> updatePost(@PathVariable int id, @RequestBody PostRequest postRequest) {
         String userUUId = UserUtil.getUserUUIdFromAuthentication();
-
+        System.out.println("로그인한 유저 pk : "+userUUId);
         postService.updatePost(id, userUUId, postRequest); // 게시글 수정
-        return new BaseResponse<>(BaseResponseStatus.SUCCESS); // 성공 응답 반환
+        return new BaseResponse<>("게시글 수정을 완료했습니다."); // 성공 응답 반환
     }
 
     // 특정 게시글을 삭제하는 API
@@ -55,7 +57,7 @@ public class PostController {
     public BaseResponse<String> deletePost(@PathVariable int id) {
         String userUUId = UserUtil.getUserUUIdFromAuthentication();
         postService.deletePost(id, userUUId); // 게시글 삭제
-        return new BaseResponse<>(BaseResponseStatus.SUCCESS); // 성공 응답 반환
+        return new BaseResponse<>("게시글 삭제를 완료했습니다."); // 성공 응답 반환
     }
 
     // 키워드로 게시글을 검색하는 API
