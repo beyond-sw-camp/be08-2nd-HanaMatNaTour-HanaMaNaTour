@@ -8,11 +8,14 @@ import com.example.demo.src.store.dto.StoreRequest;
 import com.example.demo.src.store.dto.StoreResponse;
 import com.example.demo.src.store.service.StoreService;
 import com.example.demo.src.store.service.UserStoreLikesService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name="Store APIs" , description = "음식점 관련 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/hanamoa/store")
@@ -23,6 +26,7 @@ public class StoreController {
 
 
     // 모든 음식점 정보를 가져오는 API
+    @Operation(summary = "모든 음식점 목록 조회", description = "페이징 처리를 추가해 모든 음식점 목록을 조회한다.")
     @GetMapping("")
     public BaseResponse<List<StoreResponse>> getAllStores(
             @RequestParam(defaultValue = "0") int page,
@@ -36,6 +40,7 @@ public class StoreController {
     }
 
     // 특정 음식점 정보 상세 조회하는 API
+    @Operation(summary = "음식점 정보 조회", description = "특정 음식점 정보를 조회한다.")
     @GetMapping("/{id}")
     public BaseResponse<StoreResponse> getStoreById(@PathVariable int id) {
         StoreResponse store = storeService.getStoreById(id); // ID로 특정 음식점 조회
@@ -44,6 +49,7 @@ public class StoreController {
     }
 
     // 카테고리로 음식점 리스트 조회하는 API
+    @Operation(summary = "카테고리별 음식점 목록 조회", description = "특정 카테고리에 맞는 음식점들을 조회한다.")
     @GetMapping("/category")
     public BaseResponse<List<StoreResponse>> getStoresByCategory(
             @RequestParam String category,
@@ -59,6 +65,7 @@ public class StoreController {
     }
 
     // 음식점 등록하는 API
+    @Operation(summary = "카테고리별 음식점 목록 조회", description = "특정 카테고리에 맞는 음식점들을 조회한다.")
     @PostMapping
     public BaseResponse<String> addStore(@RequestBody StoreRequest storeRequest) {
         try {
@@ -70,6 +77,7 @@ public class StoreController {
     }
 
     // 음식점 정보를 수정하는 API
+    @Operation(summary = "음식점 정보 수정", description = "id에 해당하는 음식점을 수정한다.")
     @PutMapping("/{id}")
     public BaseResponse<String> updateStore(@PathVariable int id, @RequestBody StoreRequest storeRequest) {
         storeService.updateStore(id, storeRequest); // 음식점 수정
@@ -77,6 +85,7 @@ public class StoreController {
     }
 
     // 음식점 정보를 삭제하는 API
+    @Operation(summary = "음식점 정보 삭제", description = "id에 해당하는 음식점을 삭제한다.")
     @DeleteMapping("/{id}")
     public BaseResponse<String> deleteStore(@PathVariable int id) {
         storeService.deleteStore(id); // 음식점 삭제
@@ -85,6 +94,7 @@ public class StoreController {
 
 
     // 좋아요 상태를 변경하는 API
+    @Operation(summary = "좋아요 처리", description = "특정 음식점에 대한 좋아요를 하거나 취소한다.")
     @PostMapping("/likes/toggle")
     public BaseResponse<String> toggleLike(@RequestParam String userProvideId, @RequestParam int storeId) {
         boolean isLiked = userStoreLikesService.isLikedByUser(userProvideId, storeId);
@@ -99,6 +109,7 @@ public class StoreController {
     }
 
     // 유저가 특정 음식점을 좋아하는지 확인하는 API
+    @Operation(summary = "좋아요 확인", description = "로그인한 유저가 특정 음식점에 좋아요를 눌렀는지 확인한다.")
     @GetMapping("/likes/is-liked")
     public BaseResponse<Boolean> isLikedByUser(@RequestParam int storeId) {
         String userUUId = UserUtil.getUserUUIdFromAuthentication();
