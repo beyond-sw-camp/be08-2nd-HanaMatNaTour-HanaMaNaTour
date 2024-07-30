@@ -1,122 +1,63 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.src.favoriteList.mapper.ListMapper">
 
-<mapper namespace="com.example.demo.src.foodlist.repository.ListMapper">
+    <!-- 맛집 리스트 생성 -->
+    <insert id="createFavoriteList">
+        INSERT INTO favorite_list (user_uuid, list_name)
+        VALUES (#{userUuid}, #{favoriteListRequest.listName})
+    </insert>
 
-    <resultMap id="userResultMap" type="com.example.demo.src.foodlist.model.User">
-        <id property="userId" column="userId" />
-        <result property="userName" column="user_name" />
-    </resultMap>
-
-    <resultMap id="restaurantResultMap" type="com.example.demo.src.foodlist.model.Restaurant">
-        <id property="restaurantId" column="restaurant_id" />
-        <result property="restaurantName" column="restaurant_name" />
-        <result property="restaurantAddress" column="restaurant_addr" />
-        <result property="restaurantCategory" column="restaurant_category" />
-        <result property="score" column="restaurant_score" />
-    </resultMap>
-
-    <!-- id/ 하나 이상의 id 요소를 정의하여 주 키나 고유 식별자 정의 -->
-    <!-- result/ 하나 이상의 result요소를 정의하여 매핑된 객체의  속성을 정의-->
-    <!-- association/ 다른 객체나 resultMap과의 연관관계를 정의-->
-    <!-- collection/ 연관된 컬렉션을 정의 -->
-    <!-- descriminator/ 타입을 구분하느데 사용되는 분기를 정의 -->
-<!--    <resultMap id="foodListResultMap" type="com.example.demo.src.foodlist.model.FoodList">-->
-<!--        <id property="foodlistId" column="foodlist_id" />-->
-<!--        <result property="foodlistName" column="foodlist_name" />-->
-<!--        <association property="user" javaType="com.example.demo.src.foodlist.model.User" resultMap="userResultMap" />-->
-<!--        <association property="restaurant" javaType="com.example.demo.src.foodlist.model.Restaurant" resultMap="restaurantResultMap" />-->
-<!--        <result property="like" column="like" />-->
-<!--        <result property="enrolldate" column="foodlist_enroll_date" />-->
-<!--    </resultMap>-->
-
-    <!-- User별 FoodList 조회 -->
-    <select id="getFoodListsByUser" resultType="com.example.demo.src.foodlist.model.FoodList">
-        SELECT a.foodlist_id
-               a.foodlist_name
-               u.userName
-               r.restaurant_name
-               r.restaurant_addr ,
-               r.restaurant_category ,
-               r.restaurant_score ,
-               r.restaurant_like ,
-           a.foodlist_enroll_date
-        FROM foodlist a
-            LEFT OUTER JOIN user u ON a.userId = u.userId
-            LEFT OUTER JOIN restaurants r ON a.restaurant_id = r.restaurant_id
-        WHERE a.userId = #{userId}
-
+    <!-- 맛집 리스트 전체 조회 -->
+    <select id="getFavoriteListsAll" resultType="com.example.demo.src.favoriteList.dto.FavoriteListResponse">
+        SELECT fl.list_id AS listId, fl.user_uuid AS userUuid, fl.list_name AS listName, fl.create_at AS createAt,
+               GROUP_CONCAT(fls.store_id) AS storeIds
+        FROM favorite_list fl
+        LEFT JOIN favorite_list_store fls ON fl.list_id = fls.list_id
+        GROUP BY fl.list_id
+        LIMIT #{size} OFFSET #{offset}
     </select>
 
-    <!-- User별 FoodList 전체 개수 조회 -->
-    <select id="getTotalCountByUser" resultType="_int">
-        SELECT COUNT(*)
-        FROM foodlist
-        WHERE userId = #{userId}
-    </select>
+    <!-- 맛집 리스트에 store 추가 -->
+    <insert id="addStoreToFavoriteList">
+        INSERT INTO favorite_list_store (list_id, store_id)
+        VALUES (#{listId}, #{storeId})
+    </insert>
 
-
-    <!-- FoodList별 ID로 상세 조회 -->
-    <select id="getFoodListById" resultType="com.example.demo.src.foodlist.model.FoodList">
-        SELECT a.foodlist_id ,
-               a.foodlist_name ,
-               u.userName ,
-               r.restaurant_name ,
-               r.restaurant_addr ,
-               r.restaurant_category ,
-               r.restaurant_score ,
-               r.restaurant_like ,
-           a.foodlist_enroll_date
-        FROM foodlist a
-            LEFT OUTER JOIN user u ON a.userId = u.userId
-            LEFT OUTER JOIN restaurants r ON a.restaurant_id = r.restaurant_id
-        WHERE a.foodlist_id = #{foodlistId}
-    </select>
-
-
-    <!-- 수정을 위해 조회하기 -->
-    <select id="findFoodListById" resultType="FoodList">
-        SELECT foodlist_id ,
-               foodlist_name ,
-               foodlist_enroll_date
-        FROM foodlist
-        WHERE foodlist_id = #{foodlistId}
-    </select>
-
-    <!-- FoodList 수정 -->
-    <update id="updateFoodList" parameterType="com.example.demo.src.foodlist.dto.ListRequestDto">
-        UPDATE foodlist
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="requestDto.foodlistName != null">
-                foodlist_name = #{requestDto.foodlistName},
-            </if>
-            <if test="requestDto.restaurantName != null">
-                restaurant_name = #{requestDto.restaurantName},
-            </if>
-            <if test="requestDto.restaurantAddress != null">
-                restaurant_addr = #{requestDto.restaurantAddress},
-            </if>
-            <if test="requestDto.restaurantCategory != null">
-                restaurant_category = #{requestDto.restaurantCategory},
-            </if>
-            <if test="requestDto.score != null">
-                restaurant_score = #{requestDto.score},
-            </if>
-            <if test="requestDto.like != null">
-                restaurant_like = #{requestDto.like},
-            </if>
-            <if test="requestDto.enrolldate != null">
-                foodlist_enroll_date = #{requestDto.enrolldate},
-            </if>
-        </trim>
-        WHERE foodlist_id = #{foodlistId}
-    </update>
-
-
-    <!-- FoodList 삭제 -->
-    <delete id="deleteFoodListById">
-        DELETE FROM foodlist
-        WHERE foodlist_id = #{foodlistId}
+    <!-- 맛집 리스트에서 store 삭제 -->
+    <delete id="removeStoreFromFavoriteList">
+        DELETE FROM favorite_list_store
+        WHERE list_id = #{listId} AND store_id = #{storeId}
     </delete>
+
+    <!-- 사용자 맛집 리스트 조회 -->
+    <select id="getUserFavoriteLists" resultType="com.example.demo.src.favoriteList.dto.FavoriteListResponse">
+        SELECT fl.list_id AS listId, fl.user_uuid AS userUuid, fl.list_name AS listName, fl.create_at AS createAt,
+               GROUP_CONCAT(fls.store_id) AS storeIds
+        FROM favorite_list fl
+                 LEFT JOIN favorite_list_store fls ON fl.list_id = fls.list_id
+        WHERE fl.user_uuid = #{userUuid}
+        GROUP BY fl.list_id
+    </select>
+
+    <!-- 특정 맛집 리스트 조회 -->
+    <select id="getFavoriteListById" resultType="com.example.demo.src.favoriteList.dto.FavoriteListResponse">
+        SELECT fl.list_id AS listId, fl.user_uuid AS userUuid, fl.list_name AS listName, fl.create_at AS createAt,
+               GROUP_CONCAT(fls.store_id) AS storeIds
+        FROM favorite_list fl
+        LEFT JOIN favorite_list_store fls ON fl.list_id = fls.list_id
+        WHERE fl.list_id = #{listId}
+        GROUP BY fl.list_id
+    </select>
+
+    <!-- 맛집 리스트의 소유자 조회 -->
+    <select id="getOwnerByListId" resultType="String">
+        SELECT user_uuid
+        FROM favorite_list
+        WHERE list_id = #{listId}
+    </select>
+
 </mapper>
