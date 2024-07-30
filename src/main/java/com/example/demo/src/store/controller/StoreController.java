@@ -23,7 +23,7 @@ public class StoreController {
 
 
     // 모든 음식점 정보를 가져오는 API
-    @GetMapping("/")
+    @GetMapping("")
     public BaseResponse<List<StoreResponse>> getAllStores(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
@@ -92,10 +92,12 @@ public class StoreController {
         boolean isLiked = userStoreLikesService.isLikedByUser(userUuid, storeId);
         if (isLiked) {
             userStoreLikesService.removeLike(userUuid, storeId);
+            return new BaseResponse<>("음식점에 좋아요를 취소했습니다.");
         } else {
             userStoreLikesService.addLike(userUuid, storeId);
+            return new BaseResponse<>("음식점에 좋아요를 눌렀습니다..");
         }
-        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+
     }
 
     // 유저가 특정 음식점을 좋아하는지 확인하는 API

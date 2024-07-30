@@ -3,8 +3,6 @@ package com.example.demo.src.global.oauth.config;
 import com.example.demo.src.global.jwt.JWTFilter;
 import com.example.demo.src.global.jwt.JWTUtil;
 
-import com.example.demo.src.global.oauth.handler.CustomSuccessHandler;
-import com.example.demo.src.global.oauth.service.CustomOAuth2UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -31,12 +29,8 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final CustomOAuth2UserService customOAuth2UserService;
-    private final CustomSuccessHandler customSuccessHandler;
     private final JWTUtil jwtUtil;
-    public SecurityConfig(CustomOAuth2UserService customOAuth2UserService, CustomSuccessHandler customSuccessHandler, JWTUtil jwtUtil) {
-        this.customOAuth2UserService = customOAuth2UserService;
-        this.customSuccessHandler = customSuccessHandler;
+    public SecurityConfig(JWTUtil jwtUtil) {
         this.jwtUtil = jwtUtil;
     }
 
@@ -51,18 +45,16 @@ public class SecurityConfig {
                 .requestCache(request -> request.requestCache(requestCache))
                 .httpBasic(basic -> basic.disable())
 
-                .oauth2Login((oauth2) -> oauth2
-                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
-                                .userService(customOAuth2UserService))
-                        .successHandler(customSuccessHandler))
+//                .oauth2Login((oauth2) -> oauth2
+//                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
+//                                .userService(customOAuth2UserService))
+//                        .successHandler(customSuccessHandler))
 
 
                 .authorizeHttpRequests(auth -> auth // 일단 권한 널널하게 열어두기
+                        .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/","/main/**", "/oauth2/**","/index.html", "/login/**", "/users/login","/users/signup").permitAll()
-                        .requestMatchers("/reissue").permitAll()
-                        .requestMatchers("/review/**", "/restaurant/**",
-                        "/review/**", "/restaurant/**","/ws-stomp/**",
-                                "/foodlist/**", "/hanamoa/lists/**", "/hanamoa/posts/**").permitAll()
+                        .requestMatchers( "/ws-stomp/**","/reviews/store/**", "/hanamoa/store/**", "/hanamoa/posts/**").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement((session) -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))

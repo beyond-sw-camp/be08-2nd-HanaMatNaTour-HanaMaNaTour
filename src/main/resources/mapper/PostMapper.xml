@@ -29,7 +29,7 @@
             p.post_id,
             p.title,
             p.content,
-            p.user_uuid,
+            p.user_uuid as 'userUuid',
             u.user_name,
             s.store_id,
             s.store_name,
@@ -114,12 +114,12 @@
                  p.created_at,
                  p.updated_at,
                  p.view_count
-        FROM posts p
+        FROM post p
         LEFT OUTER JOIN user u
         ON p.user_uuid = u.user_uuid
         LEFT OUTER JOIN store s
         ON p.store_id = s.store_id
-        WHERE user_uuid = #{userUUId}
+        WHERE p.user_uuid = #{userUUId}
         LIMIT 5
     </select>
 
