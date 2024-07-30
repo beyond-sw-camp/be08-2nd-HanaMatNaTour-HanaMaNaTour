@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.src.favoriteList.mapper.ListMapper">
+
+    <!-- 맛집 리스트 생성 -->
+    <insert id="createFavoriteList">
+        INSERT INTO favorite_list (user_uuid, list_name)
+        VALUES (#{userUuid}, #{favoriteListRequest.listName})
+    </insert>
+
+    <!-- 맛집 리스트 전체 조회 -->
+    <select id="getFavoriteListsAll" resultType="com.example.demo.src.favoriteList.dto.FavoriteListResponse">
+        SELECT fl.list_id AS listId, fl.user_uuid AS userUuid, fl.list_name AS listName, fl.create_at AS createAt,
+               GROUP_CONCAT(fls.store_id) AS storeIds
+        FROM favorite_list fl
+        LEFT JOIN favorite_list_store fls ON fl.list_id = fls.list_id
+        GROUP BY fl.list_id
+        LIMIT #{size} OFFSET #{offset}
+    </select>
+
+    <!-- 맛집 리스트에 store 추가 -->
+    <insert id="addStoreToFavoriteList">
+        INSERT INTO favorite_list_store (list_id, store_id)
+        VALUES (#{listId}, #{storeId})
+    </insert>
+
+    <!-- 맛집 리스트에서 store 삭제 -->
+    <delete id="removeStoreFromFavoriteList">
+        DELETE FROM favorite_list_store
+        WHERE list_id = #{listId} AND store_id = #{storeId}
+    </delete>
+
+    <!-- 사용자 맛집 리스트 조회 -->
+    <select id="getUserFavoriteLists" resultType="com.example.demo.src.favoriteList.dto.FavoriteListResponse">
+        SELECT fl.list_id AS listId, fl.user_uuid AS userUuid, fl.list_name AS listName, fl.create_at AS createAt,
+               GROUP_CONCAT(fls.store_id) AS storeIds
+        FROM favorite_list fl
+                 LEFT JOIN favorite_list_store fls ON fl.list_id = fls.list_id
+        WHERE fl.user_uuid = #{userUuid}
+        GROUP BY fl.list_id
+    </select>
+
+    <!-- 특정 맛집 리스트 조회 -->
+    <select id="getFavoriteListById" resultType="com.example.demo.src.favoriteList.dto.FavoriteListResponse">
+        SELECT fl.list_id AS listId, fl.user_uuid AS userUuid, fl.list_name AS listName, fl.create_at AS createAt,
+               GROUP_CONCAT(fls.store_id) AS storeIds
+        FROM favorite_list fl
+        LEFT JOIN favorite_list_store fls ON fl.list_id = fls.list_id
+        WHERE fl.list_id = #{listId}
+        GROUP BY fl.list_id
+    </select>
+
+    <!-- 맛집 리스트의 소유자 조회 -->
+    <select id="getOwnerByListId" resultType="String">
+        SELECT user_uuid
+        FROM favorite_list
+        WHERE list_id = #{listId}
+    </select>
+
+</mapper>
