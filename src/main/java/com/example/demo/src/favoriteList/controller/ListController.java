@@ -30,6 +30,14 @@ public class ListController {
         return new BaseResponse<>(BaseResponseStatus.SUCCESS);
     }
 
+    // 맛집 리스트 삭제
+    @DeleteMapping("/{listId}")
+    public BaseResponse<String> deleteFavoriteList(@PathVariable int listId) {
+        String userUuid = UserUtil.getUserUUIdFromAuthentication();
+        listService.deleteFavoriteList(userUuid, listId);
+        return new BaseResponse<>(BaseResponseStatus.SUCCESS);
+    }
+
     // 맛집 리스트 전체 조회
     @GetMapping("/")
     public BaseResponse<List<FavoriteListResponse>> getFavoriteLists(@RequestParam int page, @RequestParam int size) {

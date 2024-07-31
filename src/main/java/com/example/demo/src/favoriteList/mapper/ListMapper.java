@@ -13,6 +13,8 @@ public interface ListMapper {
 
     void createFavoriteList(@Param("userUuid") String userUuid, @Param("favoriteListRequest") FavoriteListRequest favoriteListRequest);
 
+    void deleteFavoriteList(@Param("userUuid") String userUuid, @Param("listId") int listId);
+
     void addStoreToFavoriteList(@Param("listId") int listId, @Param("storeId") int storeId);
 
     void removeStoreFromFavoriteList(@Param("listId") int listId, @Param("storeId") int storeId);
@@ -24,4 +26,5 @@ public interface ListMapper {
     String getOwnerByListId(@Param("listId") int listId);
 
     List<FavoriteListResponse> getFavoriteListsAll(@Param("offset") int offset, @Param("size") int size);
+
 }

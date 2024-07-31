@@ -39,6 +39,11 @@ public class ListService {
         listMapper.createFavoriteList(userUuid, favoriteListRequest);
     }
 
+    // 맛집 리스트 삭제
+    public void deleteFavoriteList(String userUuid, int listId) {
+        listMapper.deleteFavoriteList(userUuid, listId);
+    }
+
     // 맛집 리스트에 store 추가
     public void addStoreToFavoriteList(String userUuid, int listId, int storeId) throws BaseException {
         verifyUserPermission(userUuid, listId);
@@ -108,4 +113,5 @@ public class ListService {
 
         return response;
     }
+
 }

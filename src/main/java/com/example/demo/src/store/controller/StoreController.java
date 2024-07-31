@@ -87,15 +87,15 @@ public class StoreController {
 
     // 좋아요 상태를 변경하는 API
     @PostMapping("/{storeId}/likes/toggle")
-    public BaseResponse<Void> toggleLike(@PathVariable int storeId) {
+    public BaseResponse<String> toggleLike(@PathVariable int storeId) {
         String userUuid = UserUtil.getUserUUIdFromAuthentication();
         boolean isLiked = userStoreLikesService.isLikedByUser(userUuid, storeId);
         if (isLiked) {
             userStoreLikesService.removeLike(userUuid, storeId);
-            return new BaseResponse<>("음식점에 좋아요를 취소했습니다.");
+            return new BaseResponse<String>("음식점에 좋아요를 취소했습니다.");
         } else {
             userStoreLikesService.addLike(userUuid, storeId);
-            return new BaseResponse<>("음식점에 좋아요를 눌렀습니다..");
+            return new BaseResponse<String>("음식점에 좋아요를 눌렀습니다..");
         }
 
     }
