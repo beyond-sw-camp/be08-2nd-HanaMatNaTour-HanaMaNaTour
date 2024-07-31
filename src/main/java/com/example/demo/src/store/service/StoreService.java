@@ -11,6 +11,7 @@ import com.example.demo.src.store.model.Store;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,12 +35,13 @@ public class StoreService {
 
     public StoreResponse getStoreById(int id) {
         Store store = storeMapper.getStoreById(id);
-        store.setMenuList(menuService.getMenusByStoreId(id));
-        if(store == null) {
-            // 음식점이 없으면 예외 발생
-            throw new BaseException(BaseResponseStatus.NOT_FOUND_ERROR);
+        if(store != null){
+            store.setMenuList(menuService.getMenusByStoreId(id));
+
+            return mapToStoreResponse(store);
         }
-        return mapToStoreResponse(store);
+        // 음식점이 없으면 예외 발생
+        throw new BaseException(BaseResponseStatus.NOT_FOUND_STORE);
     }
 
     public List<StoreResponse> getStoresByCategory(String category, int page, int size) {
@@ -90,6 +92,7 @@ public class StoreService {
         response.setUpdateAt(store.getUpdateAt());
         response.setLikeCount(userStoreLikesMapper.getLikesCount(store.getStoreId()));
         response.setMenuList(store.getMenuList());
+
         return response;
 }
 
