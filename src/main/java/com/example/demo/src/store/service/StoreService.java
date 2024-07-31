@@ -2,6 +2,7 @@ package com.example.demo.src.store.service;
 
 import com.example.demo.common.exceptions.BaseException;
 import com.example.demo.common.response.BaseResponseStatus;
+import com.example.demo.src.menu.MenuServiceImpl;
 import com.example.demo.src.store.dto.StoreRequest;
 import com.example.demo.src.store.dto.StoreResponse;
 import com.example.demo.src.store.mapper.StoreMapper;
@@ -19,6 +20,7 @@ public class StoreService {
 
     private final StoreMapper storeMapper;
     private final UserStoreLikesMapper userStoreLikesMapper;
+    private final MenuServiceImpl menuService;
 
 
     // 모든 음식점 가져오는 메소드
@@ -32,6 +34,7 @@ public class StoreService {
 
     public StoreResponse getStoreById(int id) {
         Store store = storeMapper.getStoreById(id);
+        store.setMenuList(menuService.getMenusByStoreId(id));
         if(store == null) {
             // 음식점이 없으면 예외 발생
             throw new BaseException(BaseResponseStatus.NOT_FOUND_ERROR);
@@ -86,6 +89,7 @@ public class StoreService {
         response.setAvgRating(store.getAvgRating());
         response.setUpdateAt(store.getUpdateAt());
         response.setLikeCount(userStoreLikesMapper.getLikesCount(store.getStoreId()));
+        response.setMenuList(store.getMenuList());
         return response;
 }
 

@@ -29,4 +29,5 @@ public interface StoreMapper {
 
     void updateStoreAvgRating(@Param("storeId") int storeId, @Param("avgRating") double avgRating);
 
+    List<Store> getStoresByIds(List<Integer> storeIds);
 }
