@@ -9,7 +9,8 @@ public class ChatMessage {
 
     private int id;
     private String roomId;
-    private String sender;
+    private String senderId;
+    private String name;
     private String message;
     private LocalDateTime createdAt;
 }

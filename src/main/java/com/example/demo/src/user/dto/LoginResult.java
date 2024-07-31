@@ -16,14 +16,16 @@ public class LoginResult {
     private String email;
 
     private String name;
+    private String userUUID;
 
 
     @Builder
-    public LoginResult(String accessToken, String refreshToken, String email, String name) {
+    public LoginResult(String accessToken, String refreshToken, String email, String name,String userUUID) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.email = email;
         this.name = name;
+        this.userUUID=userUUID;
     }
 
     public LoginResponse toLoginResponse() {
@@ -31,6 +33,7 @@ public class LoginResult {
                 .accessToken(this.accessToken)
                 .email(this.email)
                 .nickname(this.name)
+                .userUUID(this.userUUID)
                 .build();
     }
 }

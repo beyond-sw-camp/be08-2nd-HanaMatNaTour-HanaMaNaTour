@@ -16,7 +16,7 @@ import java.util.Objects;
 @Component
 public class JWTUtil { // jwt 생성, 검증
     private SecretKey secretKey;
-    public static final int accessTokenExpireDuration = 6000000; // 액세스 토큰 만료 기간 : 100분
+    public static final int accessTokenExpireDuration = 6000000*10; // 액세스 토큰 만료 기간 : 1000분
     public static final int refreshTokenExpireDuration = 1209600000;  // 리프레시 토큰 만료 기간 : 14일
     public JWTUtil(@Value("${spring.jwt.secret}") String secret) {
 

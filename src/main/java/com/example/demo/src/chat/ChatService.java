@@ -23,8 +23,4 @@ public class ChatService {
         }
     }
 
-    public void createChatRoom(int user1,int user2){
-        // 기존에 이 두명으로 구성된 채팅방이 있는지를 먼저 확인. 있으면 해당 채팅방으로
-        // 없으면 새로운 채팅방을 만들어서 그 방으로 입장시킨다.
-    }
 }

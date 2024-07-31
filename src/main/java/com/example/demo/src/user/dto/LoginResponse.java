@@ -10,13 +10,13 @@ public class LoginResponse {
     private String accessToken;
     private String email;
     private String nickname;
-    private String profileUrl;
+    private String userUUID;
 
     @Builder
-    public LoginResponse(String accessToken, String email, String nickname, String profileUrl){
+    public LoginResponse(String accessToken, String email, String nickname, String userUUID){
         this.accessToken = accessToken;
         this.email = email;
         this.nickname = nickname;
-        this.profileUrl = profileUrl;
+        this.userUUID = userUUID;
     }
 }

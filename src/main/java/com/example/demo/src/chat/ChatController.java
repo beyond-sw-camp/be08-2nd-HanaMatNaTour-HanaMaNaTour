@@ -1,5 +1,6 @@
 package com.example.demo.src.chat;
 
+import com.example.demo.common.util.UserUtil;
 import com.example.demo.src.chat.dto.ChatMessage;
 import com.example.demo.src.chat.repository.ChatRoomMapper;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -22,8 +23,10 @@ public class ChatController {
     @MessageMapping("chat/message")
     public void message(ChatMessage message){
         log.info("보낸 매세지 :" + message.getMessage());
-        log.info("메세지 보낸사람 :" + message.getSender());
+        log.info("uuid :" + message.getSenderId());
+        log.info("name :" + message.getName());
         log.info("방번호 :" + message.getRoomId());
+
 
         // todo
         // 메세지 저장
