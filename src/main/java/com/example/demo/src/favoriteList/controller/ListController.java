@@ -40,7 +40,9 @@ public class ListController {
 
     // 맛집 리스트 전체 조회
     @GetMapping("/")
-    public BaseResponse<List<FavoriteListResponse>> getFavoriteLists(@RequestParam int page, @RequestParam int size) {
+    public BaseResponse<List<FavoriteListResponse>> getFavoriteLists(
+            @RequestParam(defaultValue = "0")  int page,
+            @RequestParam(defaultValue = "10")  int size) {
         try {
             List<FavoriteListResponse> favoriteLists = listService.getFavoriteListsAll(page, size);
             return new BaseResponse<>(favoriteLists);
