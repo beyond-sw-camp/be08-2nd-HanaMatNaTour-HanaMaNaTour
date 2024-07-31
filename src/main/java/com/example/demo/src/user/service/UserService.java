@@ -61,6 +61,7 @@ public class UserService {
                 .refreshToken(refreshToken)
                 .name(user.getUserName())
                 .email(user.getUserEmail())
+                .userUUID(user.getUserUUId())
                 .build();
 
     }

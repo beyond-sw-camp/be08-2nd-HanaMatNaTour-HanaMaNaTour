@@ -45,15 +45,10 @@ public class SecurityConfig {
                 .requestCache(request -> request.requestCache(requestCache))
                 .httpBasic(basic -> basic.disable())
 
-//                .oauth2Login((oauth2) -> oauth2
-//                        .userInfoEndpoint((userInfoEndpointConfig) -> userInfoEndpointConfig
-//                                .userService(customOAuth2UserService))
-//                        .successHandler(customSuccessHandler))
-
 
                 .authorizeHttpRequests(auth -> auth // 일단 권한 널널하게 열어두기
                         .requestMatchers("/swagger", "/swagger-ui.html", "/swagger-ui/**", "/api-docs", "/api-docs/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/","/main/**", "/oauth2/**","/index.html", "/login/**", "/users/login","/users/signup").permitAll()
+                        .requestMatchers("/index.html", "/login/**", "/users/login","/users/signup").permitAll()
                         .requestMatchers( "/ws-stomp/**","/reviews/store/**", "/hanamoa/store/**", "/hanamoa/posts/**").permitAll()
                         .anyRequest().authenticated()
                 )

@@ -64,8 +64,9 @@ public class ChatRoomService {
 
 
     public List<GetRoomListRes> getRoomList(String userUUId) {
-        List<GetRoomListRes> roomsInfo;
-        roomsInfo = chatRoomMapper.selectRoomListByUserUUID(userUUId);
+        System.out.println(userUUId);
+        List<GetRoomListRes> roomsInfo = chatRoomMapper.selectRoomListByUserUUID(userUUId);
+        System.out.println(roomsInfo);
 
 //
 //        for (ChatRoom room : rooms) {

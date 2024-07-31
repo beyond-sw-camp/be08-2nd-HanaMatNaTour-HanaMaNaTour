@@ -8,6 +8,9 @@ import com.example.demo.src.user.dto.*;
 import com.example.demo.src.user.service.UserProfileService;
 import com.example.demo.src.user.service.UserService;
 import com.example.demo.src.user.service.UserSignUpAndFindService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +24,7 @@ import java.util.regex.Pattern;
 import static com.example.demo.common.response.BaseResponseStatus.*;
 import static com.example.demo.src.user.dto.UserResponseDto.*;
 
+@Tag(name="User APIs" , description = "유저 관련 API")
 @Slf4j
 @RestController
 @RequestMapping("/users")
@@ -44,6 +48,7 @@ public class UserController {
     /**
         로컬 회원가입 API
      */
+    @Operation(summary = "회원가입", description = "유저 정보를 받아 회원가입을 진행한다.")
     @PostMapping("/signup")
     public BaseResponse<SignupRes> signUp(@RequestBody SignupReq signupReq) {
         validateInputUserName(signupReq.getUserName());
@@ -57,6 +62,7 @@ public class UserController {
     }
 
     // 로컬 로그인
+    @Operation(summary = "로그인", description = "이메일과 비밀번호를 받아 로그인을 진행한다.")
     @PostMapping("/login")
     public BaseResponse<LoginResponse> login(@RequestBody LoginReq loginReq, HttpServletResponse response) {
         validateInputEmail(loginReq.getEmail());
@@ -71,8 +77,7 @@ public class UserController {
         jwtUtil.addAccessTokenInHeader(accessToken,response);
 
         // 리프레시 토큰 쿠키에 삽입
-        jwtUtil.addRefreshTokenInCookie(refreshToken,response);
-
+    //   jwtUtil.addRefreshTokenInCookie(refreshToken,response);
 
         // 로그인 응답 객체 생성
         LoginResponse loginResponse = loginResult.toLoginResponse();
