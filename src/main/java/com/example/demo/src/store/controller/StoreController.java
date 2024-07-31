@@ -43,10 +43,14 @@ public class StoreController {
     @Operation(summary = "음식점 정보 조회", description = "특정 음식점 정보를 조회한다.")
     @GetMapping("/{id}")
     public BaseResponse<StoreResponse> getStoreById(@PathVariable int id) {
-        StoreResponse store = storeService.getStoreById(id); // ID로 특정 음식점 조회
+        try {
+            StoreResponse store = storeService.getStoreById(id); // ID로 특정 음식점 조회
 
-        store.setLikeCount(userStoreLikesService.getLikesCount(id));
-        return new BaseResponse<>(store); // 성공 응답 반환
+            store.setLikeCount(userStoreLikesService.getLikesCount(id));
+            return new BaseResponse<>(store); // 성공 응답 반환
+        } catch (BaseException e) {
+            return new BaseResponse<>(BaseResponseStatus.NOT_FOUND_STORE);
+        }
     }
 
     // 카테고리로 음식점 리스트 조회하는 API
